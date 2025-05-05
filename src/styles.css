@@ -1,0 +1,133 @@
+body {
+height: 100vh;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+color: #00272B;
+display: flex;
+flex-direction: column;
+align-items: center;
+
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+#content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-left-color: #861657;
+    border-left-width: 6px;
+    border-left-style: solid;
+    border-top: #00272B 2px solid;
+    border-bottom: #00272B 2px solid;;
+    border-right: #00272B 2px solid;;
+    border-radius: 8px;
+    width: 600px;
+    
+}
+
+#home-btn {
+    border-style: none;
+    background-color: #E0FF4F;
+    padding: 8px;
+    font-weight: bold;
+
+}
+
+#menu-btn {
+    border-style: none;
+    background-color: #FF6663;
+    padding: 8px;
+    font-weight: bold;
+}
+
+#contact-btn {
+    border-style: none;
+    background-color: #08BDBD;
+    padding: 8px;
+    font-weight: bold;
+
+}
+
+#about p {
+    padding-left: 75px;
+    padding-right: 75px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+#reviews {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    align-items: center;
+}
+
+blockquote {
+    background-color: #CCC9DC;
+    padding: 35px;
+
+}
+
+#reviews p {
+    margin-left: 200px;
+    
+}
+
+#menu-items {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    padding-bottom: 25px;
+}
+
+#beverages {
+    background-color: #E0FF4F;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+
+
+#sandwiches {
+    background-color: #FF6663;
+    border-radius: 8px;
+    padding-right: 40px;
+}
+
+#mains {
+    background-color: #08BDBD;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+ul {
+    list-style: none;
+}
+
+li {
+    display: flex;
+    column-gap: 8px;
+}
+
+.price {
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+#hours-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 0px;
+}
+
+#location {
+    padding-top: 25px;
+    font-weight: bold;
+    padding-bottom: 25px;
+}
