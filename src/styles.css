@@ -1,0 +1,47 @@
+body {
+
+    height: 100vh;
+
+}
+
+#container {
+display: flex;
+width: 100vw;
+
+}
+
+#sidebar {
+    background-color: #00A7E1;
+}
+
+#todo-sect {
+    background-color: #CCDDEE;
+}
+
+button#addcat {
+    background-color: #00A7E1;
+    border-style: none;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+}
+
+button#addlist {
+
+    background-color: #D8CC34;
+    border-style: none;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+}
+
+button#newtask {
+    background-color: #E67F0D;
+    border-style: none;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+}

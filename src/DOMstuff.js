@@ -1,3 +1,43 @@
 // checkmark complete svg <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>check</title><path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" /></svg>
 // edit svg <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>pencil-outline</title><path d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z" /></svg>
 // delete svg <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>trash-can-outline</title><path d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>
+
+
+
+
+
+export const formatDate = () => {
+
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.getMonth() + 1;
+    const year = today.getFullYear();
+    
+    const formattedTodaysDate = `${year}, ${month}, ${day}`;
+    console.log(formattedTodaysDate);
+
+
+    const { format } = require("date-fns");
+
+   // format(new Date(2025, 5, 11), "MMM dd ''yy");
+    //=> 'May 11 '25' //
+    
+    const todayDate = format(new Date(formattedTodaysDate), "MMM dd ''yy");
+        
+      console.log(todayDate);
+
+      return { formattedTodaysDate, todayDate };
+
+}
+
+
+export const distanceOfDueDate = () => {
+
+const formattodaydate = formatDate();
+
+    const result = formatDistance(formattodaydate.todayDate, new Date(2025, 8, 1));
+
+    console.log(result);
+}
+
+
