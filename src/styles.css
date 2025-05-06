@@ -1,22 +1,69 @@
 body {
-
-    height: 100vh;
-
+height: 100%; 
+display: flex;
+font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+color: black;
+margin: 0px;
+padding: 0px;
 }
 
 #container {
-display: flex;
+display: grid;
 width: 100vw;
+grid-template-columns: 1fr 4fr;
+height: 100%;
+
 
 }
 
 #sidebar {
+    display: flex;
+    flex-direction: column;
     background-color: #00A7E1;
+    
+    color: white;
+    padding-top: 25px;
+    padding-left: 25px;
+    height: 100%;
+    grid-column: 1 / 2;
+    padding-bottom: 50px;
 }
 
-#todo-sect {
-    background-color: #CCDDEE;
+
+#title {
+    display: flex;
+    align-items: center;
 }
+
+
+.title-img {
+    fill: white;
+}
+
+#main-content {
+    display: grid;
+    grid-template-rows: 1fr 3fr;  
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 50px;
+    padding-right: 50px;
+    min-height: 125px;
+  padding: 0 50px;
+  flex-shrink: 0;
+  grid-row: 1 / 1;
+    
+}
+
 
 button#addcat {
     background-color: #00A7E1;
@@ -25,6 +72,44 @@ button#addcat {
     display: flex;
     align-items: center;
     border-radius: 8px;
+    font-weight: bold;
+    color: white;
+}
+
+#todo-sect {
+    background-color: #CCDDEE;
+    display: flex;
+    gap: 15px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 50px;
+    padding-bottom: 25px;
+    height: 100%;
+    grid-row: 2 / 3;
+      
+    
+}
+
+#category-sect {
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    
+    
+}
+
+#list-sect {
+    display: flex;
+    flex-direction: column;
+    row-gap: 25px;
+
+}
+
+#list-heading {
+    display: flex;
+    column-gap: 30px;
+    align-items: center;
+    
 }
 
 button#addlist {
@@ -35,7 +120,56 @@ button#addlist {
     display: flex;
     align-items: center;
     border-radius: 8px;
+    font-weight: bold;
+    color: white;
 }
+
+
+.card {
+    height: 75%;
+    width: 245px;
+    background-color: white;
+    border-left-color: #E67F0D;
+    border-left-width: 6px;
+    border-left-style: solid;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 5px;
+    row-gap: 0px;
+    justify-content: center;
+}
+
+#editdivbtn {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -2px;
+
+}
+
+#taskdisplay {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    margin-top: -30px;
+}
+
+#taskdisplay p {
+
+    font-size: smaller;
+}
+
+
+button#edit-task {
+    display: flex;
+    border-style: none;
+    padding: 8px;
+    background-color: transparent;
+}
+
+
 
 button#newtask {
     background-color: #E67F0D;
@@ -44,4 +178,16 @@ button#newtask {
     display: flex;
     align-items: center;
     border-radius: 8px;
+    font-weight: bold;
+    color: white;
+    column-gap: 5px;
+}
+
+.addctgry, .addlst, .addnewtsk {
+
+    fill: white;
+}
+
+dialog#cardadd, dialog#projectadd {
+    display: none;
 }
