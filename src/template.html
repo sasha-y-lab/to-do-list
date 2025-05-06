@@ -3,11 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to SugarCane Grove</title>
+    <title>ToDo List App</title>
 </head>
 <body>
 
-    
+    <div id="container">
+
+<div id="sidebar">
+<div id="greeting"><h2>Hi User!</h2></div>
+
+<div id="today">
+    <h3>Today</h3>
+<p>Dummy Due Date 1</p>
+<p>Dummy Due Date 2</p>
+<p>Dummy Due Date 3</p>
+</div>
+<div id="upcoming">
+    <h3>Upcoming</h3>
+    <p>Dummy Due Date 4</p>
+    <p>Dummy Due Date 5</p>
+    <p>Dummy Due Date 6</p>
+
+</div>
+
+
+<div id="-projects-sect">
+    <h3>Categories</h3>
+    <p>Dummy Project 1</p>
+    <p>Dummy Project 2</p>
+    <p>Dummy Project 3</p>
+
+</div>
+
+
+
+
+</div>
+<div id="main-content">
+
+<div id="title"><h1>ToDos</h1></div>
+
+<div id="add-project">
+    <button><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20px" height="20px"><path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" /></svg> Add Category</button>
+    <dialog id="projectadd">
+        <div id="addproj-popup">
+            <form id="addprj-form" data-parent="form" name="form" class="form">
+
+                <div class="project-add-sect">
+                    <label for="project_name">CATEGORY NAME</label>
+                    <input type="text" name="project_name" id="project_name" minlength="2" placeholder="Work" required>
+                </div>
+
+                <div class="list-add-sect">
+                    <label for="list_name">LIST NAME</label>
+                    <input type="text" name="list_name" id="list_name" minlength="2" placeholder="Onboarding List" required>
+                </div>
+
+
+                <div class="add-prj-btn-sect">
+                    <button id="add-prj"> Add to ToDo List
+                    </button>
+                    </div>
+
+            </form>
+        </div>
+    </dialog>
+</div>
+
+<div id="list-sect">
+<h2>Category 1</h2>
+<h3>Daily Task</h3> <button><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20px" height="20px"><path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" /></svg>Add List</button>
+
+<div id="task-sect">
+    <div class="card">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20px" height="20px"><path d="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" /></svg>
+        <p>May 7 | Clean room | Urgent |</p><button><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20px" height="20px"><path d="M16,12A2,2 0 0,1 18,10A2,2 0 0,1 20,12A2,2 0 0,1 18,14A2,2 0 0,1 16,12M10,12A2,2 0 0,1 12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12M4,12A2,2 0 0,1 6,10A2,2 0 0,1 8,12A2,2 0 0,1 6,14A2,2 0 0,1 4,12Z" /></svg></button>
+    </div>
+    <dialog id="cardadd">
+    <div id="popup">
+<form id="addtsk-form" data-parent="form" name="form" class="form">
+
+    <div class="task-name-sect">
+        <label for="task_name">TASK NAME</label>
+        <input type="text" name="task_name" id="task_name" minlength="3" placeholder="Clean Room" required>
+    </div>
+
+    <div class="task-details-sect">
+        <textarea name="task-details" rows="5" cols="30" placeholder="Enter task details here">
+
+        </textarea>
+    </div>
+
+    <div class="due-date-sect">
+        <label for="due_date">DUE DATE</label>
+        <input type="date" name="due_date" id="due_date" required>
+    </div>
+
+    <div class="priority-sect">
+        <select name="priority">
+<option value="urgent">Urgent</option>
+<option value="moderate">Moderate</option>
+<option value="low">Low</option>
+<option value="none">None</option>
+
+        </select>
+    </div>
+
+    <div class="add-task-btn-sect">
+        <button id="add-task"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20px" height="20px"><path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" /></svg>Add Task
+        </button>
+        </div>
+
+
+</form>
+    </div>
+        </dialog>
+</div>
+
+</div>
+
+</div>
+
+
+
+    </div>
     
 </body>
 </html>
