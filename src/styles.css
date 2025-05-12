@@ -40,14 +40,28 @@ height: 100%;
     fill: white;
 }
 
+#today-tsk-header, #coming-tsk-header {
+
+    display: flex;
+    align-items: center;
+
+}
+
 .notify {
     display: flex;
     justify-content: center;
+    
 }
 
 .notif-circle {
     fill: #720606;
     color: white;
+    
+}
+
+.notif-text {
+    margin-left: -24px;
+    margin-top: 7px;
 }
 
 #main-content {
@@ -75,15 +89,19 @@ header {
 }
 
 
+
 button#addcat {
     background-color: #00A7E1;
     border-style: none;
-    padding: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+
     display: flex;
     align-items: center;
     border-radius: 8px;
     font-weight: bold;
     color: white;
+
 }
 
 #todo-sect {
@@ -100,13 +118,7 @@ button#addcat {
     
 }
 
-#category-sect {
-    width: 250px;
-    display: flex;
-    flex-direction: column;
-    
-    
-}
+
 
 #list-sect {
     display: flex;
@@ -122,18 +134,39 @@ button#addcat {
     
 }
 
+#category-sect-main {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    
+}
+
+#category-heading-sect {
+    display: flex;
+    align-items: center;
+    column-gap: 30px;
+}
+
 button#addlist {
 
     background-color: #D8CC34;
     border-style: none;
-    padding: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
     display: flex;
     align-items: center;
     border-radius: 8px;
     font-weight: bold;
     color: white;
+    
+
 }
 
+#task-sect {
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
+}
 
 .card {
     height: 75%;
@@ -163,18 +196,52 @@ button#addlist {
     display: flex;
     align-items: center;
     column-gap: 10px;
-    margin-top: -30px;
+    margin-top: -26px;
 }
 
-#taskdisplay p {
+#taskdisplay {
 
     font-size: smaller;
 }
 
-#urgent-label {
+#tsk-txt-div {
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+}
+
+.urgent-status {
     border-radius: 8px;
     border-color: #720606;
     color: #720606;
+    border-style: solid;
+    border-width: 2px;
+    padding: 5px;
+    font-weight: bold;
+
+}
+
+.moderate-status {
+
+    border-radius: 8px;
+    border-color: #d8a708;
+    color: #d8a708;
+    border-style: solid;
+    border-width: 2px;
+    padding: 5px;
+    font-weight: bold;
+
+}
+
+.low-status {
+    border-radius: 8px;
+    border-color: #4ad808;
+    color: #4ad808;
+    border-style: solid;
+    border-width: 2px;
+    padding: 5px;
+    font-weight: bold;
+
 }
 
 button#edit-task {
@@ -189,7 +256,8 @@ button#edit-task {
 button#newtask {
     background-color: #E67F0D;
     border-style: none;
-    padding: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
     display: flex;
     align-items: center;
     border-radius: 8px;
