@@ -49,10 +49,8 @@ const formattodaydate = formatDate();
 
 
 
-/*
-export const sidebarLoad = () => {
 
-    
+const sidebarLoad = () => {
 
     const container = document.querySelector("#container");
 
@@ -84,6 +82,23 @@ export const sidebarLoad = () => {
 
     sidebar.appendChild(title);
 
+    if (container) {
+        container.appendChild(sidebar);
+        }
+
+    // input today, upcoming, categories between here
+todoToday();
+todoUpcoming();
+todoCategories();
+
+   
+
+}
+
+
+const todoToday = () => {
+
+    const sidebar = document.querySelector("#sidebar");
     // today tasks
 
     const todayTasks = document.createElement("div");
@@ -97,26 +112,67 @@ export const sidebarLoad = () => {
 
     todayTasksHeader.appendChild(todayTasksHeading);
 
+    todayTasks.appendChild(todayTasksHeader);
+   
+    if (sidebar) {
+        sidebar.appendChild(todayTasks);
+      }
+   
+      // input notification here
+
+notifToday();
+
+
+
+}
+
+const notifToday = () => {
+
+    const todayTasks = document.querySelector("#today-tasks");
+
+    const todayTasksHeader = document.querySelector("#today-tsk-header");
+
     const todayTasksNotify = document.createElement("div");
     todayTasksNotify.setAttribute("id", "notify-today");
     todayTasksNotify.classList.add("notify");
-    todayTasksNotify.textContent = "";
+    //todayTasksNotify.textContent = "";
+
+    // notif circle
+    const todayNotifCircle = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+todayNotifCircle.classList.add("notif-circle");
+todayNotifCircle.setAttribute('viewBox', '0 0 24 24');
+todayNotifCircle.setAttribute("height", "30px");
+todayNotifCircle.setAttribute("width", "30px");
+
+
+const todayNotifCirclePath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+todayNotifCirclePath.setAttribute(
+        "d", "M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z");
+
+todayNotifCircle.appendChild(todayNotifCirclePath);
+
+todayTasksNotify.appendChild(todayNotifCircle);
+
+const todayNotifText = document.createElement("p");
+todayNotifText.textContent = "12";
+todayNotifText.classList.add("notif-text");
+
+todayTasksNotify.appendChild(todayNotifText);
+// end of notif circle
 
     todayTasksHeader.appendChild(todayTasksNotify);
 
-    todayTasks.appendChild(todayTasksHeader);
+    if (todayTasks) {
+todayTasks.appendChild(todayTasksHeader);
+    }
 
-    const todayTaskDisplay = document.createElement("div");
-    todayTaskDisplay.setAttribute("id", "today-tsk-display");
-    todayTaskDisplay.classList.add("side-tsk-display");
-    todayTaskDisplay.textContent = "";
+}
 
-    todayTasks.appendChild(todayTaskDisplay);
+const todoUpcoming = () => {
+    const sidebar = document.querySelector("#sidebar");
 
-    sidebar.appendChild(todayTasks);
-
-        // upcoming tasks
-
+    //upcoming tasks
+    
     const upcomingTasks = document.createElement("div");
     upcomingTasks.setAttribute("id", "coming-tasks");
 
@@ -128,25 +184,68 @@ export const sidebarLoad = () => {
 
     upcomingTasksHeader.appendChild(upcomingTasksHeading);
 
+    upcomingTasks.appendChild(upcomingTasksHeader);
+
+
+    if (sidebar) {
+        sidebar.appendChild(upcomingTasks);
+      }
+
+    // input notification here
+
+    notifUpcoming();
+
+
+
+
+}
+
+const notifUpcoming = () => {
+
+    const upcomingTasks = document.querySelector("#coming-tasks");
+
+    const upcomingTasksHeader = document.querySelector("#coming-tsk-header");
+
     const upcomingTasksNotify = document.createElement("div");
     upcomingTasksNotify.setAttribute("id", "notify-coming");
     upcomingTasksNotify.classList.add("notify");
-    upcomingTasksNotify.textContent = "";
+    //upcomingTasksNotify.textContent = "12";
+
+     // notif circle
+     const upcomingNotifCircle = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+     upcomingNotifCircle.classList.add("notif-circle");
+     upcomingNotifCircle.setAttribute('viewBox', '0 0 24 24');
+     upcomingNotifCircle.setAttribute("height", "30px");
+     upcomingNotifCircle.setAttribute("width", "30px");
+     
+     const upcomingNotifCirclePath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+     upcomingNotifCirclePath.setAttribute(
+             "d", "M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z");
+     
+           //  upcomingNotifCirclePath.textContent = "12";
+     
+             upcomingNotifCircle.appendChild(upcomingNotifCirclePath);
+     
+             upcomingTasksNotify.appendChild(upcomingNotifCircle);
+
+             const upcomingNotifText = document.createElement("p");
+upcomingNotifText.textContent = "12";
+upcomingNotifText.classList.add("notif-text");
+
+upcomingTasksNotify.appendChild(upcomingNotifText);
+     // end of notif circle
 
     upcomingTasksHeader.appendChild(upcomingTasksNotify);
 
-    upcomingTasks.appendChild(upcomingTasksHeader);
+    if (upcomingTasks) {
+        upcomingTasks.appendChild(upcomingTasksHeader);
+            }
+    
 
-    const upcomingTaskDisplay = document.createElement("div");
-    upcomingTaskDisplay.setAttribute("id", "coming-tsk-display");
-    upcomingTaskDisplay.classList.add("side-tsk-display");
-    upcomingTaskDisplay.textContent = "";
+}
 
-    upcomingTasks.appendChild(upcomingTaskDisplay);
-
-    sidebar.appendChild(upcomingTasks);
-
-    // cetgories/projects section
+const todoCategories = () => {
+    const sidebar = document.querySelector("#sidebar");
 
     const categorySect = document.createElement("div");
     categorySect.setAttribute("id", "category-sect");
@@ -159,61 +258,38 @@ export const sidebarLoad = () => {
     const categorySectDisplay = document.createElement("div");
     categorySectDisplay.setAttribute("id", "category-sect-display");
     categorySectDisplay.classList.add("side-category-display");
-    categorySectDisplay.textContent = "";
+    categorySectDisplay.textContent = "Category 1";
 
     categorySect.appendChild(categorySectDisplay);
 
-    sidebar.appendChild(categorySect);
+    if (sidebar) {
+        sidebar.appendChild(categorySect);
+      }
+    
+    
+}
 
-    container.appendChild(sidebar);
-
-    // end of side bar
-
-    notifCircleLoad();
-
-    return { todayTaskDisplay, upcomingTaskDisplay, categorySectDisplay }
+/*
+const refreshTodoCategories = () => {
+    const categorySectDisplay = document.querySelector("#category-sect-display");
+    categorySectDisplay.textContent = "";
 
 }
     */
 
-/*
-export const notifCircleLoad = () => {
-
-    const notifDiv = document.querySelectorAll(".notify");
 
 
-// create circle svg element
-
-const notifCircle = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-notifCircle.classList.add("notif-circle");
-notifCircle.setAttribute('viewBox', '0 0 24 24');
-notifCircle.setAttribute("height", "20px");
-notifCircle.setAttribute("width", "20px");
-
-const notifCirclePath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-notifCirclePath.setAttribute(
-        "d", "M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z");
-
-notifCirclePath.textContent = "12";
-
-notifCircle.appendChild(notifCirclePath);
-
-notifDiv.appendChild(notifCircle);
-
-
-    } 
-    
-    */
-
-/*
-export const headerLoad = () => {
+const headerLoad = () => {
 
     const container = document.querySelector("#container");
+// start of main content
 
-    const mainContent = document.createElement("div");
+// header
+
+const mainContent = document.createElement("div");
     mainContent.setAttribute("id", "main-content");
 
-    const header = document.createElement("div");
+    const header = document.createElement("header");
     
     const greetingDiv = document.createElement("div");
     greetingDiv.setAttribute("id", "greeting");
@@ -226,7 +302,7 @@ export const headerLoad = () => {
     header.appendChild(greetingDiv);
 
     const addCategoryDiv = document.createElement("div");
-    addCategoryDiv.setAttribute("id", "add-project");
+    addCategoryDiv.setAttribute("id", "add-category-div");
 
     const addCategoryBtn = document.createElement("button");
     addCategoryBtn.setAttribute("id", "addcat");
@@ -261,14 +337,22 @@ addCategorySVGPath.setAttribute(
 
     mainContent.appendChild(header);
 
+    if (container) {
+
     container.appendChild(mainContent);
 
+    }
+
+    // end of header
+
+    
+
 }
-*/
 
-/*
 
-export const todoSectLoad = () => {
+
+
+const todoSectLoad = () => {
     // start of to do section
 
     
@@ -280,143 +364,157 @@ export const todoSectLoad = () => {
     const todoSect = document.createElement("div");
     todoSect.setAttribute("id", "todo-sect");
 
+    if (mainContent) {
+        mainContent.appendChild(todoSect);
+    }
+    //input category, list task here functions
+    categoryLoad();
     
-   // todoSect.appendChild(categMainSection);
 
-    mainContent.appendChild(todoSect);
-
-    // run default category here
-
-    //categoryLoad();
-   // listLoad();
-   // taskLoad();
-
+   
 }
-   */
-/*
-export const categoryLoad = () => {
+
+
+const categoryLoad = () => {
 
     const todoSect = document.querySelector("#todo-sect");
     // category sect
-    const categMainSection = document.createElement("div");
-    categMainSection.setAttribute("id", "category-sect-main");
 
-    const categHeadingDiv = document.createElement("div");
-    categHeadingDiv.setAttribute("id", "category-heading-sect");
+     // start of category section
 
-    const categHeading = document.createElement("h2");
-    categHeading.classList.add("category-title");
-    categHeading.textContent = "Category 1";
+     const categMainSection = document.createElement("div");
+     categMainSection.setAttribute("id", "category-sect-main");
+ 
+     const categHeadingDiv = document.createElement("div");
+     categHeadingDiv.setAttribute("id", "category-heading-sect");
+ 
+     const categHeading = document.createElement("h2");
+     categHeading.classList.add("category-title");
+     categHeading.textContent = "Category 1";
+ 
+     categHeadingDiv.appendChild(categHeading);
+ 
+     
+ 
+     // add list button
+ 
+     const addListBtnDiv = document.createElement("div");
+     addListBtnDiv.setAttribute("id", "listbtn-div");
+ 
+     const addListBtn = document.createElement("button");
+     addListBtn.setAttribute("id", "addlist");
+ 
+     const addListSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+     addListSVG.classList.add("addlst");
+     addListSVG.setAttribute('viewBox', '0 0 24 24');
+     addListSVG.setAttribute("height", "20px");
+     addListSVG.setAttribute("width", "20px");
+ 
+ const addListSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+ addListSVGPath.setAttribute(
+         "d", "M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z");
+ 
+         addListSVG.appendChild(addListSVGPath);
+ 
+         addListBtn.appendChild(addListSVG);
+ 
+     const addListTxt = document.createElement("p");
+     addListTxt.classList.add("addlist-txt");
+     addListTxt.textContent = "Add List";
+ 
+     addListBtn.appendChild(addListTxt);
+ 
+     addListBtnDiv.appendChild(addListBtn);
+ 
+     categHeadingDiv.appendChild(addListBtnDiv);
+ 
+     categMainSection.appendChild(categHeadingDiv);
+     
+     if (todoSect) {
+        todoSect.appendChild(categMainSection);
+        }
 
-    categHeadingDiv.appendChild(categHeading);
+     listLoad();
+    
 
-    categMainSection.appendChild(categHeadingDiv);
-
-    // add list button
-
-    const addListBtnDiv = document.createElement("div");
-    addListBtnDiv.setAttribute("id", "listbtn-div");
-
-    const addListBtn = document.createElement("button");
-    addListBtn.setAttribute("id", "addlist");
-
-    const addListSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    addListSVG.classList.add("addlst");
-    addListSVG.setAttribute('viewBox', '0 0 24 24');
-    addListSVG.setAttribute("height", "20px");
-    addListSVG.setAttribute("width", "20px");
-
-const addListSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-addListSVGPath.setAttribute(
-        "d", "M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z");
-
-        addListSVG.appendChild(addListSVGPath);
-
-        addListBtn.appendChild(addListSVG);
-
-    const addListTxt = document.createElement("p");
-    addListTxt.classList.add("addlist-txt");
-    addListTxt.textContent = "Add List";
-
-    addListBtn.appendChild(addListTxt);
-
-    addListBtnDiv.appendChild(addListBtn);
-
-    categMainSection.appendChild(addListBtnDiv);
-
-    todoSect.appendChild(categMainSection);
-
-}
-    */
-
-/*
-export const listLoad = () => {
-
-    //const formattodaydate = formatDate();
-
-    const categMainSection = document.querySelector("#category-sect-main");
   
     
-    // list section
 
-    const listSection = document.createElement("div");
-    listSection.setAttribute("id", "list-sect");
-
-    const listHeading = document.createElement("div");
-    listHeading.setAttribute("id", "list-heading");
-
-    const listTitleDiv = document.createElement("div");
-    listTitleDiv.setAttribute("id", "list-title");
-
-    const listTitle = document.createElement("h3");
-    listTitle.classList.add("list-title-txt");
-    listTitle.textContent = "Daily Task";
-
-    listTitleDiv.appendChild(listTitle);
-
-    listHeading.appendChild(listTitleDiv);
+}
+    
 
 
-   // listHeading.appendChild(addListBtnDiv);
+const listLoad = () => {
 
-    listSection.appendChild(listHeading);
+    const categMainSection = document.querySelector("#category-sect-main");
 
-categMainSection.appendChild(listSection);
+    // start of list section
+
+const listSection = document.createElement("div");
+listSection.setAttribute("id", "list-sect");
+
+const listHeading = document.createElement("div");
+listHeading.setAttribute("id", "list-heading");
+
+const listTitleDiv = document.createElement("div");
+listTitleDiv.setAttribute("id", "list-title");
+
+const listTitle = document.createElement("h3");
+listTitle.classList.add("list-title-txt");
+listTitle.textContent = "Daily Task";
+
+listTitleDiv.appendChild(listTitle);
+
+listHeading.appendChild(listTitleDiv);
+
+
+// listHeading.appendChild(addListBtnDiv);
+
+listSection.appendChild(listHeading);
+
+if (categMainSection) {
+
+    categMainSection.appendChild(listSection);
+    }
+
+taskLoad();
+
+
 
 
 }
-*/
 
-/*
-export const taskLoad = () => {
+
+
+const taskLoad = () => {
 
     const formattodaydate = formatDate();
 
-    const categMainSection = document.querySelector("#category-sect-main");
+    const listSection = document.querySelector("#list-sect");
+    // tasks section
 
-    // task section
 
-    const taskSection = document.createElement("div");
-    taskSection.setAttribute("id", "task-sect");
+const taskSection = document.createElement("div");
+taskSection.setAttribute("id", "task-sect");
 
-    const cardDiv = document.createElement("div");
-    cardDiv.classList.add("card");
+const cardDiv = document.createElement("div");
+cardDiv.classList.add("card");
 
-    const editTaskDiv = document.createElement("div");
-    editTaskDiv.setAttribute("id", "editdivbtn");
+const editTaskDiv = document.createElement("div");
+editTaskDiv.setAttribute("id", "editdivbtn");
 
-    const editTaskBtn = document.createElement("button");
-    editTaskBtn.setAttribute("id", "edit-task");
+const editTaskBtn = document.createElement("button");
+editTaskBtn.setAttribute("id", "edit-task");
 
-    const editTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    editTaskSVG.classList.add("editbtn");
-    editTaskSVG.setAttribute('viewBox', '0 0 24 24');
-    editTaskSVG.setAttribute("height", "20px");
-    editTaskSVG.setAttribute("width", "20px");
+const editTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+editTaskSVG.classList.add("editbtn");
+editTaskSVG.setAttribute('viewBox', '0 0 24 24');
+editTaskSVG.setAttribute("height", "20px");
+editTaskSVG.setAttribute("width", "20px");
 
 const editTaskSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
 editTaskSVGPath.setAttribute(
-        "d", "M16,12A2,2 0 0,1 18,10A2,2 0 0,1 20,12A2,2 0 0,1 18,14A2,2 0 0,1 16,12M10,12A2,2 0 0,1 12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12M4,12A2,2 0 0,1 6,10A2,2 0 0,1 8,12A2,2 0 0,1 6,14A2,2 0 0,1 4,12Z");
+    "d", "M16,12A2,2 0 0,1 18,10A2,2 0 0,1 20,12A2,2 0 0,1 18,14A2,2 0 0,1 16,12M10,12A2,2 0 0,1 12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12M4,12A2,2 0 0,1 6,10A2,2 0 0,1 8,12A2,2 0 0,1 6,14A2,2 0 0,1 4,12Z");
 
 editTaskSVG.appendChild(editTaskSVGPath);
 
@@ -425,6 +523,7 @@ editTaskBtn.appendChild(editTaskSVG);
 editTaskDiv.appendChild(editTaskBtn);
 
 cardDiv.appendChild(editTaskDiv);
+
 
 // task display
 
@@ -442,7 +541,7 @@ checkOffTaskSVG.setAttribute("width", "20px");
 
 const checkOffTaskSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
 checkOffTaskSVGPath.setAttribute(
-    "d", "M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z");
+"d", "M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z");
 
 checkOffTaskSVG.appendChild(checkOffTaskSVGPath);
 
@@ -453,15 +552,22 @@ taskDisplay.appendChild(checkoffDiv);
 const taskTxtDiv = document.createElement("div");
 taskTxtDiv.setAttribute("id", "tsk-txt-div");
 
+
+
+//const urgentLabel = urgent();
+
 const taskTxt = document.createElement("p");
 taskTxt.setAttribute("id", "task-text");
-taskTxt.textContent = `${formattodaydate.todayDate} Clean Room ${urgent().urgentLabel}`;
+taskTxt.textContent = `${formattodaydate.todayDate} Clean Room`;
 
 taskTxtDiv.appendChild(taskTxt);
+
 
 taskDisplay.appendChild(taskTxtDiv);
 
 cardDiv.appendChild(taskDisplay);
+
+taskSection.appendChild(cardDiv);
 
 // new task btn section
 
@@ -479,7 +585,7 @@ addNewTaskSVG.setAttribute("width", "20px");
 
 const addNewTaskSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
 addNewTaskSVGPath.setAttribute(
-    "d", "M5 19V5H12V12H19V13C19.7 13 20.37 13.13 21 13.35V9L15 3H5C3.89 3 3 3.89 3 5V19C3 20.1 3.89 21 5 21H13.35C13.13 20.37 13 19.7 13 19H5M14 4.5L19.5 10H14V4.5M23 18V20H20V23H18V20H15V18H18V15H20V18H23Z");
+"d", "M5 19V5H12V12H19V13C19.7 13 20.37 13.13 21 13.35V9L15 3H5C3.89 3 3 3.89 3 5V19C3 20.1 3.89 21 5 21H13.35C13.13 20.37 13 19.7 13 19H5M14 4.5L19.5 10H14V4.5M23 18V20H20V23H18V20H15V18H18V15H20V18H23Z");
 
 addNewTaskSVG.appendChild(addNewTaskSVGPath);
 
@@ -493,21 +599,18 @@ newTaskBtn.appendChild(addNewTaskTxt);
 
 addNewTaskDiv.appendChild(newTaskBtn);
 
-cardDiv.appendChild(addNewTaskDiv);
+taskSection.appendChild(addNewTaskDiv);
 
-taskSection.appendChild(cardDiv);
+if (listSection) {
 
-//listSection.appendChild(taskSection);
+listSection.appendChild(taskSection);
+}
 
-categMainSection.appendChild(taskSection);
-
-//todoSect.appendChild(categMainSection);
-
-//return { categHeading, listTitle, addListBtn, checkOffTaskSVG, taskTxt, newTaskBtn };
+    
 
     }
 
-*/
+
 
 
 export const urgent = () => {
@@ -596,7 +699,8 @@ export const addTaskPopUp = () => {
 }
 
 
-export const homeLoad = () => {
+/*
+const homeLoad = () => {
 
 
     const formattodaydate = formatDate();
@@ -983,6 +1087,7 @@ statusTxt.textContent = urgentLabel.urgentLabelTxt.textContent;
 
 taskTxtDiv.appendChild(statusTxt);
 */
+/*
 
 taskDisplay.appendChild(taskTxtDiv);
 
@@ -1041,13 +1146,19 @@ categMainSection.appendChild(taskSection);
 }
 
 //homeLoad();
-
+*/
 
 export const createHomePage = () => {
     
-    homeLoad();
+    sidebarLoad();
+    headerLoad();
     urgent();
+    todoSectLoad();
     
 }
 
-createHomePage();
+//createHomePage();
+
+document.addEventListener("DOMContentLoaded", () => {
+    createHomePage();
+  });
