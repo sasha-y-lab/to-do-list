@@ -189,25 +189,84 @@ button#addlist {
     display: flex;
     justify-content: flex-end;
     margin-top: -2px;
+    height: 20px;
+    width: 267px;
+    margin-left: 50px;
 
+}
+
+#edit-task {
+    width: 100px;
+    height: 40px;
 }
 
 #taskdisplay {
     display: flex;
     align-items: center;
     column-gap: 10px;
-    margin-top: -26px;
-}
-
-#taskdisplay {
-
+    height: 30px;
     font-size: smaller;
+    position: relative;
 }
 
 #tsk-txt-div {
     display: flex;
     align-items: center;
     column-gap: 5px;
+    flex-direction: column;
+}
+
+#expand-togglediv {
+display: flex;
+
+}
+
+.task-card {
+    position: relative;
+  }
+  
+.formedit {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: hsl(0, 0%, 100%);
+    z-index: 10;
+    padding: 1em;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    gap: 2px;
+    flex-direction: column;
+  }
+
+  input {
+    border-radius: 4px;
+    border-width: 1px;
+  }
+
+#taskeditBtn-sect {
+padding-top: 5px;
+display: flex;
+justify-content: space-evenly;
+  }
+
+#submit-edit-task, #cancel-edit-task {
+
+    border-style: none;
+    background-color: #E67F0D;
+    padding: 8px;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+}
+
+#task-details {
+font-size: small;
+}
+
+#task-edit-div {
+    display: flex;
 }
 
 .urgent-status {
@@ -273,4 +332,9 @@ button#newtask {
 
 dialog#cardadd, dialog#projectadd {
     display: none;
+}
+
+#edit-displayed-task, #delete-task {
+    background-color: transparent;
+    border-style: none;
 }
