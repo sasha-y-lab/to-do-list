@@ -26,7 +26,7 @@ export const formatDate = () => {
         
       console.log(todayDate);
 
-      // const dueDate = format(new Date(dateforminput), "MMM dd ''yy");
+     // const dueDate = format(new Date(dateforminput), "MMM dd ''yy");
 
       return { formattedTodaysDate, todayDate };
 
@@ -675,6 +675,7 @@ taskDisplay.appendChild(checkoffDiv);
 
 const taskTxtDiv = document.createElement("div");
 taskTxtDiv.setAttribute("id", "tsk-txt-div");
+taskTxtDiv.classList.add("tsktxtdiv");
 
 
 
@@ -682,6 +683,7 @@ const { urgentLabel } = urgent();
 
 const taskTxt = document.createElement("p");
 taskTxt.setAttribute("id", "task-text");
+taskTxt.classList.add("tskTxt");
 taskTxt.textContent = `${formattodaydate.todayDate} Clean Room`;
 
 taskTxt.appendChild(urgentLabel);
@@ -744,11 +746,11 @@ listSection.appendChild(taskSection);
 
        //const taskDisplay = document.querySelector("#taskdisplay");
 
-       const editTaskDiv = document.querySelector("#editdivbtn");
+       const editTaskDiv = document.querySelector(".editdivbtn");
 
-       const taskTxt = document.querySelector("#task-text");
+       const taskTxt = document.querySelector(".tskTxt");
 
-       const checkoffDiv = document.querySelector("#checkoff-div");
+       const checkoffDiv = document.querySelector(".checkoffdiv");
 
        const checkOffTaskSVG = document.querySelector(".check-off");
 
@@ -782,11 +784,12 @@ span.textContent = taskTxt.textContent;
 span.style.color = "gray";
 span.style.textDecoration = "line-through";
 
-
+const expandTaskDiv = document.querySelector(".expand-toggle");
 
 if (taskTxt) {
     taskTxt.textContent = "";
     taskTxt.appendChild(span);
+    expandTaskDiv.remove();
     editTaskDiv.remove();
     
 }
@@ -814,7 +817,7 @@ const refreshTasks = () => {
 
 export const urgent = () => {
 
-const taskTxtDiv = document.querySelector("#tsk-txt-div");
+const taskTxtDiv = document.querySelector(".tsktxtdiv");
 const urgentLabel = document.createElement("div");
 urgentLabel.setAttribute("id", "urgent-label");
 
@@ -838,7 +841,7 @@ if (taskTxtDiv) {
 
 export const moderate = () => {
 
-    const taskTxtDiv = document.querySelector("#tsk-txt-div");
+    const taskTxtDiv = document.querySelector(".tsktxtdiv");
     const moderateLabel = document.createElement("div");
     moderateLabel.setAttribute("id", "moderate-label");
     
@@ -862,7 +865,7 @@ export const moderate = () => {
 
     export const low = () => {
 
-        const taskTxtDiv = document.querySelector("#tsk-txt-div");
+        const taskTxtDiv = document.querySelector(".tsktxtdiv");
         const lowLabel = document.createElement("div");
         lowLabel.setAttribute("id", "low-label");
         
@@ -905,7 +908,6 @@ addCategDialog.setAttribute("id", "addcateg");
 
 const formAddCateg = document.createElement("form");
 formAddCateg.setAttribute("name", "formaddcateg");
-formAddCateg.setAttribute("data-category-id", `${crypto.randomUUID()}`);
 formAddCateg.classList.add("formaddcateg");
 
 
@@ -974,10 +976,12 @@ formAddCateg.appendChild(categoryNameDiv);
      // start of category section
 
      const categMainSection = document.createElement("div");
-     categMainSection.setAttribute("id", "category-sect-main");
+     //categMainSection.setAttribute("id", "category-sect-main");
+     categMainSection.classList.add("categmainsect");
  
      const categHeadingDiv = document.createElement("div");
-     categHeadingDiv.setAttribute("id", "category-heading-sect");
+     //categHeadingDiv.setAttribute("id", "category-heading-sect");
+     categHeadingDiv.classList.add("categheadingdiv");
  
      const categHeading = document.createElement("h2");
      categHeading.classList.add("category-title");
@@ -990,12 +994,14 @@ formAddCateg.appendChild(categoryNameDiv);
      // start of edit or delete
 
      const categoryEditDiv = document.createElement("div");
-     categoryEditDiv.setAttribute("id", "cat-edit-div");
+    // categoryEditDiv.setAttribute("id", "cat-edit-div");
+    categoryEditDiv.classList.add("categeditdiv");
 
         // edit button
 
         const editCategoryBtn = document.createElement("button");
-        editCategoryBtn.setAttribute("id", "edit-category");
+       // editCategoryBtn.setAttribute("id", "edit-category");
+       editCategoryBtn.classList.add("editcateg");
 
 const editCategSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 editCategSVG.classList.add("editcategoryname");
@@ -1018,7 +1024,8 @@ categoryEditDiv.appendChild(editCategoryBtn);
         //delete task button
 
         const deleteCategoryBtn = document.createElement("button");
-        deleteCategoryBtn.setAttribute("id", "delete-category");
+        //deleteCategoryBtn.setAttribute("id", "delete-category");
+        deleteCategoryBtn.classList.add("deletecateg");
 
 const deleteCategSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 deleteCategSVG.classList.add("deletecategname");
@@ -1049,7 +1056,6 @@ categHeading.appendChild(categoryEditDiv);
      addListBtnDiv.classList.add("listbtn-div");
  
      const addListBtn = document.createElement("button");
-    // addListBtn.setAttribute("data-addlistbtn-id", `${crypto.randomUUID()}`);
      addListBtn.classList.add("addlist");
      
  
@@ -1125,28 +1131,23 @@ function validateForm() {
 
 export const addListPopUp = () => {
 
-const todoSect = document.querySelector("#todo-sect");
+//const todoSect = document.querySelector("#todo-sect");
 
-  // const addListBtnDiv = document.querySelector(".listbtn-div");
+   const addListBtnDiv = document.querySelector(".listbtn-div");
 
-   //const addListBtns = document.querySelectorAll(".addlist");
+   const addListBtns = document.querySelectorAll(".addlist");
+addListBtns.forEach(addListBtn => {
 
 
-   todoSect.addEventListener("click", (e) => {
+
+  addListBtn.addEventListener("click", (e) => {
 
    // if (e.target.closest(".addlist")) {
      //   console.log("Add List button clicked!");
 
-        const addListBtn = e.target.closest(".addlist");
+      //  const addListBtn = e.target.closest(".addlist");
 
-  if (!addListBtn) return;
-
-        const listId = addListBtn.getAttribute('data-addlistbtn-id');
-        
-        if (!listId) {
-            console.warn("No listId found on clicked .addlist button!");
-            return;
-          }
+ 
 
 
     const addListDialog = document.createElement("dialog");
@@ -1154,7 +1155,6 @@ const todoSect = document.querySelector("#todo-sect");
     
     const formAddList = document.createElement("form");
     formAddList.setAttribute("name", "formaddlist");
-    formAddList.setAttribute("data-list-id", listId);
     formAddList.classList.add("formaddlist");
 
     // add list name
@@ -1199,9 +1199,10 @@ const todoSect = document.querySelector("#todo-sect");
 
 addListDialog.appendChild(formAddList);
 
-todoSect.appendChild(addListDialog);
+addListBtnDiv.appendChild(addListDialog);
 
 addListDialog.showModal();
+
 
 // start form listener
 
@@ -1210,25 +1211,20 @@ formAddList.addEventListener('submit', (e) => {
     e.preventDefault(); // We don't want to submit this fake form
    
     
-    const listId = formAddList.getAttribute("data-list-id");
-    
 
-    const categMainSection = document.querySelector(`.categmainsect[data-list-id="${listId}"]`);
-
-    if (!categMainSection) {
-      console.warn("No matching section found for listId:", formListId);
-      return;
-    }
- //const categMainSection = document.querySelector(".categmainsect");
+ const categMainSection = document.querySelector(".categmainsect");
  
  const listSection = document.createElement("div");
-listSection.setAttribute("id", "list-sect");
+//listSection.setAttribute("id", "list-sect");
+listSection.classList.add("listsect");
 
 const listHeading = document.createElement("div");
-listHeading.setAttribute("id", "list-heading");
+//listHeading.setAttribute("id", "list-heading");
+listHeading.classList.add("listheading");
 
 const listTitleDiv = document.createElement("div");
-listTitleDiv.setAttribute("id", "list-title");
+//listTitleDiv.setAttribute("id", "list-title");
+listTitleDiv.classList.add("listtitle");
 
 const listTitle = document.createElement("h3");
 listTitle.classList.add("list-title-txt");
@@ -1244,12 +1240,14 @@ listTitleDiv.appendChild(listTitle);
 // start of edit or delete
 
 const listEditDiv = document.createElement("div");
-listEditDiv.setAttribute("id", "list-edit-div");
+//listEditDiv.setAttribute("id", "list-edit-div");
+listEditDiv.classList.add("listeditdiv");
 
    // edit button
 
    const editListBtn = document.createElement("button");
-   editListBtn.setAttribute("id", "edit-list");
+   //editListBtn.setAttribute("id", "edit-list");
+   editListBtn.classList.add("editlist");
 
 const editListSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 editListSVG.classList.add("editlistname");
@@ -1272,7 +1270,8 @@ listEditDiv.appendChild(editListBtn);
    //delete task button
 
    const deleteListBtn = document.createElement("button");
-   deleteListBtn.setAttribute("id", "delete-list");
+  // deleteListBtn.setAttribute("id", "delete-list");
+   deleteListBtn.classList.add("deletelist");
 
 const deleteListSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 deleteListSVG.classList.add("deletelistname");
@@ -1298,6 +1297,38 @@ listHeading.appendChild(listTitleDiv);
 // listHeading.appendChild(addListBtnDiv);
 
 listSection.appendChild(listHeading);
+
+// new task btn section
+
+const addNewTaskDiv = document.createElement("div");
+addNewTaskDiv.classList.add("newtaskdiv");
+
+const newTaskBtn = document.createElement("button");
+newTaskBtn.classList.add("newtaskbtn");
+
+const addNewTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+addNewTaskSVG.classList.add("addnewtsk");
+addNewTaskSVG.setAttribute('viewBox', '0 0 24 24');
+addNewTaskSVG.setAttribute("height", "20px");
+addNewTaskSVG.setAttribute("width", "20px");
+
+const addNewTaskSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+addNewTaskSVGPath.setAttribute(
+"d", "M5 19V5H12V12H19V13C19.7 13 20.37 13.13 21 13.35V9L15 3H5C3.89 3 3 3.89 3 5V19C3 20.1 3.89 21 5 21H13.35C13.13 20.37 13 19.7 13 19H5M14 4.5L19.5 10H14V4.5M23 18V20H20V23H18V20H15V18H18V15H20V18H23Z");
+
+addNewTaskSVG.appendChild(addNewTaskSVGPath);
+
+newTaskBtn.appendChild(addNewTaskSVG);
+
+const addNewTaskTxt = document.createElement("p");
+addNewTaskTxt.classList.add("add-new-tsk-txt");
+addNewTaskTxt.textContent = "New Task";
+
+newTaskBtn.appendChild(addNewTaskTxt);
+
+addNewTaskDiv.appendChild(newTaskBtn);
+
+listSection.appendChild(addNewTaskDiv);
 
 if (categMainSection) {
 
@@ -1330,14 +1361,316 @@ cancelAddListNameBtn.addEventListener('click', (e) => {
 
 });
 
-
+}); // end of button loop
 
 }
 
 
 export const addTaskPopUp = () => {
     // form goes in here
+
+   const addNewTaskDiv = document.querySelector(".newtaskdiv");
+
+   const newTaskBtns = document.querySelectorAll(".newtaskbtn");
+
+newTaskBtns.forEach(newTaskBtn => {
+
+newTaskBtn.addEventListener("click", () => {
+
+
     
+    const addTaskDialog = document.createElement("dialog");
+    addTaskDialog.setAttribute("id", "addtsk-dialog");
+    
+    const formAddTask = document.createElement("form");
+    formAddTask.setAttribute("name", "formaddtsk");
+    formAddTask.classList.add("formaddtsk");
+
+    // add tsk name
+
+    const taskNameSect = document.createElement("div");
+    taskNameSect.setAttribute("id", "taskNameDiv");
+
+    const taskNameLabel = document.createElement("label");
+    taskNameLabel.setAttribute("id", "add-tsk-label");
+    taskNameLabel.textContent = "TASK NAME";
+        
+        const formTaskTitle = document.createElement("input");
+        formTaskTitle.type = "text";
+        formTaskTitle.name = "add-tsk-title";
+        formTaskTitle.id = "add-tsk-title";
+        formTaskTitle.minLength = "2";
+        formTaskTitle.required = true;
+        formTaskTitle.placeholder = "Set Up Email";
+        
+        taskNameLabel.appendChild(formTaskTitle);
+
+        taskNameSect.appendChild(taskNameLabel);
+
+    formAddTask.appendChild(taskNameSect);
+
+    // add task-details
+
+    const taskDetailsSect = document.createElement("div");
+    taskDetailsSect.setAttribute("id", "taskDetailsDiv");
+
+    const taskDetailsLabel = document.createElement("label");
+    taskDetailsLabel.setAttribute("id", "add-tskdetails-label");
+    taskDetailsLabel.textContent = "TASK DETAILS";
+
+    const formTaskDetails = document.createElement("textarea");
+    formTaskDetails.name = "add-tsk-details";
+    formTaskDetails.id = "add-tsk-details";
+    formTaskDetails.rows = "5";
+    formTaskDetails.cols  = "30";
+    formTaskDetails.required = true;
+    formTaskDetails.placeholder = "Log in & set up atuo responders.";
+        
+        taskDetailsLabel.appendChild(formTaskDetails);
+
+        taskDetailsSect.appendChild(taskDetailsLabel);
+
+    formAddTask.appendChild(taskDetailsSect);
+
+    // due-date
+
+    const taskDateSect = document.createElement("div");
+    taskDateSect.setAttribute("id", "taskDateDiv");
+
+    const taskDateLabel = document.createElement("label");
+    taskDateLabel.setAttribute("id", "add-tskdate-label");
+    taskDateLabel.textContent = "TASK DUE DATE";
+
+    const formTaskDate = document.createElement("input");
+    formTaskDate.type = "date";
+    formTaskDate.name = "add-tsk-date";
+    formTaskDate.id = "add-tsk-date";
+    formTaskDate.required = true;
+    
+        
+    taskDateLabel.appendChild(formTaskDate);
+
+        taskDateSect.appendChild(taskDateLabel);
+
+    formAddTask.appendChild(taskDateSect);
+
+    // priority 
+
+    const taskPrioritySect = document.createElement("div");
+    taskPrioritySect.setAttribute("id", "taskPriorityDiv");
+
+    const taskPriorityLabel = document.createElement("label");
+    taskPriorityLabel.setAttribute("id", "add-tskpriority-label");
+    taskPriorityLabel.textContent = "TASK PRIORITY";
+
+    const formTaskPriority = document.createElement("select");
+    formTaskPriority.name = "add-tsk-priority";
+    formTaskPriority.id = "add-tsk-priority";
+    formTaskPriority.required = true;
+
+    const urgentOption = document.createElement("option");
+    urgentOption.value = "urgent";
+    urgentOption.textContent = "Urgent";
+    
+    formTaskPriority.appendChild(urgentOption);
+
+    const moderateOption = document.createElement("option");
+    moderateOption.value = "moderate";
+    moderateOption.textContent = "Moderate";
+
+    formTaskPriority.appendChild(moderateOption);
+
+    const lowOption = document.createElement("option");
+    lowOption.value = "low";
+    lowOption.textContent = "Low";
+
+    formTaskPriority.appendChild(lowOption); 
+    
+    const noneOption = document.createElement("option");
+    noneOption.value = "none";
+    noneOption.textContent = "None";
+
+    formTaskPriority.appendChild(noneOption);
+
+    
+        
+    taskPriorityLabel.appendChild(formTaskPriority);
+
+    taskPrioritySect.appendChild(taskPriorityLabel);
+
+    formAddTask.appendChild(taskPrioritySect);
+
+
+
+    //button sects
+
+    const addTaskBtnSect = document.createElement("div");
+    addTaskBtnSect.setAttribute("id", "addtskBtn-sect");
+
+    const addTaskNameBtn = document.createElement("button")
+    addTaskNameBtn.type = "submit"; // Important: type submit so form submit event fires
+    addTaskNameBtn.id = "submit-tsk-name";
+    addTaskNameBtn.textContent = "Add Task";
+
+    addTaskBtnSect.appendChild(addTaskNameBtn);
+
+
+    const cancelAddTaskNameBtn = document.createElement("button");
+    cancelAddTaskNameBtn.type = "button"; // prevent form submit
+    cancelAddTaskNameBtn.id = "cancel-addtsk-name";
+    cancelAddTaskNameBtn.textContent = "Cancel";
+
+    addTaskBtnSect.appendChild(cancelAddTaskNameBtn);
+
+    formAddTask.appendChild(addTaskBtnSect);
+
+addTaskDialog.appendChild(formAddTask);
+
+
+addNewTaskDiv.appendChild(addTaskDialog);
+
+addTaskDialog.showModal();
+
+// start form listener
+
+formAddTask.addEventListener('submit', (e) => {
+
+    e.preventDefault(); // We don't want to submit this fake form
+   
+    const formData = new FormData(formAddTask);
+        //listTitle.textContent = formData.get("add-list-title");
+
+        const formatDueDate = () => {
+        
+        const { format } = require("date-fns");
+
+   
+      const dueDate = format(new Date(formData.get("add-tsk-date")), "MMM dd ''yy");
+
+      console.log(dueDate);
+
+      return { dueDate };
+
+        }
+
+ const taskSection = document.querySelector(".tasksect");
+ 
+
+ //const taskSection = document.createElement("div");
+ //taskSection.classList.add("tasksect");
+ 
+ const cardDiv = document.createElement("div");
+ cardDiv.classList.add("card");
+ 
+ const editTaskDiv = document.createElement("div");
+ editTaskDiv.classList.add("editdivbtn");
+ 
+ const editTaskBtn = document.createElement("button");
+ editTaskBtn.classList.add("edittask");
+ 
+ const editTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+ editTaskSVG.classList.add("editbtn");
+ editTaskSVG.setAttribute('viewBox', '0 0 24 24');
+ editTaskSVG.setAttribute("height", "20px");
+ editTaskSVG.setAttribute("width", "20px");
+ 
+ const editTaskSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+ editTaskSVGPath.setAttribute(
+     "d", "M16,12A2,2 0 0,1 18,10A2,2 0 0,1 20,12A2,2 0 0,1 18,14A2,2 0 0,1 16,12M10,12A2,2 0 0,1 12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12M4,12A2,2 0 0,1 6,10A2,2 0 0,1 8,12A2,2 0 0,1 6,14A2,2 0 0,1 4,12Z");
+ 
+ editTaskSVG.appendChild(editTaskSVGPath);
+ 
+ editTaskBtn.appendChild(editTaskSVG);
+ 
+ editTaskDiv.appendChild(editTaskBtn);
+ 
+ cardDiv.appendChild(editTaskDiv);
+ 
+ 
+ // task display
+ 
+ const taskDisplay = document.createElement("div");
+ taskDisplay.classList.add("displaytask");
+ 
+ const checkoffDiv = document.createElement("div");
+ checkoffDiv.classList.add("checkoffdiv");
+ 
+ const checkOffTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+ checkOffTaskSVG.classList.add("check-off");
+ checkOffTaskSVG.setAttribute('viewBox', '0 0 24 24');
+ checkOffTaskSVG.setAttribute("height", "20px");
+ checkOffTaskSVG.setAttribute("width", "20px");
+ 
+ const checkOffTaskSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+ checkOffTaskSVGPath.setAttribute(
+ "d", "M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z");
+ 
+ checkOffTaskSVG.appendChild(checkOffTaskSVGPath);
+ 
+ checkoffDiv.appendChild(checkOffTaskSVG);
+ 
+ taskDisplay.appendChild(checkoffDiv);
+ 
+ const taskTxtDiv = document.createElement("div");
+  taskTxtDiv.classList.add("tsktxtdiv");
+ 
+ 
+ const dueDateformatted = formatDueDate();
+
+ const urgentLabel = formData.get("urgent");
+
+ const taskTitle = formData.get("add-tsk-title");
+ 
+ const taskTxt = document.createElement("p");
+ taskTxt.classList.add("tskTxt");
+ taskTxt.textContent = `${dueDateformatted.dueDate} ${taskTitle} ${urgentLabel}`;
+ 
+ 
+ taskTxtDiv.appendChild(taskTxt);
+ 
+ 
+ 
+ 
+ taskDisplay.appendChild(taskTxtDiv);
+ 
+ cardDiv.appendChild(taskDisplay);
+ 
+ //taskSection.appendChild(cardDiv);
+
+
+ 
+ 
+ if (taskSection) {
+ 
+ taskSection.insertBefore(cardDiv, addNewTaskDiv);
+ }
+
+
+
+ formAddTask.reset();
+        
+    formAddTask.remove();
+    addTaskDialog.close(); // Remove form after submit
+    addTaskDialog.remove();
+ 
+});
+
+
+cancelAddTaskNameBtn.addEventListener('click', (e) => {
+
+    e.preventDefault(); // We don't want to submit this fake form
+
+    formAddTask.remove();
+    addTaskDialog.close(); // Remove form after click
+    addTaskDialog.remove();
+  });
+
+
+}); // btton listener
+
+}); // button loop end
+
+
 }
 
 
@@ -1346,10 +1679,8 @@ export const createHomePage = () => {
     
     sidebarLoad();
     headerLoad();
-    //urgent();
     todoSectLoad();
-    addCategPopUp();
-    addListPopUp();
+    
     
 }
 
@@ -1359,16 +1690,20 @@ export const loadDom = document.addEventListener("DOMContentLoaded", () => {
     createHomePage();
     expandTaskDisplay();
     completeTask();
+    addCategPopUp();
+    addListPopUp();
+    addTaskPopUp();
     
     
   });
 
   const expandTaskDisplay = () => {
 
-    const editTaskBtn = document.querySelector("#edit-task");
+    const editTaskBtns = document.querySelectorAll(".edittask");
     
     //console.log(editTaskBtn); // Will log null if it's not found
 
+    editTaskBtns.forEach(editTaskBtn => {
 
     editTaskBtn.addEventListener("click", (e) => {
        // console.log(e);
@@ -1394,9 +1729,11 @@ export const loadDom = document.addEventListener("DOMContentLoaded", () => {
 
         const expandTasks = document.createElement("div");
         expandTasks.setAttribute("id", "expand-togglediv");
+        expandTasks.classList.add("expand-toggle");
 
         const taskDetails = document.createElement("div");
         taskDetails.setAttribute("id", "task-details");
+        taskDetails.classList.add("tskdetailsdiv");
         taskDetails.textContent = "Must clean all of room before June 1."
 
         expandTasks.appendChild(taskDetails);
@@ -1405,11 +1742,13 @@ export const loadDom = document.addEventListener("DOMContentLoaded", () => {
 
         const taskEditDiv = document.createElement("div");
         taskEditDiv.setAttribute("id", "task-edit-div");
+        taskEditDiv.classList.add("tskeditdiv");
 
         // edit button
 
         const editDisplayedTaskBtn = document.createElement("button");
 editDisplayedTaskBtn.setAttribute("id", "edit-displayed-task");
+editDisplayedTaskBtn.classList.add("editdisplayedtskbtn");
 
 const editDisplayedTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 editDisplayedTaskSVG.classList.add("editdisplayedtsk");
@@ -1433,6 +1772,7 @@ expandTasks.appendChild(taskEditDiv);
 
         const deleteTaskBtn = document.createElement("button");
         deleteTaskBtn.setAttribute("id", "delete-task");
+        deleteTaskBtn.classList.add("deletetskbtn");
 
 const deleteTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 deleteTaskSVG.classList.add("editdisplayedtsk");
@@ -1456,9 +1796,15 @@ cardDiv.appendChild(expandTasks);
 
 
 // start of button edit listener
-editDisplayedTaskBtn.addEventListener("click", () => {
+const editDisplayedTaskBtns = document.querySelectorAll(".editdisplayedtskbtn");
 
-    const taskTxt = document.querySelector("#task-text");
+editDisplayedTaskBtns.forEach(displayedTaskBtn => {
+
+displayedTaskBtn.addEventListener("click", (e) => {
+
+    console.log(e.target);
+
+    const taskTxt = document.querySelector(".tskTxt");
     
 
     const originalTitle = taskTxt.textContent;
@@ -1533,6 +1879,8 @@ taskDetails.textContent = "";
   });
 });
 
+}); // button loop
+
 deleteTaskBtn.addEventListener("click", () => {
 
    // const cardDiv = document.querySelector(".card");
@@ -1546,7 +1894,9 @@ deleteTaskBtn.addEventListener("click", () => {
 }
         
 
-    });
+    }); // button listener
+
+}); // button loop
 
   }
 

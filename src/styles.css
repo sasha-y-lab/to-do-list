@@ -120,21 +120,21 @@ button#addcat {
 
 
 
-#list-sect {
+#list-sect, .listsect {
     display: flex;
     flex-direction: column;
     row-gap: 5px;
 
 }
 
-#list-heading {
+#list-heading, .listheading {
     display: flex;
     column-gap: 30px;
     align-items: center;
     
 }
 
-#list-title {
+#list-title, .listtitle {
     display: flex;
     align-items: center;
 }
@@ -147,7 +147,7 @@ button#addcat {
     
 }
 
-#category-heading-sect {
+#category-heading-sect, .categheadingdiv {
     display: flex;
     flex-direction: column;
 }
@@ -172,7 +172,7 @@ button.addlist {
 
 }
 
-#task-sect {
+#task-sect, .tasksect {
     display: flex;
     flex-direction: column;
     row-gap: 30px;
@@ -195,7 +195,7 @@ button.addlist {
     justify-content: center;
 }
 
-#editdivbtn {
+#editdivbtn, .editdivbtn {
     display: flex;
     justify-content: flex-end;
     margin-top: -2px;
@@ -205,12 +205,12 @@ button.addlist {
 
 }
 
-#edit-task {
+#edit-task, .edittask {
     width: 100px;
     height: 40px;
 }
 
-#taskdisplay {
+#taskdisplay, .displaytask {
     display: flex;
     align-items: center;
     column-gap: 10px;
@@ -219,14 +219,17 @@ button.addlist {
     position: relative;
 }
 
-#tsk-txt-div {
+#tsk-txt-div, .tsktxtdiv {
     display: flex;
     align-items: center;
+    justify-content: center;
     column-gap: 5px;
     flex-direction: column;
+    height: 25px;
+    
 }
 
-#task-text {
+#task-text, .tskTxt {
 display: flex;
 column-gap: 5px;
 align-items: center;
@@ -321,7 +324,7 @@ font-size: small;
     font-size: smaller;
 }
 
-button#edit-task {
+button#edit-task, .edittask {
     display: flex;
     border-style: none;
     padding: 8px;
@@ -330,7 +333,7 @@ button#edit-task {
 
 
 
-button#newtask {
+.newtaskbtn {
     background-color: #E67F0D;
     border-style: none;
     padding-left: 8px;
@@ -343,18 +346,50 @@ button#newtask {
     column-gap: 5px;
 }
 
+
+.formaddtsk {
+    display: flex;
+    flex-direction: column;
+font-size: small;
+    font-weight: bold;
+    row-gap: 10px;
+
+}
+#add-tsk-label {
+    display: flex;
+    column-gap: 10px;
+    
+}
+
+#add-tskdetails-label {
+    display: flex;
+    flex-direction: column;
+}
+
+#add-tskdate-label {
+
+    display: flex;
+    column-gap: 10px;
+}
+
+#add-tskpriority-label {
+    display: flex;
+    column-gap: 5px;
+
+}
+
 .addctgry, .addlst, .addnewtsk {
 
     fill: white;
 }
 
 
-#edit-displayed-task, #delete-task, #edit-category, #delete-category, #delete-list, #edit-list {
+.editdisplayedtskbtn, .deletetskbtn, .editcateg, .deletecateg, .deletelist, .editlist {
     background-color: transparent;
     border-style: none;
 }
 
-#addcateg, #addlist-dialog {
+#addcateg, #addlist-dialog, #addtsk-dialog {
     display: flex;
 row-gap: 25px;
 border-radius: 8px;
@@ -372,7 +407,7 @@ font-size: small;
 
 }
 
-#addcategBtn-sect, #addlistBtn-sect {
+#addcategBtn-sect, #addlistBtn-sect, #addtskBtn-sect {
 display: flex;
 column-gap: 5px;
 padding-top: 10px;
@@ -397,4 +432,13 @@ padding-top: 10px;
     padding: 8px;
     color: white;
 
+}
+
+#cancel-addtsk-name, #submit-tsk-name {
+
+    background-color: #E67F0D;
+    border-style: none;
+    border-radius: 8px;
+    padding: 8px;
+    color: white;
 }
