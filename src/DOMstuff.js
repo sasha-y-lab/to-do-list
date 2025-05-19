@@ -391,6 +391,58 @@ const categoryLoad = () => {
      const categHeading = document.createElement("h2");
      categHeading.classList.add("category-title");
      categHeading.textContent = "Category 1";
+
+
+     // start of edit or delete
+
+     const categoryEditDiv = document.createElement("div");
+     categoryEditDiv.setAttribute("id", "cat-edit-div");
+
+        // edit button
+
+        const editCategoryBtn = document.createElement("button");
+        editCategoryBtn.setAttribute("id", "edit-category");
+
+const editCategSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+editCategSVG.classList.add("editcategoryname");
+editCategSVG.setAttribute('viewBox', '0 0 24 24');
+editCategSVG.setAttribute("height", "20px");
+editCategSVG.setAttribute("width", "20px");
+
+const editCategSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+editCategSVGPath.setAttribute(
+"d", "M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z");
+
+editCategSVG.appendChild(editCategSVGPath);
+
+editCategoryBtn.appendChild(editCategSVG);
+
+categoryEditDiv.appendChild(editCategoryBtn);
+
+
+
+        //delete task button
+
+        const deleteCategoryBtn = document.createElement("button");
+        deleteCategoryBtn.setAttribute("id", "delete-category");
+
+const deleteCategSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+deleteCategSVG.classList.add("deletecategname");
+deleteCategSVG.setAttribute('viewBox', '0 0 24 24');
+deleteCategSVG.setAttribute("height", "20px");
+deleteCategSVG.setAttribute("width", "20px");
+
+const deleteCategSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+deleteCategSVGPath.setAttribute(
+"d", "M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z");
+
+deleteCategSVG.appendChild(deleteCategSVGPath);
+
+deleteCategoryBtn.appendChild(deleteCategSVG);
+
+categoryEditDiv.appendChild(deleteCategoryBtn);
+
+categHeading.appendChild(categoryEditDiv);
  
      categHeadingDiv.appendChild(categHeading);
  
@@ -463,7 +515,59 @@ const listTitle = document.createElement("h3");
 listTitle.classList.add("list-title-txt");
 listTitle.textContent = "Daily Task";
 
+
 listTitleDiv.appendChild(listTitle);
+
+// start of edit or delete
+
+const listEditDiv = document.createElement("div");
+listEditDiv.setAttribute("id", "list-edit-div");
+
+   // edit button
+
+   const editListBtn = document.createElement("button");
+   editListBtn.setAttribute("id", "edit-list");
+
+const editListSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+editListSVG.classList.add("editlistname");
+editListSVG.setAttribute('viewBox', '0 0 24 24');
+editListSVG.setAttribute("height", "20px");
+editListSVG.setAttribute("width", "20px");
+
+const editListSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+editListSVGPath.setAttribute(
+"d", "M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z");
+
+editListSVG.appendChild(editListSVGPath);
+
+editListBtn.appendChild(editListSVG);
+
+listEditDiv.appendChild(editListBtn);
+
+
+
+   //delete task button
+
+   const deleteListBtn = document.createElement("button");
+   deleteListBtn.setAttribute("id", "delete-list");
+
+const deleteListSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+deleteListSVG.classList.add("deletelistname");
+deleteListSVG.setAttribute('viewBox', '0 0 24 24');
+deleteListSVG.setAttribute("height", "20px");
+deleteListSVG.setAttribute("width", "20px");
+
+const deleteListSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+deleteListSVGPath.setAttribute(
+"d", "M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z");
+
+deleteListSVG.appendChild(deleteListSVGPath);
+
+deleteListBtn.appendChild(deleteListSVG);
+
+listEditDiv.appendChild(deleteListBtn);
+
+listTitleDiv.appendChild(listEditDiv);
 
 listHeading.appendChild(listTitleDiv);
 

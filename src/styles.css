@@ -123,7 +123,7 @@ button#addcat {
 #list-sect {
     display: flex;
     flex-direction: column;
-    row-gap: 25px;
+    row-gap: 5px;
 
 }
 
@@ -134,17 +134,27 @@ button#addcat {
     
 }
 
+#list-title {
+    display: flex;
+    align-items: center;
+}
+
 #category-sect-main {
     display: flex;
     flex-direction: column;
     width: 250px;
     
+    
 }
 
 #category-heading-sect {
     display: flex;
-    align-items: center;
-    column-gap: 30px;
+    flex-direction: column;
+}
+
+.category-title {
+    display: flex;
+    column-gap: 10px;
 }
 
 button#addlist {
@@ -342,7 +352,7 @@ dialog#cardadd, dialog#projectadd {
     display: none;
 }
 
-#edit-displayed-task, #delete-task {
+#edit-displayed-task, #delete-task, #edit-category, #delete-category, #delete-list, #edit-list {
     background-color: transparent;
     border-style: none;
 }
