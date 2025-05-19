@@ -216,6 +216,13 @@ button#addlist {
     flex-direction: column;
 }
 
+#task-text {
+display: flex;
+column-gap: 5px;
+align-items: center;
+
+}
+
 #expand-togglediv {
 display: flex;
 
@@ -277,6 +284,7 @@ font-size: small;
     border-width: 2px;
     padding: 5px;
     font-weight: bold;
+    font-size: smaller;
 
 }
 
@@ -289,7 +297,7 @@ font-size: small;
     border-width: 2px;
     padding: 5px;
     font-weight: bold;
-
+    font-size: smaller;
 }
 
 .low-status {
@@ -300,7 +308,7 @@ font-size: small;
     border-width: 2px;
     padding: 5px;
     font-weight: bold;
-
+    font-size: smaller;
 }
 
 button#edit-task {

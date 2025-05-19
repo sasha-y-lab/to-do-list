@@ -554,13 +554,17 @@ taskTxtDiv.setAttribute("id", "tsk-txt-div");
 
 
 
-//const urgentLabel = urgent();
+const { urgentLabel } = urgent();
 
 const taskTxt = document.createElement("p");
 taskTxt.setAttribute("id", "task-text");
 taskTxt.textContent = `${formattodaydate.todayDate} Clean Room`;
 
+taskTxt.appendChild(urgentLabel);
+
 taskTxtDiv.appendChild(taskTxt);
+
+
 
 
 taskDisplay.appendChild(taskTxtDiv);
@@ -723,11 +727,10 @@ export const createHomePage = () => {
 
 //createHomePage();
 
-document.addEventListener("DOMContentLoaded", () => {
+export const loadDom = document.addEventListener("DOMContentLoaded", () => {
     createHomePage();
     expandTaskDisplay();
-    //editTask();
-    deleteTask();
+    
     
   });
 
