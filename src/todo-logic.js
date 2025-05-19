@@ -34,3 +34,13 @@
 
 //Upcoming – all tasks in the future by closest date to today
 
+
+
+import { urgent } from "./DOMstuff.js";
+import { moderate } from "./DOMstuff.js";
+import { low } from "./DOMstuff.js";
+
+import { createHomePage } from "./DOMstuff.js";
+
+import { loadDom } from "./DOMstuff.js";
+

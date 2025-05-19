@@ -348,11 +348,40 @@ button#newtask {
     fill: white;
 }
 
-dialog#cardadd, dialog#projectadd {
-    display: none;
-}
 
 #edit-displayed-task, #delete-task, #edit-category, #delete-category, #delete-list, #edit-list {
     background-color: transparent;
     border-style: none;
+}
+
+#addcateg {
+    display: flex;
+row-gap: 25px;
+border-radius: 8px;
+border-style: none;
+flex-direction: column;
+
+}
+
+
+#add-categ-label {
+display: flex;
+column-gap: 10px;
+font-weight: bold;
+font-size: small;
+
+}
+#addcategBtn-sect {
+display: flex;
+column-gap: 5px;
+padding-top: 10px;
+
+}
+
+#submit-categ-name, #cancel-addcateg-name {
+    background-color: #00A7E1;
+    border-style: none;
+    border-radius: 8px;
+    padding: 8px;
+    color: white;
 }
