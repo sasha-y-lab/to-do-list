@@ -717,6 +717,63 @@ listSection.appendChild(taskSection);
     
     }
 
+
+    const completeTask = () => {
+
+       //const taskDisplay = document.querySelector("#taskdisplay");
+
+       const editTaskDiv = document.querySelector("#editdivbtn");
+
+       const taskTxt = document.querySelector("#task-text");
+
+       const checkoffDiv = document.querySelector("#checkoff-div");
+
+       const checkOffTaskSVG = document.querySelector(".check-off");
+
+       checkOffTaskSVG.addEventListener("click", (e) => {
+
+checkOffTaskSVG.remove();
+
+
+const checkTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+checkTaskSVG.classList.add("checked");
+checkTaskSVG.setAttribute('viewBox', '0 0 24 24');
+checkTaskSVG.setAttribute("height", "20px");
+checkTaskSVG.setAttribute("width", "20px");
+
+const checkTaskSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+checkTaskSVGPath.setAttribute(
+"d", "M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z");
+
+checkTaskSVG.appendChild(checkTaskSVGPath);
+
+
+if (checkoffDiv) {
+
+checkoffDiv.appendChild(checkTaskSVG);
+}
+
+
+
+const span = document.createElement("span");
+span.textContent = taskTxt.textContent;
+span.style.color = "gray";
+span.style.textDecoration = "line-through";
+
+
+
+if (taskTxt) {
+    taskTxt.textContent = "";
+    taskTxt.appendChild(span);
+    editTaskDiv.remove();
+    
+}
+
+       });
+
+    }
+    //completeTask();
+
 const refreshTODO = () => {
 
 const todoSect = document.querySelector("#todo-sect");
@@ -834,6 +891,7 @@ export const createHomePage = () => {
 export const loadDom = document.addEventListener("DOMContentLoaded", () => {
     createHomePage();
     expandTaskDisplay();
+    completeTask();
     
     
   });
