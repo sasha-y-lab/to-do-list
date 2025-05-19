@@ -139,7 +139,7 @@ button#addcat {
     align-items: center;
 }
 
-#category-sect-main {
+#category-sect-main, .categmainsect {
     display: flex;
     flex-direction: column;
     width: 250px;
@@ -157,7 +157,7 @@ button#addcat {
     column-gap: 10px;
 }
 
-button#addlist {
+button.addlist {
 
     background-color: #D8CC34;
     border-style: none;
@@ -354,7 +354,7 @@ button#newtask {
     border-style: none;
 }
 
-#addcateg {
+#addcateg, #addlist-dialog {
     display: flex;
 row-gap: 25px;
 border-radius: 8px;
@@ -364,19 +364,22 @@ flex-direction: column;
 }
 
 
-#add-categ-label {
+#add-categ-label, #add-list-label {
 display: flex;
 column-gap: 10px;
 font-weight: bold;
 font-size: small;
 
 }
-#addcategBtn-sect {
+
+#addcategBtn-sect, #addlistBtn-sect {
 display: flex;
 column-gap: 5px;
 padding-top: 10px;
 
 }
+
+
 
 #submit-categ-name, #cancel-addcateg-name {
     background-color: #00A7E1;
@@ -384,4 +387,14 @@ padding-top: 10px;
     border-radius: 8px;
     padding: 8px;
     color: white;
+}
+
+#submit-list-name, #cancel-addlist-name {
+
+    background-color: #D8CC34;
+    border-style: none;
+    border-radius: 8px;
+    padding: 8px;
+    color: white;
+
 }

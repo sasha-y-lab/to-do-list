@@ -386,9 +386,11 @@ const categoryLoad = () => {
 
      const categMainSection = document.createElement("div");
      categMainSection.setAttribute("id", "category-sect-main");
+     categMainSection.classList.add("categmainsect");
  
      const categHeadingDiv = document.createElement("div");
      categHeadingDiv.setAttribute("id", "category-heading-sect");
+     categHeadingDiv.classList.add("categheadingdiv");
  
      const categHeading = document.createElement("h2");
      categHeading.classList.add("category-title");
@@ -399,11 +401,13 @@ const categoryLoad = () => {
 
      const categoryEditDiv = document.createElement("div");
      categoryEditDiv.setAttribute("id", "cat-edit-div");
+     categoryEditDiv.classList.add("categeditdiv");
 
         // edit button
 
         const editCategoryBtn = document.createElement("button");
         editCategoryBtn.setAttribute("id", "edit-category");
+        editCategoryBtn.classList.add("editcateg");
 
 const editCategSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 editCategSVG.classList.add("editcategoryname");
@@ -427,6 +431,7 @@ categoryEditDiv.appendChild(editCategoryBtn);
 
         const deleteCategoryBtn = document.createElement("button");
         deleteCategoryBtn.setAttribute("id", "delete-category");
+        deleteCategoryBtn.classList.add("deletecateg");
 
 const deleteCategSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 deleteCategSVG.classList.add("deletecategname");
@@ -453,10 +458,12 @@ categHeading.appendChild(categoryEditDiv);
      // add list button
  
      const addListBtnDiv = document.createElement("div");
-     addListBtnDiv.setAttribute("id", "listbtn-div");
+    // addListBtnDiv.setAttribute("id", "listbtn-div");
+     addListBtnDiv.classList.add("listbtn-div");
  
      const addListBtn = document.createElement("button");
-     addListBtn.setAttribute("id", "addlist");
+     //addListBtn.setAttribute("id", "addlist");
+     addListBtn.classList.add("addlist");
  
      const addListSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
      addListSVG.classList.add("addlst");
@@ -506,12 +513,15 @@ const listLoad = () => {
 
 const listSection = document.createElement("div");
 listSection.setAttribute("id", "list-sect");
+listSection.classList.add("listsect");
 
 const listHeading = document.createElement("div");
 listHeading.setAttribute("id", "list-heading");
+listHeading.classList.add("listheading");
 
 const listTitleDiv = document.createElement("div");
 listTitleDiv.setAttribute("id", "list-title");
+listTitleDiv.classList.add("listtitle");
 
 const listTitle = document.createElement("h3");
 listTitle.classList.add("list-title-txt");
@@ -524,11 +534,13 @@ listTitleDiv.appendChild(listTitle);
 
 const listEditDiv = document.createElement("div");
 listEditDiv.setAttribute("id", "list-edit-div");
+listEditDiv.classList.add("listeditdiv");
 
    // edit button
 
    const editListBtn = document.createElement("button");
    editListBtn.setAttribute("id", "edit-list");
+   editListBtn.classList.add("editlist");
 
 const editListSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 editListSVG.classList.add("editlistname");
@@ -552,6 +564,7 @@ listEditDiv.appendChild(editListBtn);
 
    const deleteListBtn = document.createElement("button");
    deleteListBtn.setAttribute("id", "delete-list");
+   deleteListBtn.classList.add("deletelist");
 
 const deleteListSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 deleteListSVG.classList.add("deletelistname");
@@ -602,15 +615,18 @@ const taskLoad = () => {
 
 const taskSection = document.createElement("div");
 taskSection.setAttribute("id", "task-sect");
+taskSection.classList.add("tasksect");
 
 const cardDiv = document.createElement("div");
 cardDiv.classList.add("card");
 
 const editTaskDiv = document.createElement("div");
 editTaskDiv.setAttribute("id", "editdivbtn");
+editTaskDiv.classList.add("editdivbtn");
 
 const editTaskBtn = document.createElement("button");
 editTaskBtn.setAttribute("id", "edit-task");
+editTaskBtn.classList.add("edittask");
 
 const editTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 editTaskSVG.classList.add("editbtn");
@@ -635,9 +651,11 @@ cardDiv.appendChild(editTaskDiv);
 
 const taskDisplay = document.createElement("div");
 taskDisplay.setAttribute("id", "taskdisplay");
+taskDisplay.classList.add("displaytask");
 
 const checkoffDiv = document.createElement("div");
 checkoffDiv.setAttribute("id", "checkoff-div");
+checkoffDiv.classList.add("checkoffdiv");
 
 const checkOffTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 checkOffTaskSVG.classList.add("check-off");
@@ -683,9 +701,11 @@ taskSection.appendChild(cardDiv);
 
 const addNewTaskDiv = document.createElement("div");
 addNewTaskDiv.setAttribute("id", "new-task");
+addNewTaskDiv.classList.add("newtaskdiv");
 
 const newTaskBtn = document.createElement("button");
 newTaskBtn.setAttribute("id", "newtask");
+newTaskBtn.classList.add("newtaskbtn");
 
 const addNewTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 addNewTaskSVG.classList.add("addnewtsk");
@@ -885,6 +905,7 @@ addCategDialog.setAttribute("id", "addcateg");
 
 const formAddCateg = document.createElement("form");
 formAddCateg.setAttribute("name", "formaddcateg");
+formAddCateg.setAttribute("data-category-id", `${crypto.randomUUID()}`);
 formAddCateg.classList.add("formaddcateg");
 
 
@@ -1024,10 +1045,13 @@ categHeading.appendChild(categoryEditDiv);
      // add list button
  
      const addListBtnDiv = document.createElement("div");
-     addListBtnDiv.setAttribute("id", "listbtn-div");
+    // addListBtnDiv.setAttribute("id", "listbtn-div");
+     addListBtnDiv.classList.add("listbtn-div");
  
      const addListBtn = document.createElement("button");
-     addListBtn.setAttribute("id", "addlist");
+    // addListBtn.setAttribute("data-addlistbtn-id", `${crypto.randomUUID()}`);
+     addListBtn.classList.add("addlist");
+     
  
      const addListSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
      addListSVG.classList.add("addlst");
@@ -1096,20 +1120,47 @@ function validateForm() {
   
 */
 
+
 }
 
 export const addListPopUp = () => {
 
-    const addCategDialog = document.createElement("dialog");
-    addCategDialog.setAttribute("id", "addlist");
+const todoSect = document.querySelector("#todo-sect");
+
+  // const addListBtnDiv = document.querySelector(".listbtn-div");
+
+   //const addListBtns = document.querySelectorAll(".addlist");
+
+
+   todoSect.addEventListener("click", (e) => {
+
+   // if (e.target.closest(".addlist")) {
+     //   console.log("Add List button clicked!");
+
+        const addListBtn = e.target.closest(".addlist");
+
+  if (!addListBtn) return;
+
+        const listId = addListBtn.getAttribute('data-addlistbtn-id');
+        
+        if (!listId) {
+            console.warn("No listId found on clicked .addlist button!");
+            return;
+          }
+
+
+    const addListDialog = document.createElement("dialog");
+    addListDialog.setAttribute("id", "addlist-dialog");
     
     const formAddList = document.createElement("form");
     formAddList.setAttribute("name", "formaddlist");
+    formAddList.setAttribute("data-list-id", listId);
     formAddList.classList.add("formaddlist");
+
     // add list name
 
     const listNameLabel = document.createElement("label");
-    listNameLabel.setAttribute("for", "add-list-title");
+    listNameLabel.setAttribute("id", "add-list-label");
     listNameLabel.textContent = "LIST NAME";
         
         const formListTitle = document.createElement("input");
@@ -1145,6 +1196,142 @@ export const addListPopUp = () => {
     addListBtnSect.appendChild(cancelAddListNameBtn);
 
     formAddList.appendChild(addListBtnSect);
+
+addListDialog.appendChild(formAddList);
+
+todoSect.appendChild(addListDialog);
+
+addListDialog.showModal();
+
+// start form listener
+
+formAddList.addEventListener('submit', (e) => {
+
+    e.preventDefault(); // We don't want to submit this fake form
+   
+    
+    const listId = formAddList.getAttribute("data-list-id");
+    
+
+    const categMainSection = document.querySelector(`.categmainsect[data-list-id="${listId}"]`);
+
+    if (!categMainSection) {
+      console.warn("No matching section found for listId:", formListId);
+      return;
+    }
+ //const categMainSection = document.querySelector(".categmainsect");
+ 
+ const listSection = document.createElement("div");
+listSection.setAttribute("id", "list-sect");
+
+const listHeading = document.createElement("div");
+listHeading.setAttribute("id", "list-heading");
+
+const listTitleDiv = document.createElement("div");
+listTitleDiv.setAttribute("id", "list-title");
+
+const listTitle = document.createElement("h3");
+listTitle.classList.add("list-title-txt");
+
+const formData = new FormData(formAddList);
+        listTitle.textContent = formData.get("add-list-title");
+
+//listTitle.textContent = 
+
+
+listTitleDiv.appendChild(listTitle);
+
+// start of edit or delete
+
+const listEditDiv = document.createElement("div");
+listEditDiv.setAttribute("id", "list-edit-div");
+
+   // edit button
+
+   const editListBtn = document.createElement("button");
+   editListBtn.setAttribute("id", "edit-list");
+
+const editListSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+editListSVG.classList.add("editlistname");
+editListSVG.setAttribute('viewBox', '0 0 24 24');
+editListSVG.setAttribute("height", "20px");
+editListSVG.setAttribute("width", "20px");
+
+const editListSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+editListSVGPath.setAttribute(
+"d", "M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z");
+
+editListSVG.appendChild(editListSVGPath);
+
+editListBtn.appendChild(editListSVG);
+
+listEditDiv.appendChild(editListBtn);
+
+
+
+   //delete task button
+
+   const deleteListBtn = document.createElement("button");
+   deleteListBtn.setAttribute("id", "delete-list");
+
+const deleteListSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+deleteListSVG.classList.add("deletelistname");
+deleteListSVG.setAttribute('viewBox', '0 0 24 24');
+deleteListSVG.setAttribute("height", "20px");
+deleteListSVG.setAttribute("width", "20px");
+
+const deleteListSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+deleteListSVGPath.setAttribute(
+"d", "M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z");
+
+deleteListSVG.appendChild(deleteListSVGPath);
+
+deleteListBtn.appendChild(deleteListSVG);
+
+listEditDiv.appendChild(deleteListBtn);
+
+listTitleDiv.appendChild(listEditDiv);
+
+listHeading.appendChild(listTitleDiv);
+
+
+// listHeading.appendChild(addListBtnDiv);
+
+listSection.appendChild(listHeading);
+
+if (categMainSection) {
+
+    categMainSection.appendChild(listSection);
+    }
+
+  
+
+   
+   
+    formAddList.reset();
+        
+    formAddList.remove();
+    addListDialog.close(); // Remove form after submit
+    addListDialog.remove();
+    
+});
+
+
+cancelAddListNameBtn.addEventListener('click', (e) => {
+
+    e.preventDefault(); // We don't want to submit this fake form
+
+    formAddList.remove();
+    addListDialog.close(); // Remove form after click
+    addListDialog.remove();
+  });
+
+   // } // end of if statement
+
+});
+
+
+
 }
 
 
@@ -1162,6 +1349,7 @@ export const createHomePage = () => {
     //urgent();
     todoSectLoad();
     addCategPopUp();
+    addListPopUp();
     
 }
 
