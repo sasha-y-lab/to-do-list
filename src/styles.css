@@ -159,7 +159,7 @@ button#addcat {
     column-gap: 10px;
 }
 
-.categbtnsectedit {
+.categbtnsectedit, .listbtnsectedit {
     display: flex;
     column-gap: 10px;
     padding-top: 5px;
@@ -434,7 +434,7 @@ padding-top: 10px;
 }
 
 
-#submit-list-name, #cancel-addlist-name {
+#submit-list-name, #cancel-addlist-name, #cancel-edit-list, #submit-edit-list {
 
     background-color: #D8CC34;
     border-style: none;

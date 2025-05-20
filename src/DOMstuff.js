@@ -792,6 +792,44 @@ listHeading.appendChild(listTitleDiv);
 
 listSection.appendChild(listHeading);
 
+
+
+// new task btn section
+
+const addNewTaskDiv = document.createElement("div");
+addNewTaskDiv.setAttribute("id", "new-task");
+addNewTaskDiv.classList.add("newtaskdiv");
+
+const newTaskBtn = document.createElement("button");
+newTaskBtn.setAttribute("id", "newtask");
+newTaskBtn.classList.add("newtaskbtn");
+
+const addNewTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+addNewTaskSVG.classList.add("addnewtsk");
+addNewTaskSVG.setAttribute('viewBox', '0 0 24 24');
+addNewTaskSVG.setAttribute("height", "20px");
+addNewTaskSVG.setAttribute("width", "20px");
+
+const addNewTaskSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+addNewTaskSVGPath.setAttribute(
+"d", "M5 19V5H12V12H19V13C19.7 13 20.37 13.13 21 13.35V9L15 3H5C3.89 3 3 3.89 3 5V19C3 20.1 3.89 21 5 21H13.35C13.13 20.37 13 19.7 13 19H5M14 4.5L19.5 10H14V4.5M23 18V20H20V23H18V20H15V18H18V15H20V18H23Z");
+
+addNewTaskSVG.appendChild(addNewTaskSVGPath);
+
+newTaskBtn.appendChild(addNewTaskSVG);
+
+const addNewTaskTxt = document.createElement("p");
+addNewTaskTxt.classList.add("add-new-tsk-txt");
+addNewTaskTxt.textContent = "New Task";
+
+newTaskBtn.appendChild(addNewTaskTxt);
+
+addNewTaskDiv.appendChild(newTaskBtn);
+
+
+  listSection.appendChild(addNewTaskDiv);
+
+
 categMainSection.appendChild(listSection);
 
 
@@ -815,8 +853,7 @@ const clickedListDeleteBtn = e.target.closest('.deletelist');
       const originalListTitle = listTitle.textContent;
 
 
-// Clear current content
-listTitle.textContent = "";
+
 
 //create form
 
@@ -828,7 +865,7 @@ const formListTitleEdit = document.createElement("input");
 formListTitleEdit.type = "text";
 formListTitleEdit.name = "edit-list-title";
 formListTitleEdit.id = "edit-list-title";
-//formListTitleEdit.value = "";
+formListTitleEdit.value = originalListTitle;
 
 formListEdit.appendChild(formListTitleEdit);
 
@@ -840,21 +877,26 @@ editListBtnSect.classList.add("listbtnsectedit");
 const formListEditSubmitBtn = document.createElement("button");
 formListEditSubmitBtn.type = "submit"; // Important: type submit so form submit event fires
 formListEditSubmitBtn.id = "submit-edit-list";
-formListEditSubmitBtn.textContent = "Edit List Name";
+formListEditSubmitBtn.textContent = "Edit";
 
 editListBtnSect.appendChild(formListEditSubmitBtn);
 
 const formListEditCancelBtn = document.createElement("button");
 formListEditCancelBtn.type = "button"; // prevent form submit
 formListEditCancelBtn.id = "cancel-edit-list";
-formListEditCancelBtn.textContent = "Cancel Edit";
+formListEditCancelBtn.textContent = "Cancel";
 
 editListBtnSect.appendChild(formListEditCancelBtn);
 
 formListEdit.appendChild(editListBtnSect);
 
 //expandTasks.appendChild(formTaskEdit);
-listTitle.parentElement.appendChild(formListEdit);
+listTitle.parentElement.insertBefore(formListEdit, listEditDiv);
+
+
+// Clear current content
+listTitle.textContent = "";
+
 
 formListEdit.addEventListener('submit', (e) => {
 
@@ -894,8 +936,8 @@ listTitle.textContent = originalListTitle;
 
       
      
-         if (listTitleDiv) { 
-            listTitleDiv.remove();
+         if (listSection) { 
+            listSection.remove();
          }
      
 
@@ -1019,6 +1061,113 @@ if (categMainSection) {
 
 taskLoad();
 
+listSection.addEventListener('click', function(e) {
+
+  const clickedListEditBtn = e.target.closest('.editlist');
+const clickedListDeleteBtn = e.target.closest('.deletelist');
+
+
+
+    if (clickedListEditBtn) {
+      alert('editlist');
+
+      const originalListTitle = listTitle.textContent;
+
+
+
+
+//create form
+
+const formListEdit = document.createElement("form");
+formListEdit.setAttribute("name", "formlistedit");
+formListEdit.classList.add("formlistedit");
+
+const formListTitleEdit = document.createElement("input");
+formListTitleEdit.type = "text";
+formListTitleEdit.name = "edit-list-title";
+formListTitleEdit.id = "edit-list-title";
+formListTitleEdit.value = originalListTitle;
+
+formListEdit.appendChild(formListTitleEdit);
+
+
+const editListBtnSect = document.createElement("div");
+editListBtnSect.setAttribute("id", "listeditBtn-sect");
+editListBtnSect.classList.add("listbtnsectedit");
+
+const formListEditSubmitBtn = document.createElement("button");
+formListEditSubmitBtn.type = "submit"; // Important: type submit so form submit event fires
+formListEditSubmitBtn.id = "submit-edit-list";
+formListEditSubmitBtn.textContent = "Edit";
+
+editListBtnSect.appendChild(formListEditSubmitBtn);
+
+const formListEditCancelBtn = document.createElement("button");
+formListEditCancelBtn.type = "button"; // prevent form submit
+formListEditCancelBtn.id = "cancel-edit-list";
+formListEditCancelBtn.textContent = "Cancel";
+
+editListBtnSect.appendChild(formListEditCancelBtn);
+
+formListEdit.appendChild(editListBtnSect);
+
+//expandTasks.appendChild(formTaskEdit);
+//listTitle.parentElement.appendChild(formListEdit);
+listTitle.parentElement.insertBefore(formListEdit, listEditDiv);
+
+
+// Clear current content
+listTitle.textContent = "";
+
+
+formListEdit.addEventListener('submit', (e) => {
+
+    e.preventDefault(); // We don't want to submit this fake form
+
+    const formData = new FormData(formListEdit);
+    listTitle.textContent = formData.get("edit-list-title");
+
+
+    const originalName = originalListTitle;
+    const updatedName = formData.get("edit-list-title");
+    
+    updateArrayObjectByKey(mytoDO, "listname", originalName, "listname", updatedName);
+
+
+  formListEdit.remove(); // Remove form after save
+  
+
+});
+
+formListEditCancelBtn.addEventListener('click', (e) => {
+
+e.preventDefault(); // We don't want to submit this fake form
+
+listTitle.textContent = originalListTitle;
+  
+  formListEdit.remove(); // Remove form after click
+  
+});
+
+
+
+
+      
+    } else if (clickedListDeleteBtn) {
+      //alert('test');
+
+      
+     
+         if (listSection) { 
+            listSection.remove();
+         }
+     
+
+    }
+    }, false);
+
+  
+ 
 
 
 
@@ -1029,6 +1178,8 @@ taskLoad();
 export const taskLoad = () => {
 
     const formattodaydate = formatDate();
+
+    //const categMainSection = document.querySelector(".categmainsect");
 
     const listSection = document.querySelector("#list-sect");
     // tasks section
@@ -1123,6 +1274,8 @@ taskSection.appendChild(cardDiv);
 
 listSection.appendChild(taskSection);
 
+//categMainSection.appendChild(listSection);
+
 //renderTasks();
 
 // new task btn section
@@ -1161,14 +1314,14 @@ addNewTaskDiv.appendChild(newTaskBtn);
 
 if (listSection) {
 
-listSection.appendChild(addNewTaskDiv);
+  listSection.appendChild(addNewTaskDiv);
 }
 
     
     }
 
 
-/*
+
 
     const completeTask = () => {
 
@@ -1182,7 +1335,14 @@ listSection.appendChild(addNewTaskDiv);
 
        const checkOffTaskSVG = document.querySelector(".check-off");
 
-       checkOffTaskSVG.addEventListener("click", (e) => {
+       checkoffDiv.addEventListener("click", (e) => {
+
+        const checkedCircle = e.target.closest('.check-off');
+
+
+
+        if (checkedCircle) {
+          alert('check-off');
 
 checkOffTaskSVG.remove();
 
@@ -1222,12 +1382,14 @@ if (taskTxt) {
     
 }
 
+        } // if statement for non svg listener
+
        });
 
     }
     //completeTask();
 
-    */
+    
 
 const refreshTODO = () => {
 
@@ -2295,7 +2457,7 @@ export const createHomePage = () => {
 export const loadDom = document.addEventListener("DOMContentLoaded", () => {
     createHomePage();
     expandTaskDisplay();
-    //completeTask();
+    completeTask();
     addCategPopUp();
     //addListPopUp();
     addTaskPopUp();
