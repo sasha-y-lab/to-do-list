@@ -76,6 +76,7 @@ const taskText = taskSection.taskTxt;
 
 */
 
+/*
 class TODO {
     constructor(todoElement) {
         this.todoElement = todoElement;
@@ -83,6 +84,7 @@ class TODO {
     }
 
 }
+    */
 
 /*
 class taskTodoElement {
@@ -94,7 +96,7 @@ class taskTodoElement {
 }
     */
 
-class task {
+class Task {
     constructor(name, details, dueDate, priority) {
         this.name = name;
         this.details = details;
@@ -105,23 +107,49 @@ class task {
     }
 }
 
+class List {
+    constructor(name) {
+        this.name = name;
+        this.id = crypto.randomUUID();
+    }
+}
+
+class Category {
+    constructor(name) {
+        this.name = name;
+        this.id = crypto.randomUUID();
+    }
+}
+
+
 //const todotask = new TODO(new taskTodoElement(name, details, dueDate, priority));
+
 
 
 
 export const mytoDO = [{name: "Clean my room", details: "Vaccum & throw out garbage", dueDate: "May 25, '25", priority: "Urgent", id: `${crypto.randomUUID()}`}];
 
 export function addTask(name, details, dueDate, priority) {
-    const todotask = new task(name, details, dueDate, priority);
+    const todotask = new Task(name, details, dueDate, priority);
 
 //const taskObj = {task: todotask, id: `${crypto.randomUUID()}`};
 //mytoDO.push(taskObj);
 mytoDO.push(todotask);
 
-return { mytoDO };
+
 
   }
 
+  export function addListName(name) {
+    const newListName = new List(name);
+    mytoDO.push(newListName);
+    }
+
+
+    export function addCategoryName(name) {
+        const newCategName = new Category(name);
+        mytoDO.push(newCategName);
+        }
 
 
 /*
