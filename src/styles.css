@@ -245,8 +245,9 @@ align-items: center;
 
 }
 
-#expand-togglediv {
+#expand-togglediv, .expand-toggle {
 display: flex;
+font-size: smaller;
 
 }
 
@@ -451,4 +452,10 @@ padding-top: 10px;
     border-radius: 8px;
     padding: 8px;
     color: white;
+}
+
+.checked {
+    fill: grey;
+    
+    
 }
