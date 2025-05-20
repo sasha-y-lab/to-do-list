@@ -127,7 +127,7 @@ class Category {
 
 
 
-export const mytoDO = [{name: "Clean my room", details: "Vaccum & throw out garbage", dueDate: "May 25, '25", priority: "Urgent", id: `${crypto.randomUUID()}`}];
+export const mytoDO = [{categname: "Category 1", listname: "Daily Tasks", name: "Clean my room", details: "Vaccum & throw out garbage", dueDate: "May 25, '25", priority: "Urgent", id: `${crypto.randomUUID()}`}];
 
 export function addTask(name, details, dueDate, priority) {
     const todotask = new Task(name, details, dueDate, priority);
@@ -140,14 +140,14 @@ mytoDO.push(todotask);
 
   }
 
-  export function addListName(name) {
-    const newListName = new List(name);
+  export function addListName(listname) {
+    const newListName = new List(listname);
     mytoDO.push(newListName);
     }
 
 
-    export function addCategoryName(name) {
-        const newCategName = new Category(name);
+    export function addCategoryName(categname) {
+        const newCategName = new Category(categname);
         mytoDO.push(newCategName);
         }
 
