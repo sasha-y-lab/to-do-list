@@ -2,7 +2,7 @@
 // edit svg <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>pencil-outline</title><path d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z" /></svg>
 // delete svg <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>trash-can-outline</title><path d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>
 
-
+import { mytoDO, addTask } from "./todo-logic.js";
 
 
 
@@ -354,7 +354,7 @@ addCategorySVGPath.setAttribute(
 
 
 
-const todoSectLoad = () => {
+export const todoSectLoad = () => {
     // start of to do section
 
     
@@ -372,12 +372,12 @@ const todoSectLoad = () => {
     //input category, list task here functions
     categoryLoad();
     
-
+return { todoSect };
    
 }
 
 
-const categoryLoad = () => {
+export const categoryLoad = () => {
 
     const todoSect = document.querySelector("#todo-sect");
     // category sect
@@ -499,13 +499,13 @@ categHeading.appendChild(categoryEditDiv);
     
 
   
-    
+    return { categMainSection };
 
 }
     
 
 
-const listLoad = () => {
+export const listLoad = () => {
 
     const categMainSection = document.querySelector("#category-sect-main");
 
@@ -605,7 +605,7 @@ taskLoad();
 
 
 
-const taskLoad = () => {
+export const taskLoad = () => {
 
     const formattodaydate = formatDate();
 
@@ -679,14 +679,15 @@ taskTxtDiv.classList.add("tsktxtdiv");
 
 
 
-const { urgentLabel } = urgent();
+//const { urgentLabel } = urgent();
 
 const taskTxt = document.createElement("p");
 taskTxt.setAttribute("id", "task-text");
 taskTxt.classList.add("tskTxt");
-taskTxt.textContent = `${formattodaydate.todayDate} Clean Room`;
+//taskTxt.textContent = `${formattodaydate.todayDate} Clean Room`;
+taskTxt.textContent = `${mytoDO[0].dueDate} ${mytoDO[0].name} ${mytoDO[0].priority}`;
 
-taskTxt.appendChild(urgentLabel);
+//taskTxt.appendChild(urgentLabel);
 
 taskTxtDiv.appendChild(taskTxt);
 
@@ -738,7 +739,7 @@ if (listSection) {
 listSection.appendChild(taskSection);
 }
 
-    
+    return { taskTxt };
     }
 
 
@@ -1539,7 +1540,7 @@ formAddTask.addEventListener('submit', (e) => {
    
     const formData = new FormData(formAddTask);
         //listTitle.textContent = formData.get("add-list-title");
-
+/*
         const formatDueDate = () => {
         
         const { format } = require("date-fns");
@@ -1552,6 +1553,7 @@ formAddTask.addEventListener('submit', (e) => {
       return { dueDate };
 
         }
+        */
 
  const taskSection = document.querySelector(".tasksect");
  
@@ -1615,15 +1617,16 @@ formAddTask.addEventListener('submit', (e) => {
   taskTxtDiv.classList.add("tsktxtdiv");
  
  
- const dueDateformatted = formatDueDate();
+ //const dueDateformatted = formatDueDate();
 
- const urgentLabel = formData.get("urgent");
+ //const urgentLabel = formData.get("urgent");
 
- const taskTitle = formData.get("add-tsk-title");
+ //const taskTitle = formData.get("add-tsk-title");
  
  const taskTxt = document.createElement("p");
  taskTxt.classList.add("tskTxt");
- taskTxt.textContent = `${dueDateformatted.dueDate} ${taskTitle} ${urgentLabel}`;
+ //taskTxt.textContent = `${dueDateformatted.dueDate} ${taskTitle} ${urgentLabel}`;
+ taskTxt.textContent = "";
  
  
  taskTxtDiv.appendChild(taskTxt);
@@ -1645,8 +1648,17 @@ formAddTask.addEventListener('submit', (e) => {
  taskSection.insertBefore(cardDiv, addNewTaskDiv);
  }
 
+ const { format } = require("date-fns");
 
+ const name = formData.get("add-tsk-title");
+ const details = formData.get("add-tsk-details");
+ const dueDate = format(new Date(formData.get("add-tsk-date")));
+ const priority = formData.get("add-tsk-priority");
 
+ // Add to todo array
+ addTask(name, details, dueDate, priority);
+
+renderTasks();
  formAddTask.reset();
         
     formAddTask.remove();
@@ -1673,6 +1685,31 @@ cancelAddTaskNameBtn.addEventListener('click', (e) => {
 
 }
 
+function renderTasks() {
+    
+   const taskTxtDiv = document.querySelector(".tsktxtdiv");
+
+    taskTxtDiv.replaceChildren(); // clear list
+  
+    mytoDO.forEach((task) => {
+       
+       const taskTxt = document.querySelector(".tskTxt");
+
+      taskTxt.textContent = `${task.dueDate} ${task.name} (${task.priority}`;
+              
+      taskTxtDiv.appendChild(taskTxt);
+    });
+  
+    // Add delete functionality
+    document.querySelectorAll(".deletetskbtn").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        const index = mytoDO.findIndex((task) => task.id === id);
+  if (index !== -1) {
+    mytoDO.splice(index, 1);
+  }
+      });
+    });
+  }
 
 
 export const createHomePage = () => {
@@ -1697,7 +1734,7 @@ export const loadDom = document.addEventListener("DOMContentLoaded", () => {
     
   });
 
-  const expandTaskDisplay = () => {
+ export const expandTaskDisplay = () => {
 
     const editTaskBtns = document.querySelectorAll(".edittask");
     
@@ -1897,6 +1934,8 @@ deleteTaskBtn.addEventListener("click", () => {
     }); // button listener
 
 }); // button loop
+
+return { deleteTaskBtn };
 
   }
 

@@ -35,7 +35,7 @@
 //Upcoming – all tasks in the future by closest date to today
 
 
-
+/*
 import { urgent } from "./DOMstuff.js";
 import { moderate } from "./DOMstuff.js";
 import { low } from "./DOMstuff.js";
@@ -43,4 +43,128 @@ import { low } from "./DOMstuff.js";
 import { createHomePage } from "./DOMstuff.js";
 
 import { loadDom } from "./DOMstuff.js";
+
+import { todoSectLoad } from "./DOMstuff.js";
+
+import { categoryLoad } from "./DOMstuff.js";
+
+import { expandTaskDisplay } from "./DOMstuff.js";
+
+import { taskLoad } from "./DOMstuff.js";
+
+
+createHomePage;
+loadDom;
+
+const todoSection = todoSectLoad();
+
+const todoSect = todoSection.todoSect;
+
+console.log(todoSect);
+
+const mainCategorySect = categoryLoad();
+
+const categoryMainSect = mainCategorySect.categMainSection;
+
+const exxpandTaskDisplaySect = expandTaskDisplay();
+
+const deleteTaskBtn = exxpandTaskDisplaySect.deleteTaskBtn;
+
+const taskSection = taskLoad();
+
+const taskText = taskSection.taskTxt;
+
+*/
+
+class TODO {
+    constructor(todoElement) {
+        this.todoElement = todoElement;
+    
+    }
+
+}
+
+/*
+class taskTodoElement {
+    constructor(name, details, dueDate, priority) {
+        this.task = new task(name, details, dueDate, priority);
+    }
+
+
+}
+    */
+
+class task {
+    constructor(name, details, dueDate, priority) {
+        this.name = name;
+        this.details = details;
+        this.dueDate = dueDate;
+        this.priority = priority;
+        this.isPriority = false;
+        this.id = crypto.randomUUID();
+    }
+}
+
+//const todotask = new TODO(new taskTodoElement(name, details, dueDate, priority));
+
+
+
+export const mytoDO = [{name: "Clean my room", details: "Vaccum & throw out garbage", dueDate: "May 25, '25", priority: "Urgent", id: `${crypto.randomUUID()}`}];
+
+export function addTask(name, details, dueDate, priority) {
+    const todotask = new TODO( new task(name, details, dueDate, priority));
+
+const taskObj = {task: todotask, id: `${crypto.randomUUID()}`};
+mytoDO.push(taskObj);
+
+  }
+
+
+
+/*
+export const displayCategory = () => {
+
+    todoSect.replaceChildren();
+
+for (let i = 0; i < mytoDO.length; i++) {
+
+    const categPlaceholder = categoryMainSect;
+        categPlaceholder.classList.add(".categ-placeholder");
+        
+
+        taskText.textContent = mytoDO.dueDate + mytoDO.name + mytoDO.priority;
+
+    let taskID = mytoDO[i].id;
+         
+         console.log(taskID);
+
+         categPlaceholder.setAttribute("data-id", `${taskID}`);
+
+         let taskIndex2Del = categPlaceholder.dataset.id;
+
+
+         console.log(taskIndex2Del);
+
+
+         console.log(mytoDO);
+
+         deleteTaskBtn.onclick = function () { 
+
+         const index = [...Array.from(categPlaceholder.parentElement.children)].indexOf(categPlaceholder);
+
+         console.log(index);
+
+         if (taskID === taskIndex2Del) {
+
+            mytoDO.splice(index, 1);
+
+}
+
+         } // button listener
+
+}
+
+}
+displayCategory();
+*/
 

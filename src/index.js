@@ -3,6 +3,14 @@
 import "./styles.css";
 //import { homeload } from "./homeload.js";
 
-import { formatDate } from "./DOMstuff.js";
+//import { formatDate } from "./DOMstuff.js";
 
-formatDate();
+//formatDate();
+
+import { createHomePage } from "./DOMstuff.js";
+
+import { loadDom } from "./DOMstuff.js";
+
+
+createHomePage();
+loadDom();
