@@ -112,10 +112,13 @@ class task {
 export const mytoDO = [{name: "Clean my room", details: "Vaccum & throw out garbage", dueDate: "May 25, '25", priority: "Urgent", id: `${crypto.randomUUID()}`}];
 
 export function addTask(name, details, dueDate, priority) {
-    const todotask = new TODO( new task(name, details, dueDate, priority));
+    const todotask = new task(name, details, dueDate, priority);
 
-const taskObj = {task: todotask, id: `${crypto.randomUUID()}`};
-mytoDO.push(taskObj);
+//const taskObj = {task: todotask, id: `${crypto.randomUUID()}`};
+//mytoDO.push(taskObj);
+mytoDO.push(todotask);
+
+return { mytoDO };
 
   }
 

@@ -6,6 +6,8 @@ import { mytoDO, addTask } from "./todo-logic.js";
 
 
 
+
+
 export const formatDate = () => {
 
     const today = new Date();
@@ -700,6 +702,10 @@ cardDiv.appendChild(taskDisplay);
 
 taskSection.appendChild(cardDiv);
 
+listSection.appendChild(taskSection);
+
+//renderTasks();
+
 // new task btn section
 
 const addNewTaskDiv = document.createElement("div");
@@ -732,14 +738,14 @@ newTaskBtn.appendChild(addNewTaskTxt);
 
 addNewTaskDiv.appendChild(newTaskBtn);
 
-taskSection.appendChild(addNewTaskDiv);
+//taskSection.appendChild(addNewTaskDiv);
 
 if (listSection) {
 
-listSection.appendChild(taskSection);
+listSection.appendChild(addNewTaskDiv);
 }
 
-    return { taskTxt };
+    
     }
 
 
@@ -1367,18 +1373,28 @@ cancelAddListNameBtn.addEventListener('click', (e) => {
 }
 
 
-export const addTaskPopUp = () => {
+const addTaskPopUp = () => {
     // form goes in here
 
-   const addNewTaskDiv = document.querySelector(".newtaskdiv");
+  // const addNewTaskDiv = document.querySelectorAll(".newtaskdiv");
 
    const newTaskBtns = document.querySelectorAll(".newtaskbtn");
 
 newTaskBtns.forEach(newTaskBtn => {
 
 newTaskBtn.addEventListener("click", () => {
+    console.log("Button clicked");
+ // Get the parent task section
+ //const taskSect = newTaskBtn.closest(".tasksect");
 
+ const listSection = newTaskBtn.closest(".listsect");
 
+ const taskSection = listSection.querySelector(".tasksect");
+
+ // Get the corresponding .newtaskdiv in that section
+ //const addNewTaskDiv = taskSect.querySelector(".");
+
+ // add tasks now
     
     const addTaskDialog = document.createElement("dialog");
     addTaskDialog.setAttribute("id", "addtsk-dialog");
@@ -1528,13 +1544,17 @@ newTaskBtn.addEventListener("click", () => {
 addTaskDialog.appendChild(formAddTask);
 
 
-addNewTaskDiv.appendChild(addTaskDialog);
+taskSection.appendChild(addTaskDialog);
+
+console.log(taskSection);
 
 addTaskDialog.showModal();
 
 // start form listener
 
 formAddTask.addEventListener('submit', (e) => {
+
+    console.log("Form submitted!");
 
     e.preventDefault(); // We don't want to submit this fake form
    
@@ -1555,8 +1575,9 @@ formAddTask.addEventListener('submit', (e) => {
         }
         */
 
- const taskSection = document.querySelector(".tasksect");
- 
+ //const taskSection = document.querySelector(".tasksect");
+ /*
+ document.querySelector(".tasksect");
 
  //const taskSection = document.createElement("div");
  //taskSection.classList.add("tasksect");
@@ -1640,31 +1661,41 @@ formAddTask.addEventListener('submit', (e) => {
  
  //taskSection.appendChild(cardDiv);
 
+ taskSection.appendChild(cardDiv);
 
+ const addNewTaskDiv = document.querySelector(".newtaskdiv");
  
- 
- if (taskSection) {
- 
- taskSection.insertBefore(cardDiv, addNewTaskDiv);
+ if (listSection) {
+ //if (taskSect) {
+ listSection.insertBefore(taskSection, addNewTaskDiv);
+ //taskSect.insertBefore(cardDiv, addNewTaskDiv);
  }
+
+ */
 
  const { format } = require("date-fns");
 
  const name = formData.get("add-tsk-title");
  const details = formData.get("add-tsk-details");
- const dueDate = format(new Date(formData.get("add-tsk-date")));
+ const date = formData.get("add-tsk-date");
+
+ const dueDate = format(new Date(date), "MMM dd ''yy");
+
+ console.log(dueDate);
  const priority = formData.get("add-tsk-priority");
 
  // Add to todo array
  addTask(name, details, dueDate, priority);
 
-renderTasks();
+renderTasks(); // is duplicating
  formAddTask.reset();
         
     formAddTask.remove();
     addTaskDialog.close(); // Remove form after submit
     addTaskDialog.remove();
  
+
+
 });
 
 
@@ -1677,28 +1708,143 @@ cancelAddTaskNameBtn.addEventListener('click', (e) => {
     addTaskDialog.remove();
   });
 
+  
 
 }); // btton listener
 
 }); // button loop end
 
+return { addTask };
 
 }
 
 function renderTasks() {
     
-   const taskTxtDiv = document.querySelector(".tsktxtdiv");
+    const listSection = document.querySelector(".listsect");
+    const addNewTaskDiv = listSection.querySelector(".newtaskdiv");
+    
+    const taskSection = listSection.querySelector(".tasksect");
+console.log(mytoDO);
 
-    taskTxtDiv.replaceChildren(); // clear list
-  
-    mytoDO.forEach((task) => {
+//const addTaskLoad = addTaskPopUp();
+          // const t = addTaskLoad.addTask();
+           
+           
+
+    for (let i = 1; i < mytoDO.length; i++) {
+        //for (let j = 0; j < mytoDO.length; j++) {
+
+/*        console.log(mytoDO[i]);
+console.log(mytoDO[i].dueDate); //undefined
+console.log(mytoDO[i].name); //undefined
+console.log(mytoDO[i].priority); //undefined
+*/
+           
+
+  // mytoDO.forEach((task) => {
        
-       const taskTxt = document.querySelector(".tskTxt");
+    //for (let i = 1; i < mytoDO.length; i++) {
+      // tasks section
 
-      taskTxt.textContent = `${task.dueDate} ${task.name} (${task.priority}`;
-              
-      taskTxtDiv.appendChild(taskTxt);
-    });
+
+//const taskSection = document.createElement("div");
+//taskSection.setAttribute("id", "task-sect");
+
+//taskSection.classList.add("tasksect");
+
+const cardDiv = document.createElement("div");
+cardDiv.classList.add("card");
+
+const editTaskDiv = document.createElement("div");
+//editTaskDiv.setAttribute("id", "editdivbtn");
+editTaskDiv.classList.add("editdivbtn");
+
+const editTaskBtn = document.createElement("button");
+//editTaskBtn.setAttribute("id", "edit-task");
+editTaskBtn.classList.add("edittask");
+
+const editTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+editTaskSVG.classList.add("editbtn");
+editTaskSVG.setAttribute('viewBox', '0 0 24 24');
+editTaskSVG.setAttribute("height", "20px");
+editTaskSVG.setAttribute("width", "20px");
+
+const editTaskSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+editTaskSVGPath.setAttribute(
+    "d", "M16,12A2,2 0 0,1 18,10A2,2 0 0,1 20,12A2,2 0 0,1 18,14A2,2 0 0,1 16,12M10,12A2,2 0 0,1 12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12M4,12A2,2 0 0,1 6,10A2,2 0 0,1 8,12A2,2 0 0,1 6,14A2,2 0 0,1 4,12Z");
+
+editTaskSVG.appendChild(editTaskSVGPath);
+
+editTaskBtn.appendChild(editTaskSVG);
+
+editTaskDiv.appendChild(editTaskBtn);
+
+cardDiv.appendChild(editTaskDiv);
+
+
+// task display
+
+const taskDisplay = document.createElement("div");
+//taskDisplay.setAttribute("id", "taskdisplay");
+taskDisplay.classList.add("displaytask");
+
+const checkoffDiv = document.createElement("div");
+//checkoffDiv.setAttribute("id", "checkoff-div");
+checkoffDiv.classList.add("checkoffdiv");
+
+const checkOffTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+checkOffTaskSVG.classList.add("check-off");
+checkOffTaskSVG.setAttribute('viewBox', '0 0 24 24');
+checkOffTaskSVG.setAttribute("height", "20px");
+checkOffTaskSVG.setAttribute("width", "20px");
+
+const checkOffTaskSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+checkOffTaskSVGPath.setAttribute(
+"d", "M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z");
+
+checkOffTaskSVG.appendChild(checkOffTaskSVGPath);
+
+checkoffDiv.appendChild(checkOffTaskSVG);
+
+taskDisplay.appendChild(checkoffDiv);
+
+const taskTxtDiv = document.createElement("div");
+taskTxtDiv.setAttribute("id", "tsk-txt-div");
+taskTxtDiv.classList.add("tsktxtdiv");
+
+
+
+//const { urgentLabel } = urgent();
+
+const taskTxt = document.createElement("p");
+//taskTxt.setAttribute("id", "task-text");
+taskTxt.classList.add("tskTxt");
+//taskTxt.textContent = `${formattodaydate.todayDate} Clean Room`;
+//taskTxt.textContent = `${mytoDO[0].dueDate} ${mytoDO[0].name} ${mytoDO[0].priority}`;
+taskTxt.textContent = `${mytoDO[i].dueDate} ${mytoDO[i].name} ${mytoDO[i].priority}`;
+
+//taskTxt.textContent = `${task.dueDate} ${task.name} ${task.priority}`;
+
+//taskTxt.appendChild(urgentLabel);
+
+taskTxtDiv.appendChild(taskTxt);
+
+
+taskDisplay.appendChild(taskTxtDiv);
+
+cardDiv.appendChild(taskDisplay);
+
+taskSection.appendChild(cardDiv);
+
+listSection.insertBefore(taskSection, addNewTaskDiv);
+   
+   // } // new loop
+  //  }); // original loop
+//}// end of second loop
+
+} // end of loop
+
+
   
     // Add delete functionality
     document.querySelectorAll(".deletetskbtn").forEach((btn) => {
@@ -1730,6 +1876,7 @@ export const loadDom = document.addEventListener("DOMContentLoaded", () => {
     addCategPopUp();
     addListPopUp();
     addTaskPopUp();
+
     
     
   });
@@ -1935,7 +2082,7 @@ deleteTaskBtn.addEventListener("click", () => {
 
 }); // button loop
 
-return { deleteTaskBtn };
+
 
   }
 

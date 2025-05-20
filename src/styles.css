@@ -123,7 +123,7 @@ button#addcat {
 #list-sect, .listsect {
     display: flex;
     flex-direction: column;
-    row-gap: 5px;
+    row-gap: 25px;
 
 }
 
@@ -175,7 +175,7 @@ button.addlist {
 #task-sect, .tasksect {
     display: flex;
     flex-direction: column;
-    row-gap: 30px;
+    row-gap: 15px;
 }
 
 .card {
