@@ -97,26 +97,14 @@ class taskTodoElement {
     */
 
 class Task {
-    constructor(name, details, dueDate, priority) {
+    constructor(categname, listname, name, details, dueDate, priority) {
         this.name = name;
         this.details = details;
         this.dueDate = dueDate;
         this.priority = priority;
         this.isPriority = false;
-        this.id = crypto.randomUUID();
-    }
-}
-
-class List {
-    constructor(name) {
-        this.name = name;
-        this.id = crypto.randomUUID();
-    }
-}
-
-class Category {
-    constructor(name) {
-        this.name = name;
+        this.categname = categname;
+        this.listname = listname;
         this.id = crypto.randomUUID();
     }
 }
@@ -129,8 +117,8 @@ class Category {
 
 export const mytoDO = [{categname: "Category 1", listname: "Daily Tasks", name: "Clean my room", details: "Vaccum & throw out garbage", dueDate: "May 25, '25", priority: "Urgent", id: `${crypto.randomUUID()}`}];
 
-export function addTask(name, details, dueDate, priority) {
-    const todotask = new Task(name, details, dueDate, priority);
+export function addTask(categname, listname, name, details, dueDate, priority) {
+    const todotask = new Task(categname, listname, name, details, dueDate, priority);
 
 //const taskObj = {task: todotask, id: `${crypto.randomUUID()}`};
 //mytoDO.push(taskObj);
@@ -140,17 +128,7 @@ mytoDO.push(todotask);
 
   }
 
-  export function addListName(listname) {
-    const newListName = new List(listname);
-    mytoDO.push(newListName);
-    }
-
-
-    export function addCategoryName(categname) {
-        const newCategName = new Category(categname);
-        mytoDO.push(newCategName);
-        }
-
+  
 
 /*
 export const displayCategory = () => {

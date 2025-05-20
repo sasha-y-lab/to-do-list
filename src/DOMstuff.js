@@ -2,7 +2,7 @@
 // edit svg <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>pencil-outline</title><path d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z" /></svg>
 // delete svg <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>trash-can-outline</title><path d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>
 
-import { mytoDO, addTask, addListName, addCategName } from "./todo-logic.js";
+import { mytoDO, addTask } from "./todo-logic.js";
 
 
 
@@ -279,6 +279,21 @@ const refreshTodoCategories = () => {
 }
 
 
+/**
+ * Updates a single key in an object inside an array based on a matching key
+ * @param {Array} array - The array of objects to update
+ * @param {string} matchKey - The key to match (e.g. "name")
+ * @param {string} matchValue - The value to match (e.g. original name)
+ * @param {string} updateKey - The key to update (e.g. "name" or "age")
+ * @param {*} newValue - The new value to set
+ */
+function updateArrayObjectByKey(array, matchKey, matchValue, updateKey, newValue) {
+    const obj = array.find(item => item[matchKey] === matchValue);
+    if (obj) {
+      obj[updateKey] = newValue;
+    }
+  }
+  
 
 
 export const headerLoad = () => {
@@ -511,7 +526,7 @@ categHeadingDiv.appendChild(categoryEditDiv);
         todoSect.appendChild(categMainSection);
        // }
 
-     //listLoad();
+     listLoad();
 
      
     
@@ -590,6 +605,14 @@ categHeading.textContent = "";
     
         const formData = new FormData(formCategEdit);
         categHeading.textContent = formData.get("edit-categ-title");
+
+        const originalName = originalTitle;
+        const updatedName = formData.get("edit-categ-title");
+        
+        updateArrayObjectByKey(mytoDO, "categname", originalName, "categname", updatedName);
+
+
+
       formCategEdit.remove(); // Remove form after save
 
   });
@@ -603,7 +626,7 @@ categHeading.textContent = "";
       formCategEdit.remove(); // Remove form after click
   });
 
-
+console.log(mytoDO);
 
 
           
@@ -611,8 +634,8 @@ categHeading.textContent = "";
           alert('deletecateg');
 
          
-             if (categHeading) { 
-                categHeading.remove();
+             if (categMainSection) { 
+                categMainSection.remove();
              }
          
         } else if (clickedAddListBtn) {
@@ -694,8 +717,11 @@ listTitleDiv.classList.add("listtitle");
 
 const listTitle = document.createElement("h3");
 listTitle.classList.add("list-title-txt");
+//ad form data
 
-listTitle.textContent = mytoDO[0].listname;
+const formData = new FormData(formAddList);
+
+listTitle.textContent = formData.get("add-list-title") ;
 
 
 //listTitle.textContent = "Daily Tasks";
@@ -768,6 +794,10 @@ listSection.appendChild(listHeading);
 
 categMainSection.appendChild(listSection);
 
+
+addListDialog.close();
+addListDialog.remove();
+
 // start delegation here for add and delete buttons
 
 
@@ -832,9 +862,16 @@ formListEdit.addEventListener('submit', (e) => {
 
     const formData = new FormData(formListEdit);
     listTitle.textContent = formData.get("edit-list-title");
+
+
+    const originalName = originalListTitle;
+    const updatedName = formData.get("edit-list-title");
+    
+    updateArrayObjectByKey(mytoDO, "listname", originalName, "listname", updatedName);
+
+
   formListEdit.remove(); // Remove form after save
-  addListDialog.close();
-addListDialog.remove();
+  
 
 });
 
@@ -845,8 +882,7 @@ e.preventDefault(); // We don't want to submit this fake form
 listTitle.textContent = originalListTitle;
   
   formListEdit.remove(); // Remove form after click
-  addListDialog.close();
-addListDialog.remove();
+  
 });
 
 
@@ -868,6 +904,15 @@ addListDialog.remove();
 
 
 }); // end of listener
+
+cancelAddListNameBtn.addEventListener('click', (e) => {
+
+    e.preventDefault(); // We don't want to submit this fake form
+
+    formAddList.remove();
+    addListDialog.close(); // Remove form after click
+    addListDialog.remove();
+  });
 
         }
       
@@ -901,7 +946,7 @@ listTitleDiv.classList.add("listtitle");
 
 const listTitle = document.createElement("h3");
 listTitle.classList.add("list-title-txt");
-listTitle.textContent = "Daily Task";
+listTitle.textContent = mytoDO[0].listname;
 
 
 listTitleDiv.appendChild(listTitle);
@@ -972,7 +1017,7 @@ if (categMainSection) {
     categMainSection.appendChild(listSection);
     }
 
-//taskLoad();
+taskLoad();
 
 
 
@@ -1123,6 +1168,8 @@ listSection.appendChild(addNewTaskDiv);
     }
 
 
+/*
+
     const completeTask = () => {
 
        //const taskDisplay = document.querySelector("#taskdisplay");
@@ -1179,6 +1226,8 @@ if (taskTxt) {
 
     }
     //completeTask();
+
+    */
 
 const refreshTODO = () => {
 
@@ -1269,7 +1318,7 @@ export const moderate = () => {
         
 
 
-/*
+
 export const addCategPopUp = () => {
 // form goes in here
 
@@ -1428,6 +1477,7 @@ categHeading.appendChild(categoryEditDiv);
  
      categHeadingDiv.appendChild(categHeading);
  
+     categMainSection.appendChild(categHeadingDiv);
      
  
      // add list button
@@ -1462,9 +1512,9 @@ categHeading.appendChild(categoryEditDiv);
  
      addListBtnDiv.appendChild(addListBtn);
  
-     categHeadingDiv.appendChild(addListBtnDiv);
+     categMainSection.appendChild(addListBtnDiv);
  
-     categMainSection.appendChild(categHeadingDiv);
+    // categMainSection.appendChild(categHeadingDiv);
 
 
      if (todoSect) {
@@ -1472,6 +1522,14 @@ categHeading.appendChild(categoryEditDiv);
         }
 
         
+        const categname = formData.get("add-categ-title");
+
+        // Add to todo array
+        addTask(categname);
+       
+        console.log(mytoDO);
+        console.log(mytoDO[1].categname);
+
         formAddCateg.reset();
         
       formAddCateg.remove();
@@ -1497,7 +1555,7 @@ categHeading.appendChild(categoryEditDiv);
 
 }
 
-*/
+
 
 /*
 export const addListPopUp = () => {
@@ -2237,8 +2295,8 @@ export const createHomePage = () => {
 export const loadDom = document.addEventListener("DOMContentLoaded", () => {
     createHomePage();
     expandTaskDisplay();
-    completeTask();
-   // addCategPopUp();
+    //completeTask();
+    addCategPopUp();
     //addListPopUp();
     addTaskPopUp();
 
