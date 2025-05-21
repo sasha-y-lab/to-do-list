@@ -144,7 +144,7 @@ mytoDO.push(todolist);
   }
 
   export function addCategName(categname) {
-    const todocateg = new List(categname);
+    const todocateg = new Category(categname);
 
 mytoDO.push(todocateg);
   }
