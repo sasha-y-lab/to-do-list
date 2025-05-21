@@ -1,7 +1,7 @@
 
-import { mytoDOs, addTask, addListName, addCategName } from "./todo-logic.js";
+import { newmytoDos, mytoDOs, addTask, addListName, addCategName } from "./todo-logic.js";
 
-
+console.log(mytoDOs);
 
 
 
@@ -614,7 +614,7 @@ categHeading.textContent = "";
         const originalName = originalTitle;
         const updatedName = formData.get("edit-categ-title");
         
-        updateArrayObjectByKey(mytoDOs, "categname", originalName, "categname", updatedName);
+        updateArrayObjectByKey(newmytoDos, "categname", originalName, "categname", updatedName);
 
 
 
@@ -631,7 +631,7 @@ categHeading.textContent = "";
       formCategEdit.remove(); // Remove form after click
   });
 
-console.log(mytoDOs);
+console.log(newmytoDos);
 
 
           
@@ -847,7 +847,7 @@ const listname = formData.get("add-list-title");
  addListName(listname);
  
 
-console.log(mytoDOs);
+console.log(newmytoDos);
 
 addListDialog.close();
 addListDialog.remove();
@@ -925,7 +925,7 @@ formListEdit.addEventListener('submit', (e) => {
     const originalName = originalListTitle;
     const updatedName = formData.get("edit-list-title");
     
-    updateArrayObjectByKey(mytoDOs, "listname", originalName, "listname", updatedName);
+    updateArrayObjectByKey(newmytoDos, "listname", originalName, "listname", updatedName);
 
 
   formListEdit.remove(); // Remove form after save
@@ -1194,7 +1194,7 @@ formListEdit.addEventListener('submit', (e) => {
     const originalName = originalListTitle;
     const updatedName = formData.get("edit-list-title");
     
-    updateArrayObjectByKey(mytoDOs, "listname", originalName, "listname", updatedName);
+    updateArrayObjectByKey(newmytoDos, "listname", originalName, "listname", updatedName);
 
 
   formListEdit.remove(); // Remove form after save
@@ -1597,7 +1597,7 @@ categHeading.appendChild(categoryEditDiv);
         // Add to todo array
         addCategName(categname);
        
-        console.log(mytoDOs);
+        console.log(newmytoDos);
         
 
         formAddCateg.reset();
@@ -1870,7 +1870,7 @@ function renderExpandedTasks() {
   // start of expanded task display
 
   const categMainSection = document.querySelector(".categmainsect");
-  const taskSection = document.querySelector(".tasksect");
+ // const taskSection = document.querySelector(".tasksect");
 
 categMainSection.addEventListener("click", (e) => {
 
@@ -2078,6 +2078,8 @@ taskDetails.textContent = "";
   
   } else if (clickedDeleteTaskBtn) {
     alert('deletetskbtn');
+
+    const currentCardDiv2 = document.querySelector(".card");
     
     for (let i = 0; i < mytoDOs.length; i++) {
     
@@ -2089,9 +2091,11 @@ taskDetails.textContent = "";
          
          console.log(taskID);
     
-         taskSection.setAttribute("data-id", `${taskID}`);
+        // taskSection.setAttribute("data-id", `${taskID}`);
+
+        currentCardDiv2.setAttribute("data-id", `${taskID}`);
     
-         let tskIndex2Del = taskSection.dataset.id;
+         let tskIndex2Del = currentCardDiv2.dataset.id; //taskSection.dataset.id;
     
     
          
@@ -2099,11 +2103,11 @@ taskDetails.textContent = "";
     
          console.log(mytoDOs);
     
-         console.log(taskSection.dataset.id);
+         console.log(currentCardDiv2.dataset.id);
     
     
 
-    const index = [...Array.from(currentCardDiv.parentElement.children)].indexOf(currentCardDiv);
+    const index = [...Array.from(currentCardDiv2.parentElement.children)].indexOf(currentCardDiv2);
 
 
     console.log(index);
@@ -2111,8 +2115,12 @@ taskDetails.textContent = "";
     if (taskID === tskIndex2Del) {
 
       mytoDOs.splice(index, 1); // does it delete the active card
-      taskSection.replaceChildren();
-      renderTasks();
+
+      if (currentCardDiv2) {
+        currentCardDiv2.remove();
+      }
+      //taskSection.replaceChildren();
+      //renderTasks();
 
     }
   } // for loop
@@ -2139,6 +2147,7 @@ function renderTasks() {
     const addNewTaskDiv = listSection.querySelector(".newtaskdiv");
     
    // const taskSection = listSection.querySelector(".tasksect");
+console.log(newmytoDos);
 console.log(mytoDOs);
 
 
@@ -2151,9 +2160,9 @@ taskSection.classList.add("tasksect");
 
 
 
-//for (let j = 0; j < mytoDOs.length; j++) {
+for (let i = 0; i < mytoDOs.length; i++) {
 
-mytoDOs.forEach(mytoDO => {
+//newmytoDos.forEach(newmytoDo => {
 
   taskSection.replaceChildren();
 
@@ -2231,7 +2240,8 @@ taskTxt.classList.add("tskTxt");
 
 
 
-taskTxt.textContent = `${mytoDO.dueDate} ${mytoDO.name} ${mytoDO.priority}`;
+taskTxt.textContent = `${mytoDOs[i].dueDate} ${mytoDOs[i].name} ${mytoDOs[i].priority}`;
+console.log(newmytoDos);
 console.log(mytoDOs);
 //taskTxt.textContent = `${task.dueDate} ${task.name} ${task.priority}`;
 
@@ -2257,8 +2267,8 @@ listSection.insertBefore(taskSection, addNewTaskDiv);
    
 categMainSection.appendChild(listSection);
 
-
-}); // mytodo loop
+}
+//}); // mytodo loop
     
 //renderExpandedTasks(); //maybe recursion calling each other function
     

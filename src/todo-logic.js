@@ -126,30 +126,36 @@ class Category {
 
 
 
-export const mytoDOs = [{categname: "Category 1", listname: "Daily Tasks", name: "Clean my room", details: "Vaccum & throw out garbage", dueDate: "May 25, '25", priority: "Urgent", id: `${crypto.randomUUID()}`}];
+let mytoDOs = [{categname: "Category 1", listname: "Daily Tasks", name: "Clean my room", details: "Vaccum & throw out garbage", dueDate: "May 31, '25", priority: "Urgent", id: `${crypto.randomUUID()}`}];
+
+let newmytoDos = [{categname: "Category 1", listname: "Daily Tasks", name: "Make dinner", details: "Check pinterest for recipes", dueDate: "June 25, '25", priority: "Moderate", id: `${crypto.randomUUID()}`}];
+
+//mytoDOs = [...mytoDOs, ...newmytoDos];
+
+mytoDOs = mytoDOs.concat(newmytoDos);
 
 export function addTask(name, details, dueDate, priority) {
     const todotask = new Task(name, details, dueDate, priority);
 
 //const taskObj = {task: todotask, id: `${crypto.randomUUID()}`};
 //mytoDO.push(taskObj);
-mytoDOs.push(todotask);
+newmytoDos.splice(1, 0, todotask);
 
   }
 
   export function addListName(listname) {
     const todolist = new List(listname);
 
-mytoDOs.push(todolist);
+newmytoDos.splice(1, 0, todolist);
   }
 
   export function addCategName(categname) {
     const todocateg = new Category(categname);
 
-mytoDOs.push(todocateg);
+newmytoDos.splice(1, 0, todocateg);
   }
   
-
+  export { mytoDOs, newmytoDos }; 
 /*
 export const displayCategory = () => {
 
