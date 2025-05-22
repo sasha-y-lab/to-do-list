@@ -723,7 +723,9 @@ formAddList.addEventListener('submit', (e) => {
 
   const categorySection = categoryEl.closest('.categmainsect'); 
     
-const listContainer = categorySection.querySelector('.listsect');
+const listContainer = document.createElement("div"); //categorySection.querySelector('.listsect');
+listContainer.classList.add("listsect");
+
 
 console.log(listContainer);
  
@@ -875,7 +877,7 @@ if (listContainer) {
 
 
 //categMainSection.appendChild(listSection);
-categMainSection.appendChild(listContainer);
+categorySection.appendChild(listContainer);
 
 
 // sent to array
@@ -2392,14 +2394,39 @@ for (let i = 0; i < mytoDOs.length; i++) {
 
   const task = mytoDOs[i];
 
+
+  
+
 const targetListName = document.querySelector(".list"); 
 
+const listnameTxt = targetListName.textContent;
+
 console.log(targetListName);
+console.log(listnameTxt);
 
 
 const targetCategName = document.querySelector(".category");
 
+const categnameTxt = targetCategName.textContent;
+
 console.log(targetCategName);
+console.log(categnameTxt);
+
+if (task.categname === categnameTxt) {
+  console.log("category name match");
+} else {
+  console.log("category name no match");
+}
+
+
+if (task.listname === listnameTxt) {
+  console.log("list name match");
+} else {
+  console.log("list name no match");
+}
+
+if (listnameTxt && categnameTxt) {
+
 
   //find matching ids
 
@@ -2407,9 +2434,11 @@ console.log(targetCategName);
  
 const categoryMatchID = String(targetCategName.dataset.id); //mytoDOs.find(item => item.categname === targetCategName)?.id;
 
-console.log(targetListName.dataset.id);
-console.log(targetCategName.dataset.id);
+//console.log(targetListName.dataset.id);
+//console.log(targetCategName.dataset.id);
 
+console.log(listMatchID);
+console.log(categoryMatchID);
 
 
 if (listMatchID !== undefined) {
@@ -2428,6 +2457,8 @@ if (categoryMatchID !== undefined) {
   
   const listId = listMatchID;
   const categoryId = categoryMatchID;
+
+
 
 console.log("Rendering task:", task);
 console.log("Looking for categoryEl with ID:", categoryId);
@@ -2594,6 +2625,8 @@ tasksContainer.appendChild(cardDiv);
 //categoryEl.appendChild(listEl);
    
 //categMainSection.appendChild(listEl);
+
+} // if statement
 
 }
 //}); // mytodo loop
