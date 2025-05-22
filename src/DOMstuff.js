@@ -1999,7 +1999,15 @@ formAddTask.addEventListener('submit', (e) => {
  const details = formData.get("add-tsk-details");
  const date = formData.get("add-tsk-date");
 
- const dueDate = format(new Date(date), "MMM dd ''yy");
+ //const dueDate = format(new Date(date), "MMM dd ''yy");
+
+//const dueDate = format(parseISO(date), "MMM dd ''yy");
+
+const [year, month, day] = date.split("-");
+const jsDate = new Date(year, month - 1, day); // Local midnight, no timezone issues
+
+const dueDate = format(jsDate, "MMM dd ''yy");
+
 
  console.log(dueDate);
  const priority = formData.get("add-tsk-priority");
