@@ -2355,7 +2355,7 @@ taskDetails.textContent = "";
 
 function renderTasks() {
     
-   const categMainSection = document.querySelector(".categmainsect");
+   //const categMainSection = document.querySelector(".categmainsect");
 
   //const listSection = document.querySelector(".listsect");
 
@@ -2403,12 +2403,13 @@ console.log(targetCategName);
 
   //find matching ids
 
- const listMatchID = targetListName.dataset.id; //mytoDOs.find(item => item.listname === targetListName)?.id;
+ const listMatchID = String(targetListName.dataset.id); //mytoDOs.find(item => item.listname === targetListName)?.id;
  
-const categoryMatchID = targetCategName.dataset.id; //mytoDOs.find(item => item.categname === targetCategName)?.id;
+const categoryMatchID = String(targetCategName.dataset.id); //mytoDOs.find(item => item.categname === targetCategName)?.id;
 
 console.log(targetListName.dataset.id);
 console.log(targetCategName.dataset.id);
+
 
 
 if (listMatchID !== undefined) {
@@ -2432,50 +2433,17 @@ console.log("Rendering task:", task);
 console.log("Looking for categoryEl with ID:", categoryId);
 console.log("Looking for listEl with ID:", listId);
 
+const listEl = document.querySelector(`[data-id="${listId}"]`);
 
+console.log(listEl); 
 
+const categoryEl = document.querySelector(`[data-id="${categoryId}"]`);
 
-//const oldtargetCategName = document.querySelector("category-title");
-//const matchingCategId = mytoDOs.find(item => item.categname === oldtargetCategName)?.id;
+console.log(categoryEl);
 
+const categMainSection = categoryEl.closest(".categmainsect");  // get the wrapping div
 
-
-// --- Find or create category DOM element ---
- // let categoryEl;
-
- let categoryEl = document.querySelector(`[data-id="${categoryId}"]`);
-
- console.log(categoryEl);
-  /*
-  if (categoryId) {
-    categoryEl = document.querySelector(`[data-id="${categoryId}"]`);
-    
-  } else {
-    // fallback: find dummy category DOM element by name 
-    categoryEl = [...document.querySelectorAll('.categmainsect')].find(el => el.dataset.name === task.categname || el.textContent.includes(task.categname));
-    
-  }
-*/
-
-let listEl = document.querySelector(`[data-id="${listId}"]`);
-
-console.log(listEl);
-
-/*
-
-  // --- Find or create list DOM element ---
-  let listEl;
-  if (listId) {
-    listEl = document.querySelector(`[data-id="${listId}"]`);
-  } else {
-    // fallback: find dummy list DOM element by name
-    listEl = [...document.querySelectorAll('.listsect')].find(el => el.dataset.name === task.listname || el.textContent.includes(task.listname));
-   
-  }
-
-  */
-
-  const listContainer = categoryEl.querySelector('.listsect');
+  const listContainer = categMainSection.querySelector('.listsect');
 
   console.log(listContainer);
 
@@ -2487,13 +2455,19 @@ console.log(listEl);
 
 
 
-let tasksContainer = listEl.querySelector(".tasksect");
-  const addNewTaskDiv = listEl.querySelector(".newtaskdiv");
+let tasksContainer = listContainer.querySelector(".tasksect");
 
-  if (tasksContainer) {
-    //tasksContainer = document.createElement("div");
-    //tasksContainer.classList.add("tasksect");
+console.log(tasksContainer);
+
+  const addNewTaskDiv = listContainer.querySelector(".newtaskdiv");
+
+  console.log(addNewTaskDiv);
+
+  if (!tasksContainer) {
+    tasksContainer = document.createElement("div");
+    tasksContainer.classList.add("tasksect");
     listContainer.insertBefore(tasksContainer, addNewTaskDiv);
+    categMainSection.appendChild(listContainer);
   }
 
 console.log("Appending card to tasksContainer for listId:", listId);
