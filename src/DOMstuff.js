@@ -420,7 +420,9 @@ export const categoryLoad = () => {
  
      const categHeading = document.createElement("h2");
      categHeading.classList.add("category-title");
+     categHeading.setAttribute("data-id", `${crypto.randomUUID()}`);
      categHeading.textContent = mytoDOs[0].categname;
+     console.log(categHeading.dataset.id);
 
 
 categHeadingDiv.appendChild(categHeading);
@@ -457,7 +459,7 @@ categoryEditDiv.appendChild(editCategoryBtn);
 
 
 
-        //delete task button
+        //delete category button
 
         const deleteCategoryBtn = document.createElement("button");
         deleteCategoryBtn.setAttribute("id", "delete-category");
@@ -614,7 +616,7 @@ categHeading.textContent = "";
         const originalName = originalTitle;
         const updatedName = formData.get("edit-categ-title");
         
-        updateArrayObjectByKey(newmytoDos, "categname", originalName, "categname", updatedName);
+        updateArrayObjectByKey(mytoDOs, "categname", originalName, "categname", updatedName);
 
 
 
@@ -631,7 +633,7 @@ categHeading.textContent = "";
       formCategEdit.remove(); // Remove form after click
   });
 
-console.log(newmytoDos);
+//console.log(newmytoDos);
 
 
           
@@ -640,7 +642,7 @@ console.log(newmytoDos);
 
          
              if (categMainSection) { 
-                categMainSection.remove();
+                categMainSection.replaceChildren();
              }
          
         } else if (clickedAddListBtn) {
@@ -707,6 +709,7 @@ formAddList.addEventListener('submit', (e) => {
 
     e.preventDefault(); // We don't want to submit this fake form
    
+    
  
  const listSection = document.createElement("div");
 //listSection.setAttribute("id", "list-sect");
@@ -722,11 +725,14 @@ listTitleDiv.classList.add("listtitle");
 
 const listTitle = document.createElement("h3");
 listTitle.classList.add("list-title-txt");
+
+
+
 //ad form data
 
 const formData = new FormData(formAddList);
 
-listTitle.textContent = formData.get("add-list-title") ;
+listTitle.textContent = formData.get("add-list-title");
 
 
 //listTitle.textContent = "Daily Tasks";
@@ -854,8 +860,23 @@ const listname = formData.get("add-list-title");
  // Add to todo array
  addListName(listname);
  
+ // add id
 
-console.log(newmytoDos);
+    const formListData = document.getElementById('add-list-title'); 
+
+const targetListName = formListData.value.trim();
+const matchingListId = mytoDOs.find(item => item.listname === targetListName)?.id;
+
+if (matchingListId !== undefined) {
+  console.log(`Found list with ID: ${matchingListId}`);
+} else {
+  console.log("List not found.");
+
+}
+ 
+
+console.log(mytoDOs);
+//console.log(newmytoDos);
 
 addListDialog.close();
 addListDialog.remove();
@@ -933,11 +954,11 @@ formListEdit.addEventListener('submit', (e) => {
     const originalName = originalListTitle;
     const updatedName = formData.get("edit-list-title");
     
-    updateArrayObjectByKey(newmytoDos, "listname", originalName, "listname", updatedName);
+    updateArrayObjectByKey(mytoDOs, "listname", originalName, "listname", updatedName);
 
 
   formListEdit.remove(); // Remove form after save
-  
+
 
 });
 
@@ -967,9 +988,11 @@ listTitle.textContent = originalListTitle;
 
     }
     }, false);
-
+  
 
 }); // end of listener
+
+
 
 cancelAddListNameBtn.addEventListener('click', (e) => {
 
@@ -984,7 +1007,23 @@ cancelAddListNameBtn.addEventListener('click', (e) => {
       
       }, false);
 
+
+
     }
+
+
+const assignIDs = () => {
+
+const categoryElem = document.getElementById('category-1'); // example
+const categoryName = categoryElem.textContent;
+const categoryId = categoryElem.id;
+
+
+
+}
+
+
+ 
 
 
 export const addNewTaskBtnLoad = () => {
@@ -1075,8 +1114,10 @@ listTitleDiv.classList.add("listtitle");
 
 const listTitle = document.createElement("h3");
 listTitle.classList.add("list-title-txt");
+listTitle.setAttribute("data-id", `${crypto.randomUUID()}`);
 listTitle.textContent = mytoDOs[0].listname;
 
+console.log(listTitle.dataset.id);
 
 listTitleDiv.appendChild(listTitle);
 
@@ -1271,7 +1312,7 @@ formListEdit.addEventListener('submit', (e) => {
     const originalName = originalListTitle;
     const updatedName = formData.get("edit-list-title");
     
-    updateArrayObjectByKey(newmytoDos, "listname", originalName, "listname", updatedName);
+    updateArrayObjectByKey(mytoDOs, "listname", originalName, "listname", updatedName);
 
 
   formListEdit.remove(); // Remove form after save
@@ -1598,7 +1639,7 @@ categoryEditDiv.appendChild(editCategoryBtn);
 
 
 
-        //delete task button
+        //delete category button
 
         const deleteCategoryBtn = document.createElement("button");
         //deleteCategoryBtn.setAttribute("id", "delete-category");
@@ -1673,8 +1714,25 @@ categHeading.appendChild(categoryEditDiv);
 
         // Add to todo array
         addCategName(categname);
+
+
+        // add id
+
+        //const formCategData = document.getElementById('add-categ-title');
+
+        //console.log(formCategData);
+
+const targetCategName = formData.get("add-categ-title").trim();
+const matchingCategId = mytoDOs.find(item => item.categname === targetCategName)?.id;
+
+if (matchingCategId !== undefined) {
+  console.log(`Found Category with ID: ${matchingCategId}`);
+} else {
+  console.log("Category not found.");
+}
        
-        console.log(newmytoDos);
+        //console.log(newmytoDos);
+        console.log(mytoDOs);
         
 
         formAddCateg.reset();
@@ -1697,6 +1755,7 @@ categHeading.appendChild(categoryEditDiv);
   });
 
 });
+
 
 
 
@@ -2226,7 +2285,7 @@ function renderTasks() {
     const addNewTaskDiv = listSection.querySelector(".newtaskdiv");
     
    // const taskSection = listSection.querySelector(".tasksect");
-console.log(newmytoDos);
+//console.log(newmytoDos);
 console.log(mytoDOs);
 
 
@@ -2248,7 +2307,12 @@ for (let i = 0; i < mytoDOs.length; i++) {
 
 const cardDiv = document.createElement("div");
 cardDiv.classList.add("card");
-//cardDiv.dataset.index = i;
+cardDiv.setAttribute("data-id", "idObj");
+
+const idObj = mytoDOs[i].id;
+cardDiv.dataset.id = idObj;
+
+console.log(cardDiv.dataset.id);
 
 const editTaskDiv = document.createElement("div");
 //editTaskDiv.setAttribute("id", "editdivbtn");
@@ -2320,7 +2384,7 @@ taskTxt.classList.add("tskTxt");
 
 
 taskTxt.textContent = `${mytoDOs[i].dueDate} ${mytoDOs[i].name} ${mytoDOs[i].priority}`;
-console.log(newmytoDos);
+//console.log(newmytoDos);
 console.log(mytoDOs);
 //taskTxt.textContent = `${task.dueDate} ${task.name} ${task.priority}`;
 
@@ -2373,6 +2437,7 @@ export const loadDom = document.addEventListener("DOMContentLoaded", () => {
     addCategPopUp();
     addTaskPopUp();
     renderExpandedTasks();
+    
     
 
     
