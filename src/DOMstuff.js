@@ -2494,20 +2494,9 @@ console.log(tasksContainer);
 
   console.log(addNewTaskDiv);
 
-  if (!tasksContainer) {
-    tasksContainer = document.createElement("div");
-    tasksContainer.classList.add("tasksect");
-    listContainer.insertBefore(tasksContainer, addNewTaskDiv);
-    categMainSection.appendChild(listContainer);
-  }
+  
 
-console.log("Appending card to tasksContainer for listId:", listId);
 
-  // Only clear once per list
-if (!clearedLists.has(listId)) {
-  tasksContainer.replaceChildren();
-  clearedLists.add(listId);
-}
 
 const cardDiv = document.createElement("div");
 cardDiv.classList.add("card", "tasks");
@@ -2609,14 +2598,29 @@ cardDiv.appendChild(taskDisplay);
 
 // append card div to right list
 
+if (!tasksContainer) {
+    tasksContainer = document.createElement("div");
+    tasksContainer.classList.add("tasksect");
+    //tasksContainer.appendChild(cardDiv);
+   // listContainer.insertBefore(tasksContainer, addNewTaskDiv);
+    //categMainSection.appendChild(listContainer);
+  }
 
+console.log("Appending card to tasksContainer for listId:", listId);
 
+  // Only clear once per list
+if (!clearedLists.has(listId)) {
+  tasksContainer.replaceChildren();
+  clearedLists.add(listId);
+}
 
 // continue
 
 //taskSection.appendChild(cardDiv);
 
 tasksContainer.appendChild(cardDiv);
+listContainer.insertBefore(tasksContainer, addNewTaskDiv);
+    categMainSection.appendChild(listContainer);
 
 //listSection.insertBefore(taskSection, addNewTaskDiv);
 
