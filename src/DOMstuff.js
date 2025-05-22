@@ -419,10 +419,13 @@ export const categoryLoad = () => {
      categHeadingDiv.classList.add("categheadingdiv");
  
      const categHeading = document.createElement("h2");
-     categHeading.classList.add("category-title");
+     categHeading.classList.add("category-title", "category");
      categHeading.setAttribute("data-id", `${crypto.randomUUID()}`);
      categHeading.textContent = mytoDOs[0].categname;
      console.log(categHeading.dataset.id);
+
+     const categoryId = categHeading.dataset.id;
+
 
 
 categHeadingDiv.appendChild(categHeading);
@@ -524,6 +527,11 @@ categHeadingDiv.appendChild(categoryEditDiv);
  
      //categMainSection.appendChild(categHeadingDiv);
 
+     const listSection = document.createElement("div");
+//listSection.setAttribute("id", "list-sect");
+listSection.classList.add("listsect");
+
+categMainSection.appendChild(listSection);
       
      
      if (todoSect) {
@@ -708,12 +716,20 @@ addListDialog.showModal();
 formAddList.addEventListener('submit', (e) => {
 
     e.preventDefault(); // We don't want to submit this fake form
-   
+
+   const categoryEl = document.querySelector(`[data-id="${categoryId}"]`);
+
+  // console.log(categoryEl); // logs category title - this is not what it attaches to
+
+  const categorySection = categoryEl.closest('.categmainsect'); 
     
+const listContainer = categorySection.querySelector('.listsect');
+
+console.log(listContainer);
  
- const listSection = document.createElement("div");
+ //const listSection = document.createElement("div");
 //listSection.setAttribute("id", "list-sect");
-listSection.classList.add("listsect");
+//listSection.classList.add("listsect");
 
 const listHeading = document.createElement("div");
 //listHeading.setAttribute("id", "list-heading");
@@ -724,17 +740,23 @@ const listTitleDiv = document.createElement("div");
 listTitleDiv.classList.add("listtitle");
 
 const listTitle = document.createElement("h3");
-listTitle.classList.add("list-title-txt", "lists");
+listTitle.classList.add("list-title-txt", "list");
+//listTitle.setAttribute("data-category-id", `${categoryId}`);
+//const categoryId = listTitle.dataset.categoryId;
 
-
-
-    
 
 //ad form data
 
 const formData = new FormData(formAddList);
 
 listTitle.textContent = formData.get("add-list-title");
+
+
+ 
+
+    
+
+
 
 
 //listTitle.textContent = "Daily Tasks";
@@ -805,15 +827,12 @@ listHeading.appendChild(listTitleDiv);
 
 //listSection.appendChild(listHeading);
 
-
-const categoryEl = document.querySelector(`[data-id="${categoryId}"]`);
-const listContainer = categoryEl.querySelector('..listsect');
 listContainer.appendChild(listHeading);
 
 
 //categMainSection.appendChild(listSection);
-categMainSection.appendChild(listContainer);
-
+//categMainSection.appendChild(listContainer);
+//categoryEl.appendChild(listSection);
 
 // new task btn section
 
@@ -855,8 +874,8 @@ if (listContainer) {
 }
 
 
+//categMainSection.appendChild(listSection);
 categMainSection.appendChild(listContainer);
-
 
 
 // sent to array
@@ -866,12 +885,20 @@ const listname = formData.get("add-list-title");
  // Add to todo array
  addListName(listname);
  
- // add id
+ // DO NOT MOVE ID - it logs the right list
+// add id
 
-    const formListData = document.getElementById('add-list-title'); 
+  const formListData = document.getElementById('add-list-title'); 
+
+  console.log(formListData);
 
 const targetListName = formListData.value.trim();
+
+console.log(targetListName);
+
 const matchingListId = mytoDOs.find(item => item.listname === targetListName)?.id;
+
+console.log(matchingListId);
 
 if (matchingListId !== undefined) {
   console.log(`Found list with ID: ${matchingListId}`);
@@ -880,13 +907,10 @@ if (matchingListId !== undefined) {
 
 }
 
-//const newListId = mytoDOs.find(item => item.listname === listTitle)?.id;
 
 listTitle.setAttribute("data-id", `${matchingListId}`);
- 
-const categoryId = categHeading.dataset.id;
+listTitle.setAttribute("data-category-id", `${categoryId}`);
 
-listTitle.setAttribute("data-category-id", `${categoryId}` )
 
 console.log(mytoDOs);
 //console.log(newmytoDos);
@@ -994,8 +1018,8 @@ listTitle.textContent = originalListTitle;
 
       
      
-         if (listContainer) { 
-            listContainer.remove();
+         if (listSection) { 
+            listSection.remove();
          }
      
 
@@ -1025,15 +1049,7 @@ cancelAddListNameBtn.addEventListener('click', (e) => {
     }
 
 
-const assignIDs = () => {
 
-const categoryElem = document.getElementById('category-1'); // example
-const categoryName = categoryElem.textContent;
-const categoryId = categoryElem.id;
-
-
-
-}
 
 
  
@@ -1112,10 +1128,10 @@ export const listLoad = () => {
     const categMainSection = document.querySelector("#category-sect-main");
 
     // start of list section
-
-const listSection = document.createElement("div");
-listSection.setAttribute("id", "list-sect");
-listSection.classList.add("listsect");
+const listSection = document.querySelector(".listsect");
+//const listSection = document.createElement("div");
+//listSection.setAttribute("id", "list-sect");
+//listSection.classList.add("listsect");
 
 const listHeading = document.createElement("div");
 listHeading.setAttribute("id", "list-heading");
@@ -1126,7 +1142,7 @@ listTitleDiv.setAttribute("id", "list-title");
 listTitleDiv.classList.add("listtitle");
 
 const listTitle = document.createElement("h3");
-listTitle.classList.add("list-title-txt");
+listTitle.classList.add("list-title-txt", "list");
 listTitle.setAttribute("data-id", `${crypto.randomUUID()}`);
 listTitle.textContent = mytoDOs[0].listname;
 
@@ -1649,7 +1665,7 @@ formAddCateg.appendChild(categoryNameDiv);
      categHeadingDiv.classList.add("categheadingdiv");
  
      const categHeading = document.createElement("h2");
-     categHeading.classList.add("category-title");
+     categHeading.classList.add("category-title", "category");
      //categHeading.textContent = "Category 1";
 
      const formData = new FormData(formAddCateg);
@@ -2339,12 +2355,12 @@ taskDetails.textContent = "";
 
 function renderTasks() {
     
-  // const categMainSection = document.querySelector(".categmainsect");
+   const categMainSection = document.querySelector(".categmainsect");
 
-  // const listSection = document.querySelector(".listsect");
+  //const listSection = document.querySelector(".listsect");
 
 //const categoryEl = document.querySelector(`[data-id="${categoryId}"]`);
-//const listContainer = categoryEl.querySelector('..listsect');
+//const listContainer = categoryEl.querySelector('.listsect');
 
     
     
@@ -2376,27 +2392,41 @@ for (let i = 0; i < mytoDOs.length; i++) {
 
   const task = mytoDOs[i];
 
+const targetListName = document.querySelector(".list"); 
 
- // Skip if it's not a task
-  if (!task.name || !task.listname || !task.categname) continue;
+console.log(targetListName);
+
+
+const targetCategName = document.querySelector(".category");
+
+console.log(targetCategName);
 
   //find matching ids
 
- const listMatch = mytoDOs.find(obj => obj.type === 'list' && obj.listname === task.listname);
-const categoryMatch = mytoDOs.find(obj => obj.type === 'category' && obj.categname === task.categname);
+ const listMatchID = targetListName.dataset.id; //mytoDOs.find(item => item.listname === targetListName)?.id;
+ 
+const categoryMatchID = targetCategName.dataset.id; //mytoDOs.find(item => item.categname === targetCategName)?.id;
+
+console.log(targetListName.dataset.id);
+console.log(targetCategName.dataset.id);
 
 
+if (listMatchID !== undefined) {
+  console.log(`Found List with ID: ${listMatchID}`);
+} else {
+  console.log("List not found.");
+}
 
-  if (!listMatch || !categoryMatch) {
-    console.warn("Could not find list/category match for task:", task);
-    continue;
-  }
+if (categoryMatchID !== undefined) {
+  console.log(`Found Category with ID: ${categoryMatchID}`);
+} else {
+  console.log("Category not found.");
+}
 
 
-
-
-  const listId = listMatch.id;
-  const categoryId = categoryMatch.id;
+  
+  const listId = listMatchID;
+  const categoryId = categoryMatchID;
 
 console.log("Rendering task:", task);
 console.log("Looking for categoryEl with ID:", categoryId);
@@ -2404,46 +2434,54 @@ console.log("Looking for listEl with ID:", listId);
 
 
 
-// --- Find or create category DOM element ---
-  let categoryEl;
-  if (categoryMatch && categoryMatch.id) {
-    categoryEl = document.querySelector(`[data-id="${categoryMatch.id}"]`);
-  } else {
-    // fallback: find dummy category DOM element by name or create it if missing
-    categoryEl = [...document.querySelectorAll('.categmainsect')].find(el => el.dataset.name === task.categname || el.textContent.includes(task.categname));
-    if (!categoryEl) {
-      // Create category container if doesn't exist
-      categoryEl = document.createElement('div');
-      categoryEl.classList.add('category');
-      categoryEl.dataset.name = task.categname;
-      //categoryEl.textContent = task.categname;  // or add a header, whatever your UI needs
-      // Append it to some main container in your page
-      document.querySelector('#todo-sect').appendChild(categoryEl);
-    }
-  }
 
+//const oldtargetCategName = document.querySelector("category-title");
+//const matchingCategId = mytoDOs.find(item => item.categname === oldtargetCategName)?.id;
+
+
+
+// --- Find or create category DOM element ---
+ // let categoryEl;
+
+ let categoryEl = document.querySelector(`[data-id="${categoryId}"]`);
+
+ console.log(categoryEl);
+  /*
+  if (categoryId) {
+    categoryEl = document.querySelector(`[data-id="${categoryId}"]`);
+    
+  } else {
+    // fallback: find dummy category DOM element by name 
+    categoryEl = [...document.querySelectorAll('.categmainsect')].find(el => el.dataset.name === task.categname || el.textContent.includes(task.categname));
+    
+  }
+*/
+
+let listEl = document.querySelector(`[data-id="${listId}"]`);
+
+console.log(listEl);
+
+/*
 
   // --- Find or create list DOM element ---
   let listEl;
-  if (listMatch && listMatch.id) {
-    listEl = document.querySelector(`[data-id="${listMatch.id}"]`);
+  if (listId) {
+    listEl = document.querySelector(`[data-id="${listId}"]`);
   } else {
-    // fallback: find dummy list DOM element by name or create it if missing
+    // fallback: find dummy list DOM element by name
     listEl = [...document.querySelectorAll('.listsect')].find(el => el.dataset.name === task.listname || el.textContent.includes(task.listname));
-    if (!listEl) {
-      // Create list container if doesn't exist
-      listEl = document.createElement('div');
-      listEl.classList.add('list');
-      listEl.dataset.name = task.listname;
-      //listEl.textContent = task.listname;  // Or add header markup
-      // Append the new list to categoryEl
-      categoryEl.appendChild(listEl);
-    }
+   
   }
 
+  */
+
+  const listContainer = categoryEl.querySelector('.listsect');
+
+  console.log(listContainer);
+
 // If the listEl is not yet inside categoryEl, append it
-  if (!categoryEl.contains(listEl)) {
-    categoryEl.appendChild(listEl);
+  if (!listContainer.contains(listEl)) {
+    listContainer.appendChild(listEl);
   }
   
 
@@ -2452,10 +2490,10 @@ console.log("Looking for listEl with ID:", listId);
 let tasksContainer = listEl.querySelector(".tasksect");
   const addNewTaskDiv = listEl.querySelector(".newtaskdiv");
 
-  if (!tasksContainer) {
-    tasksContainer = document.createElement("div");
-    tasksContainer.classList.add("tasksect");
-    listEl.insertBefore(tasksContainer, addNewTaskDiv);
+  if (tasksContainer) {
+    //tasksContainer = document.createElement("div");
+    //tasksContainer.classList.add("tasksect");
+    listContainer.insertBefore(tasksContainer, addNewTaskDiv);
   }
 
 console.log("Appending card to tasksContainer for listId:", listId);

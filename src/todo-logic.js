@@ -137,11 +137,8 @@ let newmytoDos = [];
 
 mytoDOs = mytoDOs.concat(newmytoDos);
 
-export function addTask(categname, listname, name, details, dueDate, priority) {
+export function addTask(name, details, dueDate, priority) {
     const todotask = new Task(name, details, dueDate, priority);
-
-    todotask.listname = listname;
-  todotask.categname = categname;
 
 //const taskObj = {task: todotask, id: `${crypto.randomUUID()}`};
 //mytoDO.push(taskObj);
