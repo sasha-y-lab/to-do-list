@@ -709,7 +709,7 @@ formAddList.addEventListener('submit', (e) => {
 
     e.preventDefault(); // We don't want to submit this fake form
    
-    
+    for (i = 0; i < mytoDOs.length; i++) {
  
  const listSection = document.createElement("div");
 //listSection.setAttribute("id", "list-sect");
@@ -725,8 +725,9 @@ listTitleDiv.classList.add("listtitle");
 
 const listTitle = document.createElement("h3");
 listTitle.classList.add("list-title-txt");
+listTitle.setAttribute("data-id", ` ${matchingListId}`);
 
-
+    
 
 //ad form data
 
@@ -989,7 +990,7 @@ listTitle.textContent = originalListTitle;
     }
     }, false);
   
-
+  } // for loop
 }); // end of listener
 
 
@@ -1358,26 +1359,53 @@ listTitle.textContent = originalListTitle;
 
     const completeTask = () => {
 
+const todoSect = document.querySelector("#todo-sect");
+
+//const listSection = todoSect.closest(".listsect");
+
+      //const taskSection = listSection.closest(".tasksect");
+
        //const taskDisplay = document.querySelector("#taskdisplay");
 
-       const editTaskDiv = document.querySelector(".editdivbtn");
+      // const currentCardDiv = document.querySelector(".card");
+      // const currentCardDiv2 = currentCardDiv.dataset.id;
 
-       const taskTxt = document.querySelector(".tskTxt");
+      // const editTaskDiv = document.querySelector(".editdivbtn");
 
-       const checkoffDiv = document.querySelector(".checkoffdiv");
+      // const taskTxt = document.querySelector(".tskTxt");
 
-       const checkOffTaskSVG = document.querySelector(".check-off");
+      //const checkoffDiv = document.querySelector(".checkoffdiv");
+       
 
-       checkoffDiv.addEventListener("click", (e) => {
+       //const checkOffTaskSVG = document.querySelector(".check-off");
 
-        const checkedCircle = e.target.closest('.check-off');
+       todoSect.addEventListener("click", (e) => {
 
+        const checkedCircle = e.target.closest('.checkoffdiv');
+
+        
+
+        if (!checkedCircle) return;
+
+const cardDiv = checkedCircle.closest(".card");
+const checkoffDiv = checkedCircle.closest(".checkoffdiv");
+  const listSection = cardDiv.closest(".listsect");
+  
+  //const taskSection = cardDiv.closest(".tasksect");
+
+   // Debug: Confirm you're inside the correct list/card
+  console.log("List ID:", listSection.dataset.id); // if data-id on list
+  console.log("Card ID:", cardDiv.dataset.id);     // if data-id on card
 
 
         if (checkedCircle) {
           alert('check-off');
 
-checkOffTaskSVG.remove();
+          const currentCircleSVG = checkedCircle.querySelector(".check-off");
+  if (currentCircleSVG) currentCircleSVG.remove();
+
+
+//checkOffTaskSVG.remove();
 
 
 const checkTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -1399,18 +1427,25 @@ checkoffDiv.appendChild(checkTaskSVG);
 }
 
 
+// Find task text inside this card
+  const taskTxt = cardDiv.querySelector(".tskTxt");
+  const editTaskDiv = cardDiv.querySelector(".editdivbtn");
+
 
 const span = document.createElement("span");
 span.textContent = taskTxt.textContent;
 span.style.color = "gray";
 span.style.textDecoration = "line-through";
 
-const expandTaskDiv = document.querySelector(".expand-toggle");
+//const expandTaskDiv = document.querySelector(".expand-toggle");
+
+
+
 
 if (taskTxt) {
     taskTxt.textContent = "";
     taskTxt.appendChild(span);
-    expandTaskDiv.remove();
+   // expandTaskDiv.remove();
     editTaskDiv.remove();
     
 }
