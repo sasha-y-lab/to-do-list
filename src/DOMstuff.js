@@ -798,7 +798,11 @@ listHeading.appendChild(listTitleDiv);
 listSection.appendChild(listHeading);
 
 
-/*
+
+categMainSection.appendChild(listSection);
+
+
+
 // new task btn section
 
 const addNewTaskDiv = document.createElement("div");
@@ -831,13 +835,17 @@ newTaskBtn.appendChild(addNewTaskTxt);
 
 addNewTaskDiv.appendChild(newTaskBtn);
 
+//taskSection.appendChild(addNewTaskDiv);
+
+if (listSection) {
 
   listSection.appendChild(addNewTaskDiv);
+}
 
 
 categMainSection.appendChild(listSection);
 
-*/
+
 
 // sent to array
 
@@ -979,7 +987,72 @@ cancelAddListNameBtn.addEventListener('click', (e) => {
     }
 
 
+export const addNewTaskBtnLoad = () => {
 
+ const categMainSection = document.querySelector("#category-sect-main");
+
+const listSection = document.querySelector(".listsect");
+
+
+ categMainSection.addEventListener("click", (e) => {
+    
+const clickedAddNewList = e.target.closest('.addlist');
+
+
+if (clickedAddNewList) {
+  //alert('addlist');
+
+ 
+
+ //const listTitleDiv = document.querySelector(".listtitle");
+
+ //const listHeading = listSection.closest(".listheading");
+
+// new task btn section
+
+const addNewTaskDiv = document.createElement("div");
+addNewTaskDiv.setAttribute("id", "new-task");
+addNewTaskDiv.classList.add("newtaskdiv");
+
+const newTaskBtn = document.createElement("button");
+newTaskBtn.setAttribute("id", "newtask");
+newTaskBtn.classList.add("newtaskbtn");
+
+const addNewTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+addNewTaskSVG.classList.add("addnewtsk");
+addNewTaskSVG.setAttribute('viewBox', '0 0 24 24');
+addNewTaskSVG.setAttribute("height", "20px");
+addNewTaskSVG.setAttribute("width", "20px");
+
+const addNewTaskSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+addNewTaskSVGPath.setAttribute(
+"d", "M5 19V5H12V12H19V13C19.7 13 20.37 13.13 21 13.35V9L15 3H5C3.89 3 3 3.89 3 5V19C3 20.1 3.89 21 5 21H13.35C13.13 20.37 13 19.7 13 19H5M14 4.5L19.5 10H14V4.5M23 18V20H20V23H18V20H15V18H18V15H20V18H23Z");
+
+addNewTaskSVG.appendChild(addNewTaskSVGPath);
+
+newTaskBtn.appendChild(addNewTaskSVG);
+
+const addNewTaskTxt = document.createElement("p");
+addNewTaskTxt.classList.add("add-new-tsk-txt");
+addNewTaskTxt.textContent = "New Task";
+
+newTaskBtn.appendChild(addNewTaskTxt);
+
+addNewTaskDiv.appendChild(newTaskBtn);
+
+//taskSection.appendChild(addNewTaskDiv);
+
+if (listSection) {
+
+  listSection.appendChild(addNewTaskDiv);
+}
+
+}
+
+ });
+
+
+}
 
 
 export const listLoad = () => {
@@ -1112,11 +1185,15 @@ if (listSection) {
 }
 
 
-
 if (categMainSection) {
 
     categMainSection.appendChild(listSection);
     }
+
+    
+    
+
+   
 
 //taskLoad();
 renderTasks();
@@ -1631,13 +1708,15 @@ categHeading.appendChild(categoryEditDiv);
 const addTaskPopUp = () => {
     // form goes in here
 
-  const addNewTaskDiv = document.querySelector(".newtaskdiv");
+    const categMainSection = document.querySelector(".categmainsect");
+
+ // const addNewTaskDiv = document.querySelector(".newtaskdiv");
 
   // const newTaskBtns = document.querySelectorAll(".newtaskbtn");
 
 
 
-addNewTaskDiv.addEventListener("click", (e) => {
+categMainSection.addEventListener("click", (e) => {
     
 const clickedNewTaskBtn = e.target.closest('.newtaskbtn');
 
