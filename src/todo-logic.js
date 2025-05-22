@@ -102,6 +102,7 @@ class Task {
         this.details = details;
         this.dueDate = dueDate;
         this.priority = priority;
+        this.type = "task";
         this.isPriority = false;
         this.id = crypto.randomUUID();
     }
@@ -110,6 +111,7 @@ class Task {
 class List {
     constructor(listname) {
         this.listname = listname;
+        this.type = 'list';
         this.id = crypto.randomUUID();
     }
 }
@@ -117,6 +119,7 @@ class List {
 class Category {
     constructor(categname) {
         this.categname = categname;
+        this.type = 'category';
         this.id = crypto.randomUUID();
     }
 }
@@ -134,8 +137,11 @@ let newmytoDos = [];
 
 mytoDOs = mytoDOs.concat(newmytoDos);
 
-export function addTask(name, details, dueDate, priority) {
+export function addTask(categname, listname, name, details, dueDate, priority) {
     const todotask = new Task(name, details, dueDate, priority);
+
+    todotask.listname = listname;
+  todotask.categname = categname;
 
 //const taskObj = {task: todotask, id: `${crypto.randomUUID()}`};
 //mytoDO.push(taskObj);
