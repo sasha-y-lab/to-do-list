@@ -128,7 +128,7 @@ class Category {
 
 let mytoDOs = [{categname: "Category 1", listname: "Daily Tasks", name: "Clean my room", details: "Vaccum & throw out garbage", dueDate: "May 31, '25", priority: "Urgent", id: `${crypto.randomUUID()}`}];
 
-let newmytoDos = [{categname: "Category 1", listname: "Daily Tasks", name: "Make dinner", details: "Check pinterest for recipes", dueDate: "June 25, '25", priority: "Moderate", id: `${crypto.randomUUID()}`}];
+let newmytoDos = [];
 
 //mytoDOs = [...mytoDOs, ...newmytoDos];
 
@@ -139,20 +139,20 @@ export function addTask(name, details, dueDate, priority) {
 
 //const taskObj = {task: todotask, id: `${crypto.randomUUID()}`};
 //mytoDO.push(taskObj);
-newmytoDos.splice(1, 0, todotask);
+mytoDOs.splice(2, 0, todotask);
 
   }
 
   export function addListName(listname) {
     const todolist = new List(listname);
 
-newmytoDos.splice(1, 0, todolist);
+mytoDOs.splice(2, 0, todolist);
   }
 
   export function addCategName(categname) {
     const todocateg = new Category(categname);
 
-newmytoDos.splice(1, 0, todocateg);
+mytoDOs.splice(2, 0, todocateg);
   }
   
   export { mytoDOs, newmytoDos }; 
