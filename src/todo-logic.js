@@ -148,7 +148,7 @@ export function addTask(name, details, dueDate, priority, listId, categoryId) {
 
 //const taskObj = {task: todotask, id: `${crypto.randomUUID()}`};
 //mytoDO.push(taskObj);
-mytoDOs.splice(0, 0, todotask);
+mytoDOs.splice(2, 0, todotask);
 
   }
 
@@ -161,7 +161,7 @@ mytoDOs.splice(1, 0, todolist);
   export function addCategName(categname) {
     const todocateg = new Category(categname);
 
-mytoDOs.splice(2, 0, todocateg);
+mytoDOs.splice(0, 0, todocateg);
   }
   
   export { mytoDOs, newmytoDos }; 

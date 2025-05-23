@@ -1,7 +1,11 @@
 
 import { mytoDOs, addTask, addListName, addCategName } from "./todo-logic.js";
 
+import { categorySectBtns, listBtns } from "./buttons-logic.js";
+
 console.log(mytoDOs);
+
+
 
 
 
@@ -393,7 +397,7 @@ export const todoSectLoad = () => {
 
 
     
-return { todoSect };
+
    
 }
 
@@ -404,7 +408,11 @@ return { todoSect };
 export const categoryLoad = () => {
 
     const todoSect = document.querySelector("#todo-sect");
+    console.log(todoSect);
+todoSect.replaceChildren();
 
+
+for (let i = 0; i < myLibrary.length; i++) { 
     
     // category sect
 
@@ -421,18 +429,22 @@ export const categoryLoad = () => {
      const categHeading = document.createElement("h2");
      categHeading.classList.add("category-title", "category");
 
-const dummyCategID = mytoDOs[0].id
-     categHeading.setAttribute("data-id", `${dummyCategID}`);
+     const categoryId = mytoDOs[i].id;
 
-     categHeading.textContent = mytoDOs[0].categname;
+     categHeading.setAttribute("data-id", `${categoryId}`);
+     //categHeading.setAttribute("data-id", `${crypto.randomUUID()}`);
+     categHeading.textContent = mytoDOs[i].categname;
+
      console.log(categHeading.dataset.id);
 
-     //const oldCategoryId = categHeading.dataset.id;
-
+     let categIndex2Del = categHeading.dataset.id;
+     //const categoryId = categHeading.dataset.id;
+console.log(categIndex2Del);
 
 
 categHeadingDiv.appendChild(categHeading);
 
+console.log(mytoDOs);
 
 
      // start of edit or delete
@@ -537,11 +549,7 @@ listSection.classList.add("listsect");
 categMainSection.appendChild(listSection);
       
      
-     if (todoSect) {
-        todoSect.appendChild(categMainSection);
-        }
-
-     listLoad();
+     
      
 
      
@@ -549,62 +557,7 @@ categMainSection.appendChild(listSection);
      
     
 
-     // event delegation listener here for todosect
-
-     todoSect.addEventListener('click', function(e) {
-
-        const clickedCategEditBtn = e.target.closest('.editcateg');
-        const clickedCategDeleteBtn = e.target.closest('.deletecateg');
-        const clickedAddListBtn = e.target.closest('.addlist');
-
-
-        if (clickedCategEditBtn) {
-          alert('editcateg');
-
-          const originalTitle = categHeading.textContent;
-
-//create form
-
-const formCategEdit = document.createElement("form");
-formCategEdit.setAttribute("name", "formcategedit");
-formCategEdit.classList.add("formcategedit");
-
-const formCategTitleEdit = document.createElement("input");
-formCategTitleEdit.type = "text";
-formCategTitleEdit.name = "edit-categ-title";
-formCategTitleEdit.id = "edit-categ-title";
-formCategTitleEdit.value = originalTitle;
-
-formCategEdit.appendChild(formCategTitleEdit);
-
-
-const editCategBtnSect = document.createElement("div");
-editCategBtnSect.setAttribute("id", "categeditBtn-sect");
-editCategBtnSect.classList.add("categbtnsectedit");
-
-const formCategEditSubmitBtn = document.createElement("button");
-formCategEditSubmitBtn.type = "submit"; // Important: type submit so form submit event fires
-formCategEditSubmitBtn.id = "submit-edit-categ";
-formCategEditSubmitBtn.textContent = "Edit";
-
-editCategBtnSect.appendChild(formCategEditSubmitBtn);
-
-const formCategEditCancelBtn = document.createElement("button");
-formCategEditCancelBtn.type = "button"; // prevent form submit
-formCategEditCancelBtn.id = "cancel-edit-categ";
-formCategEditCancelBtn.textContent = "Cancel";
-
-editCategBtnSect.appendChild(formCategEditCancelBtn);
-
-formCategEdit.appendChild(editCategBtnSect);
-
-//expandTasks.appendChild(formTaskEdit);
-//categHeading.parentElement.appendChild(formCategEdit);
-
-// appending form to element to replace that element
-//categHeading.appendChild(formCategEdit); // shows up instead of pop up
-
-categHeading.parentElement.insertBefore(formCategEdit, categoryEditDiv);
+     
 
 
 
@@ -612,303 +565,6 @@ categHeading.parentElement.insertBefore(formCategEdit, categoryEditDiv);
           
 
 
-// Clear current content
-categHeading.textContent = "";
-
-
-
-    formCategEdit.addEventListener('submit', (e) => {
-
-        e.preventDefault(); // We don't want to submit this fake form
-    
-        const formData = new FormData(formCategEdit);
-        categHeading.textContent = formData.get("edit-categ-title");
-
-        const originalName = originalTitle;
-        const updatedName = formData.get("edit-categ-title");
-        
-        updateArrayObjectByKey(mytoDOs, "categname", originalName, "categname", updatedName);
-
-
-
-      formCategEdit.remove(); // Remove form after save
-
-  });
-
-  formCategEditCancelBtn.addEventListener('click', (e) => {
-
-    e.preventDefault(); // We don't want to submit this fake form
-
-    categHeading.textContent = originalTitle;
-      
-      formCategEdit.remove(); // Remove form after click
-  });
-
-//console.log(newmytoDos);
-
-
-          
-        } else if (clickedCategDeleteBtn) {
-          alert('deletecateg');
-
-         
-             if (categMainSection) { 
-                categMainSection.replaceChildren();
-             }
-         
-        } else if (clickedAddListBtn) {
-          alert('addlist');
-
-          const addListDialog = document.createElement("dialog");
-    addListDialog.setAttribute("id", "addlist-dialog");
-    
-    const formAddList = document.createElement("form");
-    formAddList.setAttribute("name", "formaddlist");
-    formAddList.classList.add("formaddlist");
-
-    // add list name
-
-    const listNameLabel = document.createElement("label");
-    listNameLabel.setAttribute("id", "add-list-label");
-    listNameLabel.textContent = "LIST NAME";
-        
-        const formListTitle = document.createElement("input");
-        formListTitle.type = "text";
-        formListTitle.name = "add-list-title";
-        formListTitle.id = "add-list-title";
-        formListTitle.minLength = "2";
-        formListTitle.required = true;
-        formListTitle.placeholder = "Onboarding List";
-        
-    listNameLabel.appendChild(formListTitle);
-    formAddList.appendChild(listNameLabel);
-
-
-    //button sects
-
-    const addListBtnSect = document.createElement("div");
-    addListBtnSect.setAttribute("id", "addlistBtn-sect");
-    addListBtnSect.classList.add("addlistbtnsect");
-
-    const addListNameBtn = document.createElement("button")
-    addListNameBtn.type = "submit"; // Important: type submit so form submit event fires
-    addListNameBtn.id = "submit-list-name";
-    addListNameBtn.textContent = "Add List";
-
-    addListBtnSect.appendChild(addListNameBtn);
-
-
-    const cancelAddListNameBtn = document.createElement("button");
-    cancelAddListNameBtn.type = "button"; // prevent form submit
-    cancelAddListNameBtn.id = "cancel-addlist-name";
-    cancelAddListNameBtn.textContent = "Cancel";
-
-    addListBtnSect.appendChild(cancelAddListNameBtn);
-
-    formAddList.appendChild(addListBtnSect);
-
-addListDialog.appendChild(formAddList);
-
-addListBtnDiv.appendChild(addListDialog);
-
-addListDialog.showModal();
-
-
-// start form listener
-
-formAddList.addEventListener('submit', (e) => {
-
-    e.preventDefault(); // We don't want to submit this fake form
-// dummyCategID
-
-const clearedLists = new Set();
-  
-
-    //const targetListName = document.querySelector(".list"); 
-
-//const listnameTxt = targetListName.textContent;
-
-//console.log(targetListName);
-//console.log(listnameTxt);
-
-for (let i = 0; i < mytoDOs.length; i++) { 
-//for (const task of mytoDOs) {
-
-const targetCategName = document.querySelector(`${mytoDOs[i].categname}`);
-
-//const categnameTxt = targetCategName.textContent;
-
-console.log(targetCategName);
-//console.log(categnameTxt);
-
-
-
-
-  //find matching ids
-
-// const listMatchID = String(targetListName.dataset.id); //mytoDOs.find(item => item.listname === targetListName)?.id;
- 
-const categoryMatchID = String(targetCategName.dataset.id); //mytoDOs.find(item => item.categname === targetCategName)?.id;
-
-//console.log(targetListName.dataset.id);
-//console.log(targetCategName.dataset.id);
-
-//console.log(listMatchID);
-console.log(categoryMatchID);
-
-/*
-if (listMatchID !== undefined) {
-  console.log(`Found List with ID: ${listMatchID}`);
-} else {
-  console.log("List not found.");
-}
-
-*/
-
-if (categoryMatchID !== undefined) {
-  console.log(`Found Category with ID: ${categoryMatchID}`);
-} else {
-  console.log("Category not found.");
-}
-
-
-  
- // const listId = listMatchID;
-  const categoryId = categoryMatchID;
-
-
-
-//console.log("Rendering task:", task);
-console.log("Looking for categoryEl with ID:", categoryId);
-//console.log("Looking for listEl with ID:", listId);
-
-//const listEl = document.querySelector(`[data-id="${listId}"]`);
-
-//console.log(listEl); 
-
-const categoryEl = document.querySelector(`[data-id="${categoryId}"]`);
-
-console.log(categoryEl);
-
-//const categMainSection = categoryEl.closest(".categmainsect");  // get the wrapping div
-
-   //const categoryEl = document.querySelector(`[data-id="${categoryId}"]`);
-
-  // console.log(categoryEl); // logs category title - this is not what it attaches to
-
-  const categorySection = categoryEl.closest('.categmainsect'); 
-    
-const listContainer = document.createElement("div"); //categorySection.querySelector('.listsect');
-listContainer.classList.add("listsect");
-
-
-console.log(listContainer);
- 
- //const listSection = document.createElement("div");
-//listSection.setAttribute("id", "list-sect");
-//listSection.classList.add("listsect");
-
-const listHeading = document.createElement("div");
-//listHeading.setAttribute("id", "list-heading");
-listHeading.classList.add("listheading");
-
-const listTitleDiv = document.createElement("div");
-//listTitleDiv.setAttribute("id", "list-title");
-listTitleDiv.classList.add("listtitle");
-
-const listTitle = document.createElement("h3");
-listTitle.classList.add("list-title-txt", "list");
-//listTitle.setAttribute("data-category-id", `${categoryId}`);
-
-//const newListID = mytoDOs[list].id;
-
-//listTitle.setAttribute("data-id", `${newListID}`);
-//const categoryId = listTitle.dataset.categoryId;
-//const newListID = 
-
-//ad form data
-
-const formData = new FormData(formAddList);
-
-listTitle.textContent = formData.get("add-list-title");
-
-
- 
-
-    
-
-
-
-
-//listTitle.textContent = "Daily Tasks";
-
-//listTitle.textContent = 
-
-
-listTitleDiv.appendChild(listTitle);
-
-// start of edit or delete
-
-const listEditDiv = document.createElement("div");
-//listEditDiv.setAttribute("id", "list-edit-div");
-listEditDiv.classList.add("listeditdiv");
-
-   // edit button
-
-   const editListBtn = document.createElement("button");
-   //editListBtn.setAttribute("id", "edit-list");
-   editListBtn.classList.add("editlist");
-
-const editListSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-editListSVG.classList.add("editlistname");
-editListSVG.setAttribute('viewBox', '0 0 24 24');
-editListSVG.setAttribute("height", "20px");
-editListSVG.setAttribute("width", "20px");
-
-const editListSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-editListSVGPath.setAttribute(
-"d", "M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z");
-
-editListSVG.appendChild(editListSVGPath);
-
-editListBtn.appendChild(editListSVG);
-
-listEditDiv.appendChild(editListBtn);
-
-
-
-   //delete task button
-
-   const deleteListBtn = document.createElement("button");
-  // deleteListBtn.setAttribute("id", "delete-list");
-   deleteListBtn.classList.add("deletelist");
-
-const deleteListSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-deleteListSVG.classList.add("deletelistname");
-deleteListSVG.setAttribute('viewBox', '0 0 24 24');
-deleteListSVG.setAttribute("height", "20px");
-deleteListSVG.setAttribute("width", "20px");
-
-const deleteListSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-deleteListSVGPath.setAttribute(
-"d", "M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z");
-
-deleteListSVG.appendChild(deleteListSVGPath);
-
-deleteListBtn.appendChild(deleteListSVG);
-
-listEditDiv.appendChild(deleteListBtn);
-
-listTitleDiv.appendChild(listEditDiv);
-
-listHeading.appendChild(listTitleDiv);
-
-
-// listHeading.appendChild(addListBtnDiv);
-
-//listSection.appendChild(listHeading);
-
-listContainer.appendChild(listHeading);
 
 
 //categMainSection.appendChild(listSection);
@@ -955,183 +611,19 @@ if (listContainer) {
 }
 
 
-//categMainSection.appendChild(listSection);
-categorySection.appendChild(listContainer);
+if (todoSect) {
+        todoSect.appendChild(categMainSection);
+        }
+
+     listLoad();
 
 
-// sent to array
 
-const listname = formData.get("add-list-title");
 
- // Add to todo array
- addListName(listname);
- 
- // DO NOT MOVE ID - it logs the right list
-// add id
 
-  const formListData = document.getElementById('add-list-title'); 
-
-  console.log(formListData);
-
-const targetListName = formListData.value.trim();
-
-console.log(targetListName);
-
-const matchingListId = mytoDOs.find(item => item.listname === targetListName)?.id;
-
-console.log(matchingListId);
-
-if (matchingListId !== undefined) {
-  console.log(`Found list with ID: ${matchingListId}`);
-} else {
-  console.log("List not found.");
 
 }
-
-
-listTitle.setAttribute("data-id", `${matchingListId}`);
-listTitle.setAttribute("data-category-id", `${categoryId}`);
-
-
-console.log(mytoDOs);
-//console.log(newmytoDos);
-
-addListDialog.close();
-addListDialog.remove();
-
-// start delegation here for add and delete buttons
-
-
-
-listContainer.addEventListener('click', function(e) {
-
-    const clickedListEditBtn = e.target.closest('.editlist');
-const clickedListDeleteBtn = e.target.closest('.deletelist');
-
-
-
-    if (clickedListEditBtn) {
-      alert('editlist');
-
-      const originalListTitle = listTitle.textContent;
-
-
-
-
-//create form
-
-const formListEdit = document.createElement("form");
-formListEdit.setAttribute("name", "formlistedit");
-formListEdit.classList.add("formlistedit");
-
-const formListTitleEdit = document.createElement("input");
-formListTitleEdit.type = "text";
-formListTitleEdit.name = "edit-list-title";
-formListTitleEdit.id = "edit-list-title";
-formListTitleEdit.value = originalListTitle;
-
-formListEdit.appendChild(formListTitleEdit);
-
-
-const editListBtnSect = document.createElement("div");
-editListBtnSect.setAttribute("id", "listeditBtn-sect");
-editListBtnSect.classList.add("listbtnsectedit");
-
-const formListEditSubmitBtn = document.createElement("button");
-formListEditSubmitBtn.type = "submit"; // Important: type submit so form submit event fires
-formListEditSubmitBtn.id = "submit-edit-list";
-formListEditSubmitBtn.textContent = "Edit";
-
-editListBtnSect.appendChild(formListEditSubmitBtn);
-
-const formListEditCancelBtn = document.createElement("button");
-formListEditCancelBtn.type = "button"; // prevent form submit
-formListEditCancelBtn.id = "cancel-edit-list";
-formListEditCancelBtn.textContent = "Cancel";
-
-editListBtnSect.appendChild(formListEditCancelBtn);
-
-formListEdit.appendChild(editListBtnSect);
-
-//expandTasks.appendChild(formTaskEdit);
-listTitle.parentElement.insertBefore(formListEdit, listEditDiv);
-
-
-// Clear current content
-listTitle.textContent = "";
-
-
-formListEdit.addEventListener('submit', (e) => {
-
-    e.preventDefault(); // We don't want to submit this fake form
-
-    const formData = new FormData(formListEdit);
-    listTitle.textContent = formData.get("edit-list-title");
-
-
-    const originalName = originalListTitle;
-    const updatedName = formData.get("edit-list-title");
-    
-    updateArrayObjectByKey(mytoDOs, "listname", originalName, "listname", updatedName);
-
-
-  formListEdit.remove(); // Remove form after save
-
-
-});
-
-formListEditCancelBtn.addEventListener('click', (e) => {
-
-e.preventDefault(); // We don't want to submit this fake form
-
-listTitle.textContent = originalListTitle;
-  
-  formListEdit.remove(); // Remove form after click
-  
-});
-
-
-
-
-      
-    } else if (clickedListDeleteBtn) {
-      //alert('test');
-
-      
-     
-         if (listSection) { 
-            listSection.remove();
-         }
-     
-
-    }
-    }, false);
-  
-  if (!clearedLists.has(task.categname)) {
-      listContainer.replaceChildren();  // Clear only once
-      clearedLists.add(task.categname);
-    }
-} // end of array loop
-}); // end of listener
-
-
-        
-cancelAddListNameBtn.addEventListener('click', (e) => {
-
-    e.preventDefault(); // We don't want to submit this fake form
-
-    formAddList.remove();
-    addListDialog.close(); // Remove form after click
-    addListDialog.remove();
-  });
-
-        }
-      
-      }, false);
-
-//return { dummyCategID };
-
-    }
+}
 
 
 
@@ -1228,12 +720,10 @@ listTitleDiv.classList.add("listtitle");
 
 const listTitle = document.createElement("h3");
 listTitle.classList.add("list-title-txt", "list");
+const listId = mytoDOs[1].id;
+listTitle.setAttribute("data-id", `${listId}`);
 
-const dummyListID = mytoDOs[1].id;
-
-listTitle.setAttribute("data-id", `${dummyListID}`);
-
-
+//listTitle.setAttribute("data-id", `${crypto.randomUUID()}`);
 listTitle.textContent = mytoDOs[1].listname;
 
 console.log(listTitle.dataset.id);
@@ -1356,7 +846,7 @@ if (categMainSection) {
    
 
 //taskLoad();
-renderTasks();
+//renderTasks();
 
 
 
@@ -1467,9 +957,8 @@ listTitle.textContent = originalListTitle;
     }, false);
 
   
-  
     
-//return { dummyListID };
+
 
 
 }
@@ -1925,88 +1414,8 @@ categHeading.setAttribute("data-id", `${matchingCategId}`);
 
 const addTaskPopUp = () => {
     // form goes in here
-const renderedTasks = new Set();
-const clearedLists = new Set();
 
-    for (const task of mytoDOs) {
-    const targetListName = document.querySelector(`${task.listname}`); 
-
-
-     if (renderedTasks.has(task.id)) continue;
-    renderedTasks.add(task.id);
-
-//const listnameTxt = targetListName.textContent;
-
-console.log(targetListName);
-//console.log(listnameTxt);
-
-
-const targetCategName = document.querySelector(`${task.categname}`);
-
-//const categnameTxt = targetCategName.textContent;
-
-console.log(targetCategName);
-//console.log(categnameTxt);
-
-if (!targetListName || !targetCategName) {
-      console.warn("Missing list or category for task", task);
-      continue;
-    }
-
-
-  //find matching ids
-
- const listMatchID = String(targetListName.dataset.id); //mytoDOs.find(item => item.listname === targetListName)?.id;
- 
-const categoryMatchID = String(targetCategName.dataset.id); //mytoDOs.find(item => item.categname === targetCategName)?.id;
-
-//console.log(targetListName.dataset.id);
-//console.log(targetCategName.dataset.id);
-
-console.log(listMatchID);
-console.log(categoryMatchID);
-
-
-if (listMatchID !== undefined) {
-  console.log(`Found List with ID: ${listMatchID}`);
-} else {
-  console.log("List not found.");
-}
-
-if (categoryMatchID !== undefined) {
-  console.log(`Found Category with ID: ${categoryMatchID}`);
-} else {
-  console.log("Category not found.");
-}
-
-
-  
-  const listId = listMatchID;
-  const categoryId = categoryMatchID;
-
-
-
-console.log("Rendering task:", task);
-console.log("Looking for categoryEl with ID:", categoryId);
-console.log("Looking for listEl with ID:", listId);
-
-const listEl = document.querySelector(`[data-id="${listId}"]`);
-
-console.log(listEl); 
-
-const categoryEl = document.querySelector(`[data-id="${categoryId}"]`);
-
-console.log(categoryEl);
-
-const categMainSection = categoryEl.closest(".categmainsect");  // get the wrapping div
-
-  const listContainer = categMainSection.querySelector('.listsect');
-
-  console.log(listContainer);
-
-
-
-    //const categMainSection = document.querySelector(".categmainsect");
+    const categMainSection = document.querySelector(".categmainsect");
 
  // const addNewTaskDiv = document.querySelector(".newtaskdiv");
 
@@ -2024,7 +1433,7 @@ if (clickedNewTaskBtn) {
 
 
 
- const taskSection = categMainSection.querySelector(".tasksect");
+ const taskSection = document.querySelector(".tasksect");
 
  // Get the corresponding .newtaskdiv in that section
  //const addNewTaskDiv = taskSect.querySelector(".");
@@ -2216,15 +1625,23 @@ const dueDate = format(jsDate, "MMM dd ''yy");
  console.log(dueDate);
  const priority = formData.get("add-tsk-priority");
 
+const listTitle = document.querySelector(".list");
+
+ const listId = listTitle.dataset.id;
+
+ console.log(listId);
+
+ const categHeading = document.querySelector(".category");
+
+ const categoryId = categHeading.dataset.id;
+ console.log(categoryId);
+
  // Add to todo array
- addTask(name, details, dueDate, priority);
-
-if (!clearedLists.has(task.listname)) {
-      taskSection.replaceChildren();  // Clear only once
-      clearedLists.add(task.listname);
-    }
-
+ addTask(name, details, dueDate, priority, listId, categoryId);
+taskSection.replaceChildren();
 renderTasks(); // is duplicating
+
+
  formAddTask.reset();
         
     formAddTask.remove();
@@ -2251,12 +1668,7 @@ cancelAddTaskNameBtn.addEventListener('click', (e) => {
 
 
 
-
-
-    } // array loop
-return { addTask };
-
-
+//return { addTask };
 
 }
 
@@ -2536,35 +1948,96 @@ taskDetails.textContent = "";
 
 function renderTasks() {
     
-   
+   //const categMainSection = document.querySelector(".categmainsect");
+
+  //const listSection = document.querySelector(".listsect");
+
+//const categoryEl = document.querySelector(`[data-id="${categoryId}"]`);
+//const listContainer = categoryEl.querySelector('.listsect');
+
+    
+    
+   // const taskSection = listSection.querySelector(".tasksect");
+//console.log(newmytoDos);
+//console.log(mytoDOs);
+
+//const listTitle = categMainSection.closest(".list-title-txt");
+//const listId = listTitle.dataset.id;
+
+//const listEl = document.querySelector(`[data-id="${listId}"]`);
+//let tasksContainer = listEl.querySelector('.tasksect');
+//const addNewTaskDiv = listEl.querySelector(".newtaskdiv");
+
+//const taskSection = document.createElement("div");
+//taskSection.setAttribute("id", "task-sect");
+
+//taskSection.classList.add("tasksect");
+
+//tasksContainer.replaceChildren(); // needs to be outside loop
 
 const clearedLists = new Set();
 
+//for (let i = 0; i < mytoDOs.length; i++) { // iterating prints the amount of arrays in cards 
 
 
+  /* // use for upcoming task and todays tasks with duedates
 
-for (let i = 0; i < mytoDOs.length; i++) {
+const todoList = [
+    { id: 1, task: "Grocery shopping", completed: false },
+    { id: 2, task: "Laundry", completed: true },
+    { id: 3, task: "Walk the dog", completed: false }
+];
+
+// Example 1: Count the number of completed tasks
+const completedCount = todoList.reduce((count, todo) => {
+    return todo.completed ? count + 1 : count;
+}, 0);
+
+console.log("Completed tasks:", completedCount); // Output: Completed tasks: 1
 
 
+  */
+
+//const taskName = mytoDOs[i].name;
+
+let tasks = mytoDOs.find( mytoDO => mytoDO['type'] === 'task' );
+
+  //const task = mytoDOs[i];
+
+  if (tasks) {
 
 
+let targetLists = mytoDOs.filter(function (list) {
+  return list.listname;
+});
 
-  const task = mytoDOs[i];
+let listIds = targetLists.map(function (ids) {
+  return ids.id;
+});
 
+console.log(targetLists);
 
+console.log(listIds);
+
+let currentListID = listIds.reduce(function (accumulator, currentItem) {
+  console.log('accumulator: ', accumulator);
+    console.log('currentValue:', currentItem);
   
-
-const targetListName = document.querySelector(".list"); 
-
-
-const listDataset = targetListName.dataset;
-const newListId = listDataset.listId; // ?
+  return accumulator;
+  
+});
 
 
+const listId = currentListID;
 
-console.log('List ID:', newListId);
+const targetListName = document.querySelector(`[data-id="${listId}"]`);
 
 
+
+//const targetListName = document.querySelector(".list"); 
+
+
+//const categoryEl = document.querySelector('.category');
 
 
 
@@ -2572,9 +2045,32 @@ console.log(targetListName);
 
 
 
-const targetCategName = document.querySelector(".category");
+
+let targetCategs = mytoDOs.filter(function (categ) {
+  return categ.categname;
+});
+
+let categIds = targetCategs.map(function (ids) {
+  return ids.id;
+});
+
+console.log(targetCategs);
+
+console.log(categIds);
 
 
+let currentCategID = categIds.reduce(function (accumulator, currentItem) {
+  console.log('accumulator: ', accumulator);
+    console.log('currentValue:', currentItem);
+  
+  return accumulator;
+  
+});
+
+
+const categoryId = currentCategID;
+
+const targetCategName = document.querySelector(`[data-id="${categoryId}"]`);
 
 console.log(targetCategName);
 
@@ -2609,24 +2105,20 @@ if (categoryMatchID !== undefined) {
 
 
   
-  const listId = listMatchID;
-  const categoryId = categoryMatchID;
-
- //const dummyCategoryID = categoryLoad();
+  //const listId = listMatchID;
+ // const categoryId = categoryMatchID;
 
 
 
-console.log("Rendering task:", task);
-console.log("Looking for categoryEl with ID:", categoryId);
-console.log("Looking for listEl with ID:", listId);
+//console.log("Rendering task:", task);
+//console.log("Looking for categoryEl with ID:", categoryId);
+//console.log("Looking for listEl with ID:", listId);
 
-if (categoryId === mytoDOs[i].categname) {
-
-const listEl = document.querySelector(`[data-id="${listId}"]`);
+const listEl = targetListName;
 
 console.log(listEl); 
 
-const categoryEl = document.querySelector(`[data-id="${categoryId}"]`);
+const categoryEl = targetCategName;
 
 console.log(categoryEl);
 
@@ -2655,13 +2147,44 @@ console.log(tasksContainer);
   
 
 
+
+const currentIDValue = mytoDOs.listId = listId;
+
+
+
+if (currentIDValue) {
+
+
 const cardDiv = document.createElement("div");
 cardDiv.classList.add("card", "tasks");
-cardDiv.setAttribute("data-id", "idObj");
 
-const idObj = mytoDOs[i].id;
 
-cardDiv.dataset.id = idObj;
+let targetCards = mytoDOs.filter(function (cards) {
+  return cards.name;
+});
+
+let cardIds = targetCards.map(function (ids) {
+  return ids.id;
+});
+
+console.log(targetCards);
+
+console.log(cardIds);
+
+let currentCardIDs = cardIds.reduce(function (accumulator, currentItem) {
+  console.log('accumulator: ', accumulator);
+    console.log('currentValue:', currentItem);
+  
+  return accumulator;
+  
+});
+
+const idObj = currentCardIDs;
+
+cardDiv.setAttribute("data-id", `${idObj}`);
+
+
+
 
 console.log(cardDiv.dataset.id);
 
@@ -2736,9 +2259,55 @@ taskTxt.classList.add("tskTxt");
 //taskTxt.textContent = `${formattodaydate.todayDate} Clean Room`;
 //taskTxt.textContent = `${mytoDO[0].dueDate} ${mytoDO[0].name} ${mytoDO[0].priority}`;
 
+let cardNames = targetCards.map(function (names) {
+  return names.name;
+});
 
+let currentCard = cardNames.reduce(function (accumulator, currentItem) {
+  console.log('accumulator: ', accumulator);
+    console.log('currentValue:', currentItem);
+  
+  return accumulator;
+  
+});
 
-taskTxt.textContent = `${mytoDOs[i].dueDate} ${mytoDOs[i].name} ${mytoDOs[i].priority}`;
+console.log(currentCard);
+
+console.log(cardNames);
+
+let cardDueDates = targetCards.map(function (dueDates) {
+  return dueDates.dueDate;
+});
+
+console.log(targetCards);
+
+console.log(cardDueDates);
+
+let currentDueDate = cardDueDates.reduce(function (accumulator, currentItem) {
+  console.log('accumulator: ', accumulator);
+    console.log('currentValue:', currentItem);
+  
+  return accumulator;
+  
+});
+
+let cardPriority = targetCards.map(function (priorities) {
+  return priorities.priority;
+});
+
+console.log(cardPriority);
+
+let currentPriority = cardPriority.reduce(function (accumulator, currentItem) {
+  console.log('accumulator: ', accumulator);
+    console.log('currentValue:', currentItem);
+  
+  return accumulator;
+  
+});
+
+//taskTxt.textContent = "";
+
+taskTxt.textContent = `${currentDueDate} ${currentCard} ${currentPriority}`;
 //console.log(newmytoDos);
 console.log(mytoDOs);
 //taskTxt.textContent = `${task.dueDate} ${task.name} ${task.priority}`;
@@ -2776,15 +2345,29 @@ if (!clearedLists.has(listId)) {
 
 //taskSection.appendChild(cardDiv);
 
+
+
 tasksContainer.appendChild(cardDiv);
 listContainer.insertBefore(tasksContainer, addNewTaskDiv);
     categMainSection.appendChild(listContainer);
 
-}
 
 
-} //for loop
+//listSection.insertBefore(taskSection, addNewTaskDiv);
 
+//listEl.insertBefore(tasksContainer, addNewTaskDiv);
+
+//categoryEl.appendChild(listEl);
+   
+//categMainSection.appendChild(listEl);
+
+} // another if
+} // if statement
+
+//} //for loop
+//}); // mytodo loop
+    
+//renderExpandedTasks(); //maybe recursion calling each other function
     
 }
 
@@ -2796,7 +2379,10 @@ export const createHomePage = () => {
     sidebarLoad();
     headerLoad();
     todoSectLoad();
-    
+    categorySectBtns();
+    listBtns();
+    renderTasks();
+
     
 }
 
@@ -2816,4 +2402,3 @@ export const loadDom = document.addEventListener("DOMContentLoaded", () => {
   });
 
   
-
