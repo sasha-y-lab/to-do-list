@@ -1,5 +1,5 @@
 
-import { newmytoDos, mytoDOs, addTask, addListName, addCategName } from "./todo-logic.js";
+import { mytoDOs, addTask, addListName, addCategName } from "./todo-logic.js";
 
 console.log(mytoDOs);
 
@@ -420,11 +420,14 @@ export const categoryLoad = () => {
  
      const categHeading = document.createElement("h2");
      categHeading.classList.add("category-title", "category");
-     categHeading.setAttribute("data-id", `${crypto.randomUUID()}`);
+
+const dummyCategID = mytoDOs[0].id
+     categHeading.setAttribute("data-id", `${dummyCategID}`);
+
      categHeading.textContent = mytoDOs[0].categname;
      console.log(categHeading.dataset.id);
 
-     const categoryId = categHeading.dataset.id;
+     //const oldCategoryId = categHeading.dataset.id;
 
 
 
@@ -716,8 +719,80 @@ addListDialog.showModal();
 formAddList.addEventListener('submit', (e) => {
 
     e.preventDefault(); // We don't want to submit this fake form
+// dummyCategID
 
-   const categoryEl = document.querySelector(`[data-id="${categoryId}"]`);
+const clearedLists = new Set();
+  
+
+    //const targetListName = document.querySelector(".list"); 
+
+//const listnameTxt = targetListName.textContent;
+
+//console.log(targetListName);
+//console.log(listnameTxt);
+
+for (let i = 0; i < mytoDOs.length; i++) { 
+//for (const task of mytoDOs) {
+
+const targetCategName = document.querySelector(`${mytoDOs[i].categname}`);
+
+//const categnameTxt = targetCategName.textContent;
+
+console.log(targetCategName);
+//console.log(categnameTxt);
+
+
+
+
+  //find matching ids
+
+// const listMatchID = String(targetListName.dataset.id); //mytoDOs.find(item => item.listname === targetListName)?.id;
+ 
+const categoryMatchID = String(targetCategName.dataset.id); //mytoDOs.find(item => item.categname === targetCategName)?.id;
+
+//console.log(targetListName.dataset.id);
+//console.log(targetCategName.dataset.id);
+
+//console.log(listMatchID);
+console.log(categoryMatchID);
+
+/*
+if (listMatchID !== undefined) {
+  console.log(`Found List with ID: ${listMatchID}`);
+} else {
+  console.log("List not found.");
+}
+
+*/
+
+if (categoryMatchID !== undefined) {
+  console.log(`Found Category with ID: ${categoryMatchID}`);
+} else {
+  console.log("Category not found.");
+}
+
+
+  
+ // const listId = listMatchID;
+  const categoryId = categoryMatchID;
+
+
+
+//console.log("Rendering task:", task);
+console.log("Looking for categoryEl with ID:", categoryId);
+//console.log("Looking for listEl with ID:", listId);
+
+//const listEl = document.querySelector(`[data-id="${listId}"]`);
+
+//console.log(listEl); 
+
+const categoryEl = document.querySelector(`[data-id="${categoryId}"]`);
+
+console.log(categoryEl);
+
+//const categMainSection = categoryEl.closest(".categmainsect");  // get the wrapping div
+
+   //const categoryEl = document.querySelector(`[data-id="${categoryId}"]`);
 
   // console.log(categoryEl); // logs category title - this is not what it attaches to
 
@@ -744,8 +819,12 @@ listTitleDiv.classList.add("listtitle");
 const listTitle = document.createElement("h3");
 listTitle.classList.add("list-title-txt", "list");
 //listTitle.setAttribute("data-category-id", `${categoryId}`);
-//const categoryId = listTitle.dataset.categoryId;
 
+//const newListID = mytoDOs[list].id;
+
+//listTitle.setAttribute("data-id", `${newListID}`);
+//const categoryId = listTitle.dataset.categoryId;
+//const newListID = 
 
 //ad form data
 
@@ -1028,11 +1107,15 @@ listTitle.textContent = originalListTitle;
     }
     }, false);
   
-  
+  if (!clearedLists.has(task.categname)) {
+      listContainer.replaceChildren();  // Clear only once
+      clearedLists.add(task.categname);
+    }
+} // end of array loop
 }); // end of listener
 
 
-
+        
 cancelAddListNameBtn.addEventListener('click', (e) => {
 
     e.preventDefault(); // We don't want to submit this fake form
@@ -1046,7 +1129,7 @@ cancelAddListNameBtn.addEventListener('click', (e) => {
       
       }, false);
 
-
+//return { dummyCategID };
 
     }
 
@@ -1145,8 +1228,13 @@ listTitleDiv.classList.add("listtitle");
 
 const listTitle = document.createElement("h3");
 listTitle.classList.add("list-title-txt", "list");
-listTitle.setAttribute("data-id", `${crypto.randomUUID()}`);
-listTitle.textContent = mytoDOs[0].listname;
+
+const dummyListID = mytoDOs[1].id;
+
+listTitle.setAttribute("data-id", `${dummyListID}`);
+
+
+listTitle.textContent = mytoDOs[1].listname;
 
 console.log(listTitle.dataset.id);
 
@@ -1379,8 +1467,9 @@ listTitle.textContent = originalListTitle;
     }, false);
 
   
+  
     
-
+//return { dummyListID };
 
 
 }
@@ -1836,8 +1925,88 @@ categHeading.setAttribute("data-id", `${matchingCategId}`);
 
 const addTaskPopUp = () => {
     // form goes in here
+const renderedTasks = new Set();
+const clearedLists = new Set();
 
-    const categMainSection = document.querySelector(".categmainsect");
+    for (const task of mytoDOs) {
+    const targetListName = document.querySelector(`${task.listname}`); 
+
+
+     if (renderedTasks.has(task.id)) continue;
+    renderedTasks.add(task.id);
+
+//const listnameTxt = targetListName.textContent;
+
+console.log(targetListName);
+//console.log(listnameTxt);
+
+
+const targetCategName = document.querySelector(`${task.categname}`);
+
+//const categnameTxt = targetCategName.textContent;
+
+console.log(targetCategName);
+//console.log(categnameTxt);
+
+if (!targetListName || !targetCategName) {
+      console.warn("Missing list or category for task", task);
+      continue;
+    }
+
+
+  //find matching ids
+
+ const listMatchID = String(targetListName.dataset.id); //mytoDOs.find(item => item.listname === targetListName)?.id;
+ 
+const categoryMatchID = String(targetCategName.dataset.id); //mytoDOs.find(item => item.categname === targetCategName)?.id;
+
+//console.log(targetListName.dataset.id);
+//console.log(targetCategName.dataset.id);
+
+console.log(listMatchID);
+console.log(categoryMatchID);
+
+
+if (listMatchID !== undefined) {
+  console.log(`Found List with ID: ${listMatchID}`);
+} else {
+  console.log("List not found.");
+}
+
+if (categoryMatchID !== undefined) {
+  console.log(`Found Category with ID: ${categoryMatchID}`);
+} else {
+  console.log("Category not found.");
+}
+
+
+  
+  const listId = listMatchID;
+  const categoryId = categoryMatchID;
+
+
+
+console.log("Rendering task:", task);
+console.log("Looking for categoryEl with ID:", categoryId);
+console.log("Looking for listEl with ID:", listId);
+
+const listEl = document.querySelector(`[data-id="${listId}"]`);
+
+console.log(listEl); 
+
+const categoryEl = document.querySelector(`[data-id="${categoryId}"]`);
+
+console.log(categoryEl);
+
+const categMainSection = categoryEl.closest(".categmainsect");  // get the wrapping div
+
+  const listContainer = categMainSection.querySelector('.listsect');
+
+  console.log(listContainer);
+
+
+
+    //const categMainSection = document.querySelector(".categmainsect");
 
  // const addNewTaskDiv = document.querySelector(".newtaskdiv");
 
@@ -1855,7 +2024,7 @@ if (clickedNewTaskBtn) {
 
 
 
- const taskSection = document.querySelector(".tasksect");
+ const taskSection = categMainSection.querySelector(".tasksect");
 
  // Get the corresponding .newtaskdiv in that section
  //const addNewTaskDiv = taskSect.querySelector(".");
@@ -2050,6 +2219,11 @@ const dueDate = format(jsDate, "MMM dd ''yy");
  // Add to todo array
  addTask(name, details, dueDate, priority);
 
+if (!clearedLists.has(task.listname)) {
+      taskSection.replaceChildren();  // Clear only once
+      clearedLists.add(task.listname);
+    }
+
 renderTasks(); // is duplicating
  formAddTask.reset();
         
@@ -2077,7 +2251,12 @@ cancelAddTaskNameBtn.addEventListener('click', (e) => {
 
 
 
+
+
+    } // array loop
 return { addTask };
+
+
 
 }
 
@@ -2357,38 +2536,16 @@ taskDetails.textContent = "";
 
 function renderTasks() {
     
-   //const categMainSection = document.querySelector(".categmainsect");
-
-  //const listSection = document.querySelector(".listsect");
-
-//const categoryEl = document.querySelector(`[data-id="${categoryId}"]`);
-//const listContainer = categoryEl.querySelector('.listsect');
-
-    
-    
-   // const taskSection = listSection.querySelector(".tasksect");
-//console.log(newmytoDos);
-//console.log(mytoDOs);
-
-//const listTitle = categMainSection.closest(".list-title-txt");
-//const listId = listTitle.dataset.id;
-
-//const listEl = document.querySelector(`[data-id="${listId}"]`);
-//let tasksContainer = listEl.querySelector('.tasksect');
-//const addNewTaskDiv = listEl.querySelector(".newtaskdiv");
-
-//const taskSection = document.createElement("div");
-//taskSection.setAttribute("id", "task-sect");
-
-//taskSection.classList.add("tasksect");
-
-//tasksContainer.replaceChildren(); // needs to be outside loop
+   
 
 const clearedLists = new Set();
 
+
+
+
 for (let i = 0; i < mytoDOs.length; i++) {
 
-//newmytoDos.forEach(newmytoDo => {
+
 
 
 
@@ -2399,33 +2556,30 @@ for (let i = 0; i < mytoDOs.length; i++) {
 
 const targetListName = document.querySelector(".list"); 
 
-const listnameTxt = targetListName.textContent;
+
+const listDataset = targetListName.dataset;
+const newListId = listDataset.listId; // ?
+
+
+
+console.log('List ID:', newListId);
+
+
+
+
 
 console.log(targetListName);
-console.log(listnameTxt);
+
 
 
 const targetCategName = document.querySelector(".category");
 
-const categnameTxt = targetCategName.textContent;
+
 
 console.log(targetCategName);
-console.log(categnameTxt);
-
-if (task.categname === categnameTxt) {
-  console.log("category name match");
-} else {
-  console.log("category name no match");
-}
 
 
-if (task.listname === listnameTxt) {
-  console.log("list name match");
-} else {
-  console.log("list name no match");
-}
 
-if (listnameTxt && categnameTxt) {
 
 
   //find matching ids
@@ -2458,11 +2612,15 @@ if (categoryMatchID !== undefined) {
   const listId = listMatchID;
   const categoryId = categoryMatchID;
 
+ //const dummyCategoryID = categoryLoad();
+
 
 
 console.log("Rendering task:", task);
 console.log("Looking for categoryEl with ID:", categoryId);
 console.log("Looking for listEl with ID:", listId);
+
+if (categoryId === mytoDOs[i].categname) {
 
 const listEl = document.querySelector(`[data-id="${listId}"]`);
 
@@ -2497,12 +2655,12 @@ console.log(tasksContainer);
   
 
 
-
 const cardDiv = document.createElement("div");
 cardDiv.classList.add("card", "tasks");
 cardDiv.setAttribute("data-id", "idObj");
 
 const idObj = mytoDOs[i].id;
+
 cardDiv.dataset.id = idObj;
 
 console.log(cardDiv.dataset.id);
@@ -2622,20 +2780,11 @@ tasksContainer.appendChild(cardDiv);
 listContainer.insertBefore(tasksContainer, addNewTaskDiv);
     categMainSection.appendChild(listContainer);
 
-//listSection.insertBefore(taskSection, addNewTaskDiv);
-
-//listEl.insertBefore(tasksContainer, addNewTaskDiv);
-
-//categoryEl.appendChild(listEl);
-   
-//categMainSection.appendChild(listEl);
-
-} // if statement
-
 }
-//}); // mytodo loop
-    
-//renderExpandedTasks(); //maybe recursion calling each other function
+
+
+} //for loop
+
     
 }
 

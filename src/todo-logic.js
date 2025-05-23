@@ -97,13 +97,15 @@ class taskTodoElement {
     */
 
 class Task {
-    constructor(name, details, dueDate, priority) {
+    constructor(name, details, dueDate, priority, listId, categoryId) {
         this.name = name;
         this.details = details;
         this.dueDate = dueDate;
         this.priority = priority;
         this.type = "task";
         this.isPriority = false;
+        this.listId = listId;
+        this.categoryId = categoryId;
         this.id = crypto.randomUUID();
     }
 }
@@ -129,7 +131,11 @@ class Category {
 
 
 
-let mytoDOs = [{categname: "Category 1", listname: "Daily Tasks", name: "Clean my room", details: "Vaccum & throw out garbage", dueDate: "May 31, '25", priority: "Urgent", id: `${crypto.randomUUID()}`}];
+let mytoDOs = [ 
+  new Category("Category 1"),
+  new List("Daily Tasks"),
+  new Task("Clean my room", "Vacuum & throw out garbage", "May 31, '25", "Urgent")
+];
 
 let newmytoDos = [];
 
@@ -137,19 +143,19 @@ let newmytoDos = [];
 
 mytoDOs = mytoDOs.concat(newmytoDos);
 
-export function addTask(name, details, dueDate, priority) {
-    const todotask = new Task(name, details, dueDate, priority);
+export function addTask(name, details, dueDate, priority, listId, categoryId) {
+    const todotask = new Task(name, details, dueDate, priority, listId, categoryId);
 
 //const taskObj = {task: todotask, id: `${crypto.randomUUID()}`};
 //mytoDO.push(taskObj);
-mytoDOs.splice(2, 0, todotask);
+mytoDOs.splice(0, 0, todotask);
 
   }
 
   export function addListName(listname) {
     const todolist = new List(listname);
 
-mytoDOs.splice(2, 0, todolist);
+mytoDOs.splice(1, 0, todolist);
   }
 
   export function addCategName(categname) {
