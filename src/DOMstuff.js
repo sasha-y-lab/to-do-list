@@ -1,7 +1,6 @@
 
 import { mytoDOs, addTask, addListName, addCategName } from "./todo-logic.js";
 
-import { categorySectBtns, listBtns } from "./buttons-logic.js";
 
 console.log(mytoDOs);
 
@@ -273,29 +272,6 @@ const todoCategories = () => {
 }
 
 
-const refreshTodoCategories = () => {
-    const categorySectDisplay = document.querySelector("#category-sect-display");
-    categorySectDisplay.replaceChildren();
-
-}
-
-
-/**
- * Updates a single key in an object inside an array based on a matching key
- * @param {Array} array - The array of objects to update
- * @param {string} matchKey - The key to match (e.g. "name")
- * @param {string} matchValue - The value to match (e.g. original name)
- * @param {string} updateKey - The key to update (e.g. "name" or "age")
- * @param {*} newValue - The new value to set
- */
-function updateArrayObjectByKey(array, matchKey, matchValue, updateKey, newValue) {
-    const obj = array.find(item => item[matchKey] === matchValue);
-    if (obj) {
-      obj[updateKey] = newValue;
-    }
-  }
-  
-
 
 export const headerLoad = () => {
 
@@ -390,13 +366,9 @@ export const todoSectLoad = () => {
     if (mainContent) {
         mainContent.appendChild(todoSect);
     }
-    //input category, list task here functions
-    categoryLoad();
+    //input category
+    categoryLoad(mytoDOs);
 
-  
-
-
-    
 
    
 }
@@ -405,14 +377,23 @@ export const todoSectLoad = () => {
 
 
 
-export const categoryLoad = () => {
+export const categoryLoad = (array) => {
 
-    const todoSect = document.querySelector("#todo-sect");
+
+const todoSect = document.querySelector("#todo-sect");
     console.log(todoSect);
-todoSect.replaceChildren();
 
+if (!todoSect) return;
 
-for (let i = 0; i < myLibrary.length; i++) { 
+    todoSect.replaceChildren();
+
+const categories = array.filter(item => item.type === 'category');
+
+  categories.forEach(category => {
+
+// main container for todos
+
+    
     
     // category sect
 
@@ -421,6 +402,7 @@ for (let i = 0; i < myLibrary.length; i++) {
      const categMainSection = document.createElement("div");
      categMainSection.setAttribute("id", "category-sect-main");
      categMainSection.classList.add("categmainsect");
+     categMainSection.dataset.categoryId = category.id;
  
      const categHeadingDiv = document.createElement("div");
      categHeadingDiv.setAttribute("id", "category-heading-sect");
@@ -428,24 +410,11 @@ for (let i = 0; i < myLibrary.length; i++) {
  
      const categHeading = document.createElement("h2");
      categHeading.classList.add("category-title", "category");
-
-     const categoryId = mytoDOs[i].id;
-
-     categHeading.setAttribute("data-id", `${categoryId}`);
-     //categHeading.setAttribute("data-id", `${crypto.randomUUID()}`);
-     categHeading.textContent = mytoDOs[i].categname;
-
-     console.log(categHeading.dataset.id);
-
-     let categIndex2Del = categHeading.dataset.id;
-     //const categoryId = categHeading.dataset.id;
-console.log(categIndex2Del);
-
+     categHeading.textContent = category.name;
+    categHeading.dataset.categoryId = category.id;
+     console.log(categHeading.dataset.categoryId);
 
 categHeadingDiv.appendChild(categHeading);
-
-console.log(mytoDOs);
-
 
      // start of edit or delete
 
@@ -545,170 +514,56 @@ categHeadingDiv.appendChild(categoryEditDiv);
      const listSection = document.createElement("div");
 //listSection.setAttribute("id", "list-sect");
 listSection.classList.add("listsect");
+listSection.dataset.categoryId = category.id;
+
+console.log("Set on listSection:", category.id);
+
 
 categMainSection.appendChild(listSection);
-      
-     
-     
-     
-
-     
-
-     
     
 
-     
 
 
-
-
-          
-
-
-
-
-//categMainSection.appendChild(listSection);
-//categMainSection.appendChild(listContainer);
-//categoryEl.appendChild(listSection);
-
-// new task btn section
-
-const addNewTaskDiv = document.createElement("div");
-addNewTaskDiv.setAttribute("id", "new-task");
-addNewTaskDiv.classList.add("newtaskdiv");
-
-const newTaskBtn = document.createElement("button");
-newTaskBtn.setAttribute("id", "newtask");
-newTaskBtn.classList.add("newtaskbtn");
-
-const addNewTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-addNewTaskSVG.classList.add("addnewtsk");
-addNewTaskSVG.setAttribute('viewBox', '0 0 24 24');
-addNewTaskSVG.setAttribute("height", "20px");
-addNewTaskSVG.setAttribute("width", "20px");
-
-const addNewTaskSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-addNewTaskSVGPath.setAttribute(
-"d", "M5 19V5H12V12H19V13C19.7 13 20.37 13.13 21 13.35V9L15 3H5C3.89 3 3 3.89 3 5V19C3 20.1 3.89 21 5 21H13.35C13.13 20.37 13 19.7 13 19H5M14 4.5L19.5 10H14V4.5M23 18V20H20V23H18V20H15V18H18V15H20V18H23Z");
-
-addNewTaskSVG.appendChild(addNewTaskSVGPath);
-
-newTaskBtn.appendChild(addNewTaskSVG);
-
-const addNewTaskTxt = document.createElement("p");
-addNewTaskTxt.classList.add("add-new-tsk-txt");
-addNewTaskTxt.textContent = "New Task";
-
-newTaskBtn.appendChild(addNewTaskTxt);
-
-addNewTaskDiv.appendChild(newTaskBtn);
-
-//taskSection.appendChild(addNewTaskDiv);
-
-if (listContainer) {
-
-  listContainer.appendChild(addNewTaskDiv);
-}
-
-
-if (todoSect) {
         todoSect.appendChild(categMainSection);
-        }
-
-     listLoad();
-
-
-
-
-
-
-}
-}
-
-
-
-
-
- 
-
-
-export const addNewTaskBtnLoad = () => {
-
- const categMainSection = document.querySelector("#category-sect-main");
-
-const listSection = document.querySelector(".listsect");
-
-
- categMainSection.addEventListener("click", (e) => {
     
-const clickedAddNewList = e.target.closest('.addlist');
+
+     listLoad(array, category.id);
 
 
-if (clickedAddNewList) {
-  //alert('addlist');
-
- 
-
- //const listTitleDiv = document.querySelector(".listtitle");
-
- //const listHeading = listSection.closest(".listheading");
-
-// new task btn section
-
-const addNewTaskDiv = document.createElement("div");
-addNewTaskDiv.setAttribute("id", "new-task");
-addNewTaskDiv.classList.add("newtaskdiv");
-
-const newTaskBtn = document.createElement("button");
-newTaskBtn.setAttribute("id", "newtask");
-newTaskBtn.classList.add("newtaskbtn");
-
-const addNewTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-addNewTaskSVG.classList.add("addnewtsk");
-addNewTaskSVG.setAttribute('viewBox', '0 0 24 24');
-addNewTaskSVG.setAttribute("height", "20px");
-addNewTaskSVG.setAttribute("width", "20px");
-
-const addNewTaskSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-addNewTaskSVGPath.setAttribute(
-"d", "M5 19V5H12V12H19V13C19.7 13 20.37 13.13 21 13.35V9L15 3H5C3.89 3 3 3.89 3 5V19C3 20.1 3.89 21 5 21H13.35C13.13 20.37 13 19.7 13 19H5M14 4.5L19.5 10H14V4.5M23 18V20H20V23H18V20H15V18H18V15H20V18H23Z");
-
-addNewTaskSVG.appendChild(addNewTaskSVGPath);
-
-newTaskBtn.appendChild(addNewTaskSVG);
-
-const addNewTaskTxt = document.createElement("p");
-addNewTaskTxt.classList.add("add-new-tsk-txt");
-addNewTaskTxt.textContent = "New Task";
-
-newTaskBtn.appendChild(addNewTaskTxt);
-
-addNewTaskDiv.appendChild(newTaskBtn);
-
-//taskSection.appendChild(addNewTaskDiv);
-
-if (listSection) {
-
-  listSection.appendChild(addNewTaskDiv);
-}
-
-}
-
- });
 
 
+
+
+}); // category loop
 }
 
 
-export const listLoad = () => {
 
-    const categMainSection = document.querySelector("#category-sect-main");
+export const listLoad = (array, categoryId) => {
 
-    // start of list section
-const listSection = document.querySelector(".listsect");
-//const listSection = document.createElement("div");
-//listSection.setAttribute("id", "list-sect");
-//listSection.classList.add("listsect");
+    const listSection = document.querySelector(`.listsect[data-category-id="${categoryId}"]`);
+console.log("Passed to listLoad:", categoryId);
+    console.log(listSection);
+if (!listSection) return;
+
+    console.log("categoryId passed to listLoad:", categoryId);
+
+    console.log("Array passed to listLoad:", array);
+
+    const testlists = array.filter(item => item.type === 'list');
+console.log("All lists regardless of categoryId:", testlists);
+
+
+
+const lists = array.filter(item => item.type === 'list' && item.categoryId === categoryId);
+
+  lists.forEach(list => {
+
+    console.log(list);
+    // start of list section that was already created in categoryload()
+
+
+
 
 const listHeading = document.createElement("div");
 listHeading.setAttribute("id", "list-heading");
@@ -720,13 +575,12 @@ listTitleDiv.classList.add("listtitle");
 
 const listTitle = document.createElement("h3");
 listTitle.classList.add("list-title-txt", "list");
-const listId = mytoDOs[1].id;
-listTitle.setAttribute("data-id", `${listId}`);
+listTitle.textContent = list.name;
+listTitle.dataset.listId = list.id;
+console.log(listTitle.dataset.listId);
 
-//listTitle.setAttribute("data-id", `${crypto.randomUUID()}`);
-listTitle.textContent = mytoDOs[1].listname;
-
-console.log(listTitle.dataset.id);
+listTitle.dataset.categoryId = list.categoryId;
+console.log(listTitle.dataset.categoryId);
 
 listTitleDiv.appendChild(listTitle);
 
@@ -791,6 +645,15 @@ listHeading.appendChild(listTitleDiv);
 
 listSection.appendChild(listHeading);
 
+// add task section here
+
+const taskSection = document.createElement("div");
+taskSection.classList.add("tasksect");
+taskSection.setAttribute("id", "task-sect");
+taskSection.dataset.listId = list.id;
+
+listSection.appendChild(taskSection);
+
 
 
 // add new task button here
@@ -829,251 +692,20 @@ addNewTaskDiv.appendChild(newTaskBtn);
 
 //taskSection.appendChild(addNewTaskDiv);
 
-if (listSection) {
+
 
   listSection.appendChild(addNewTaskDiv);
-}
-
-
-if (categMainSection) {
-
-    categMainSection.appendChild(listSection);
-    }
-
-    
-    
-
-   
-
-//taskLoad();
-//renderTasks();
+ 
 
 
 
+renderTasks(array, list.id);
 
-listSection.addEventListener('click', function(e) {
-
-  const clickedListEditBtn = e.target.closest('.editlist');
-const clickedListDeleteBtn = e.target.closest('.deletelist');
-
-
-
-    if (clickedListEditBtn) {
-      alert('editlist');
-
-      const originalListTitle = listTitle.textContent;
-
-
-
-
-//create form
-
-const formListEdit = document.createElement("form");
-formListEdit.setAttribute("name", "formlistedit");
-formListEdit.classList.add("formlistedit");
-
-const formListTitleEdit = document.createElement("input");
-formListTitleEdit.type = "text";
-formListTitleEdit.name = "edit-list-title";
-formListTitleEdit.id = "edit-list-title";
-formListTitleEdit.value = originalListTitle;
-
-formListEdit.appendChild(formListTitleEdit);
-
-
-const editListBtnSect = document.createElement("div");
-editListBtnSect.setAttribute("id", "listeditBtn-sect");
-editListBtnSect.classList.add("listbtnsectedit");
-
-const formListEditSubmitBtn = document.createElement("button");
-formListEditSubmitBtn.type = "submit"; // Important: type submit so form submit event fires
-formListEditSubmitBtn.id = "submit-edit-list";
-formListEditSubmitBtn.textContent = "Edit";
-
-editListBtnSect.appendChild(formListEditSubmitBtn);
-
-const formListEditCancelBtn = document.createElement("button");
-formListEditCancelBtn.type = "button"; // prevent form submit
-formListEditCancelBtn.id = "cancel-edit-list";
-formListEditCancelBtn.textContent = "Cancel";
-
-editListBtnSect.appendChild(formListEditCancelBtn);
-
-formListEdit.appendChild(editListBtnSect);
-
-//expandTasks.appendChild(formTaskEdit);
-//listTitle.parentElement.appendChild(formListEdit);
-listTitle.parentElement.insertBefore(formListEdit, listEditDiv);
-
-
-// Clear current content
-listTitle.textContent = "";
-
-
-formListEdit.addEventListener('submit', (e) => {
-
-    e.preventDefault(); // We don't want to submit this fake form
-
-    const formData = new FormData(formListEdit);
-    listTitle.textContent = formData.get("edit-list-title");
-
-
-    const originalName = originalListTitle;
-    const updatedName = formData.get("edit-list-title");
-    
-    updateArrayObjectByKey(mytoDOs, "listname", originalName, "listname", updatedName);
-
-
-  formListEdit.remove(); // Remove form after save
-  
-
-});
-
-formListEditCancelBtn.addEventListener('click', (e) => {
-
-e.preventDefault(); // We don't want to submit this fake form
-
-listTitle.textContent = originalListTitle;
-  
-  formListEdit.remove(); // Remove form after click
-  
-});
-
-
-
-
-      
-    } else if (clickedListDeleteBtn) {
-      //alert('test');
-
-      
-     
-         if (listSection) { 
-            listSection.remove();
-         }
-     
-
-    }
-    }, false);
-
-  
-    
-
-
-
+  });
 }
 
 
 
-    const completeTask = () => {
-
-const todoSect = document.querySelector("#todo-sect");
-
-//const listSection = todoSect.closest(".listsect");
-
-      //const taskSection = listSection.closest(".tasksect");
-
-       //const taskDisplay = document.querySelector("#taskdisplay");
-
-      // const currentCardDiv = document.querySelector(".card");
-      // const currentCardDiv2 = currentCardDiv.dataset.id;
-
-      // const editTaskDiv = document.querySelector(".editdivbtn");
-
-      // const taskTxt = document.querySelector(".tskTxt");
-
-      //const checkoffDiv = document.querySelector(".checkoffdiv");
-       
-
-       //const checkOffTaskSVG = document.querySelector(".check-off");
-
-       todoSect.addEventListener("click", (e) => {
-
-        const checkedCircle = e.target.closest('.checkoffdiv');
-
-        
-
-        if (!checkedCircle) return;
-
-const cardDiv = checkedCircle.closest(".card");
-const checkoffDiv = checkedCircle.closest(".checkoffdiv");
-  const listSection = cardDiv.closest(".listsect");
-  
-  //const taskSection = cardDiv.closest(".tasksect");
-
-   // Debug: Confirm you're inside the correct list/card
-  console.log("List ID:", listSection.dataset.id); // if data-id on list
-  console.log("Card ID:", cardDiv.dataset.id);     // if data-id on card
-
-
-        if (checkedCircle) {
-          alert('check-off');
-
-          const currentCircleSVG = checkedCircle.querySelector(".check-off");
-  if (currentCircleSVG) currentCircleSVG.remove();
-
-
-//checkOffTaskSVG.remove();
-
-
-const checkTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-checkTaskSVG.classList.add("checked");
-checkTaskSVG.setAttribute('viewBox', '0 0 24 24');
-checkTaskSVG.setAttribute("height", "20px");
-checkTaskSVG.setAttribute("width", "20px");
-
-const checkTaskSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-checkTaskSVGPath.setAttribute(
-"d", "M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z");
-
-checkTaskSVG.appendChild(checkTaskSVGPath);
-
-
-if (checkoffDiv) {
-
-checkoffDiv.appendChild(checkTaskSVG);
-}
-
-
-// Find task text inside this card
-  const taskTxt = cardDiv.querySelector(".tskTxt");
-  const editTaskDiv = cardDiv.querySelector(".editdivbtn");
-
-
-const span = document.createElement("span");
-span.textContent = taskTxt.textContent;
-span.style.color = "gray";
-span.style.textDecoration = "line-through";
-
-//const expandTaskDiv = document.querySelector(".expand-toggle");
-
-
-
-
-if (taskTxt) {
-    taskTxt.textContent = "";
-    taskTxt.appendChild(span);
-   // expandTaskDiv.remove();
-    editTaskDiv.remove();
-    
-}
-
-        } // if statement for non svg listener
-
-       });
-
-    }
-    //completeTask();
-
-    
-
-const refreshTODO = () => {
-
-const todoSect = document.querySelector("#todo-sect");
-
-todoSect.replaceChildren();
-
-}
 
 
 export const urgent = () => {
@@ -1148,1049 +780,39 @@ export const moderate = () => {
 
         
 
-
-
-export const addCategPopUp = () => {
-// form goes in here
-
-const addCategoryDiv = document.querySelector("#add-category-div");
-
-
-
-const addCategoryBtn = document.querySelector("#addcat");
-
-
-
-addCategoryBtn.addEventListener("click", (e) => {
-
-
-const addCategDialog = document.createElement("dialog");
-addCategDialog.setAttribute("id", "addcateg");
-
-const formAddCateg = document.createElement("form");
-formAddCateg.setAttribute("name", "formaddcateg");
-formAddCateg.classList.add("formaddcateg");
-
-
-const categoryNameDiv = document.createElement("div");
-categoryNameDiv.setAttribute("id", "categNamediv");
-
-const categNameLabel = document.createElement("label");
-categNameLabel.setAttribute("id", "add-categ-label");
-categNameLabel.textContent = "CATEGORY NAME";
-    
-    const formCategTitle = document.createElement("input");
-    formCategTitle.type = "text";
-    formCategTitle.name = "add-categ-title";
-    formCategTitle.id = "add-categ-title";
-    formCategTitle.minLength = "2";
-    formCategTitle.required = true;
-    formCategTitle.placeholder = "Work";
-    
-categNameLabel.appendChild(formCategTitle);
-
-categoryNameDiv.appendChild(categNameLabel);
-
-formAddCateg.appendChild(categoryNameDiv);
-
-
-    //formAddCateg.appendChild(formCategTitle);
-
-    //button sects
-
-    const addCategBtnSect = document.createElement("div");
-    addCategBtnSect.setAttribute("id", "addcategBtn-sect");
-
-    const addCategNameBtn = document.createElement("button")
-    addCategNameBtn.type = "submit"; // Important: type submit so form submit event fires
-    addCategNameBtn.id = "submit-categ-name";
-    addCategNameBtn.textContent = "Add Category";
-
-    addCategBtnSect.appendChild(addCategNameBtn);
-
-
-    const cancelAddCategNameBtn = document.createElement("button");
-    cancelAddCategNameBtn.type = "button"; // prevent form submit
-    cancelAddCategNameBtn.id = "cancel-addcateg-name";
-    cancelAddCategNameBtn.textContent = "Cancel";
-
-    addCategBtnSect.appendChild(cancelAddCategNameBtn);
-
-    formAddCateg.appendChild(addCategBtnSect);
-
-    addCategDialog.appendChild(formAddCateg);
-
-    addCategoryDiv.appendChild(addCategDialog);
-
-
-    addCategDialog.showModal();
-
-
-
-    formAddCateg.addEventListener('submit', (e) => {
-
-        e.preventDefault(); // We don't want to submit this fake form
-
-        const todoSect = document.querySelector("#todo-sect");
-    // category sect
-
-     // start of category section
-
-     const categMainSection = document.createElement("div");
-     //categMainSection.setAttribute("id", "category-sect-main");
-     categMainSection.classList.add("categmainsect");
- 
-     const categHeadingDiv = document.createElement("div");
-     //categHeadingDiv.setAttribute("id", "category-heading-sect");
-     categHeadingDiv.classList.add("categheadingdiv");
- 
-     const categHeading = document.createElement("h2");
-     categHeading.classList.add("category-title", "category");
-     //categHeading.textContent = "Category 1";
-
-     const formData = new FormData(formAddCateg);
-        categHeading.textContent = formData.get("add-categ-title");
-
-
-     // start of edit or delete
-
-     const categoryEditDiv = document.createElement("div");
-    // categoryEditDiv.setAttribute("id", "cat-edit-div");
-    categoryEditDiv.classList.add("categeditdiv");
-
-        // edit button
-
-        const editCategoryBtn = document.createElement("button");
-       // editCategoryBtn.setAttribute("id", "edit-category");
-       editCategoryBtn.classList.add("editcateg");
-
-const editCategSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-editCategSVG.classList.add("editcategoryname");
-editCategSVG.setAttribute('viewBox', '0 0 24 24');
-editCategSVG.setAttribute("height", "20px");
-editCategSVG.setAttribute("width", "20px");
-
-const editCategSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-editCategSVGPath.setAttribute(
-"d", "M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z");
-
-editCategSVG.appendChild(editCategSVGPath);
-
-editCategoryBtn.appendChild(editCategSVG);
-
-categoryEditDiv.appendChild(editCategoryBtn);
-
-
-
-        //delete category button
-
-        const deleteCategoryBtn = document.createElement("button");
-        //deleteCategoryBtn.setAttribute("id", "delete-category");
-        deleteCategoryBtn.classList.add("deletecateg");
-
-const deleteCategSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-deleteCategSVG.classList.add("deletecategname");
-deleteCategSVG.setAttribute('viewBox', '0 0 24 24');
-deleteCategSVG.setAttribute("height", "20px");
-deleteCategSVG.setAttribute("width", "20px");
-
-const deleteCategSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-deleteCategSVGPath.setAttribute(
-"d", "M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z");
-
-deleteCategSVG.appendChild(deleteCategSVGPath);
-
-deleteCategoryBtn.appendChild(deleteCategSVG);
-
-categoryEditDiv.appendChild(deleteCategoryBtn);
-
-categHeading.appendChild(categoryEditDiv);
- 
-     categHeadingDiv.appendChild(categHeading);
- 
-     categMainSection.appendChild(categHeadingDiv);
-     
- 
-     // add list button
- 
-     const addListBtnDiv = document.createElement("div");
-    // addListBtnDiv.setAttribute("id", "listbtn-div");
-     addListBtnDiv.classList.add("listbtn-div");
- 
-     const addListBtn = document.createElement("button");
-     addListBtn.classList.add("addlist");
-     
- 
-     const addListSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-     addListSVG.classList.add("addlst");
-     addListSVG.setAttribute('viewBox', '0 0 24 24');
-     addListSVG.setAttribute("height", "20px");
-     addListSVG.setAttribute("width", "20px");
- 
- const addListSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
- addListSVGPath.setAttribute(
-         "d", "M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z");
- 
-         addListSVG.appendChild(addListSVGPath);
- 
-         addListBtn.appendChild(addListSVG);
- 
-     const addListTxt = document.createElement("p");
-     addListTxt.classList.add("addlist-txt");
-     addListTxt.textContent = "Add List";
- 
-     addListBtn.appendChild(addListTxt);
- 
-     addListBtnDiv.appendChild(addListBtn);
- 
-     categMainSection.appendChild(addListBtnDiv);
- 
-    // categMainSection.appendChild(categHeadingDiv);
-
-
-     if (todoSect) {
-        todoSect.appendChild(categMainSection);
-        }
-
-        
-        const categname = formData.get("add-categ-title");
-
-        // Add to todo array
-        addCategName(categname);
-
-
-        // add id
-
-        //const formCategData = document.getElementById('add-categ-title');
-
-        //console.log(formCategData);
-
-const targetCategName = formData.get("add-categ-title").trim();
-const matchingCategId = mytoDOs.find(item => item.categname === targetCategName)?.id;
-
-if (matchingCategId !== undefined) {
-  console.log(`Found Category with ID: ${matchingCategId}`);
-} else {
-  console.log("Category not found.");
-}
-       
-categHeading.setAttribute("data-id", `${matchingCategId}`);
-
-
-
-
-        //console.log(newmytoDos);
-        console.log(mytoDOs);
-        
-
-        formAddCateg.reset();
-        
-      formAddCateg.remove();
-      addCategDialog.close(); // Remove form after submit
-      addCategDialog.remove();
-    
-
-  });
-
-
-  cancelAddCategNameBtn.addEventListener('click', (e) => {
-
-    e.preventDefault(); // We don't want to submit this fake form
-
-    formAddCateg.remove();
-    addCategDialog.close(); // Remove form after click
-    addCategDialog.remove();
-  });
-
-});
-
-
-
-
-}
-
-
-
-
-const addTaskPopUp = () => {
-    // form goes in here
-
-    const categMainSection = document.querySelector(".categmainsect");
-
- // const addNewTaskDiv = document.querySelector(".newtaskdiv");
-
-  // const newTaskBtns = document.querySelectorAll(".newtaskbtn");
-
-
-
-categMainSection.addEventListener("click", (e) => {
-    
-const clickedNewTaskBtn = e.target.closest('.newtaskbtn');
-
-
-if (clickedNewTaskBtn) {
-  alert('newtaskbtn');
-
-
-
- const taskSection = document.querySelector(".tasksect");
-
- // Get the corresponding .newtaskdiv in that section
- //const addNewTaskDiv = taskSect.querySelector(".");
-
- // add tasks now
-    
-    const addTaskDialog = document.createElement("dialog");
-    addTaskDialog.setAttribute("id", "addtsk-dialog");
-    
-    const formAddTask = document.createElement("form");
-    formAddTask.setAttribute("name", "formaddtsk");
-    formAddTask.classList.add("formaddtsk");
-
-    // add tsk name
-
-    const taskNameSect = document.createElement("div");
-    taskNameSect.setAttribute("id", "taskNameDiv");
-
-    const taskNameLabel = document.createElement("label");
-    taskNameLabel.setAttribute("id", "add-tsk-label");
-    taskNameLabel.textContent = "TASK NAME";
-        
-        const formTaskTitle = document.createElement("input");
-        formTaskTitle.type = "text";
-        formTaskTitle.name = "add-tsk-title";
-        formTaskTitle.id = "add-tsk-title";
-        formTaskTitle.minLength = "2";
-        formTaskTitle.required = true;
-        formTaskTitle.placeholder = "Set Up Email";
-        
-        taskNameLabel.appendChild(formTaskTitle);
-
-        taskNameSect.appendChild(taskNameLabel);
-
-    formAddTask.appendChild(taskNameSect);
-
-    // add task-details
-
-    const taskDetailsSect = document.createElement("div");
-    taskDetailsSect.setAttribute("id", "taskDetailsDiv");
-
-    const taskDetailsLabel = document.createElement("label");
-    taskDetailsLabel.setAttribute("id", "add-tskdetails-label");
-    taskDetailsLabel.textContent = "TASK DETAILS";
-
-    const formTaskDetails = document.createElement("textarea");
-    formTaskDetails.name = "add-tsk-details";
-    formTaskDetails.id = "add-tsk-details";
-    formTaskDetails.rows = "5";
-    formTaskDetails.cols  = "30";
-    formTaskDetails.required = true;
-    formTaskDetails.placeholder = "Log in & set up auto responders.";
-        
-        taskDetailsLabel.appendChild(formTaskDetails);
-
-        taskDetailsSect.appendChild(taskDetailsLabel);
-
-    formAddTask.appendChild(taskDetailsSect);
-
-    // due-date
-
-    const taskDateSect = document.createElement("div");
-    taskDateSect.setAttribute("id", "taskDateDiv");
-
-    const taskDateLabel = document.createElement("label");
-    taskDateLabel.setAttribute("id", "add-tskdate-label");
-    taskDateLabel.textContent = "TASK DUE DATE";
-
-    const formTaskDate = document.createElement("input");
-    formTaskDate.type = "date";
-    formTaskDate.name = "add-tsk-date";
-    formTaskDate.id = "add-tsk-date";
-    formTaskDate.required = true;
-    
-        
-    taskDateLabel.appendChild(formTaskDate);
-
-        taskDateSect.appendChild(taskDateLabel);
-
-    formAddTask.appendChild(taskDateSect);
-
-    // priority 
-
-    const taskPrioritySect = document.createElement("div");
-    taskPrioritySect.setAttribute("id", "taskPriorityDiv");
-
-    const taskPriorityLabel = document.createElement("label");
-    taskPriorityLabel.setAttribute("id", "add-tskpriority-label");
-    taskPriorityLabel.textContent = "TASK PRIORITY";
-
-    const formTaskPriority = document.createElement("select");
-    formTaskPriority.name = "add-tsk-priority";
-    formTaskPriority.id = "add-tsk-priority";
-    formTaskPriority.required = true;
-
-    const urgentOption = document.createElement("option");
-    urgentOption.value = "urgent";
-    urgentOption.textContent = "Urgent";
-    
-    formTaskPriority.appendChild(urgentOption);
-
-    const moderateOption = document.createElement("option");
-    moderateOption.value = "moderate";
-    moderateOption.textContent = "Moderate";
-
-    formTaskPriority.appendChild(moderateOption);
-
-    const lowOption = document.createElement("option");
-    lowOption.value = "low";
-    lowOption.textContent = "Low";
-
-    formTaskPriority.appendChild(lowOption); 
-    
-    const noneOption = document.createElement("option");
-    noneOption.value = "none";
-    noneOption.textContent = "None";
-
-    formTaskPriority.appendChild(noneOption);
-
-    
-        
-    taskPriorityLabel.appendChild(formTaskPriority);
-
-    taskPrioritySect.appendChild(taskPriorityLabel);
-
-    formAddTask.appendChild(taskPrioritySect);
-
-
-
-    //button sects
-
-    const addTaskBtnSect = document.createElement("div");
-    addTaskBtnSect.setAttribute("id", "addtskBtn-sect");
-
-    const addTaskNameBtn = document.createElement("button")
-    addTaskNameBtn.type = "submit"; // Important: type submit so form submit event fires
-    addTaskNameBtn.id = "submit-tsk-name";
-    addTaskNameBtn.textContent = "Add Task";
-
-    addTaskBtnSect.appendChild(addTaskNameBtn);
-
-
-    const cancelAddTaskNameBtn = document.createElement("button");
-    cancelAddTaskNameBtn.type = "button"; // prevent form submit
-    cancelAddTaskNameBtn.id = "cancel-addtsk-name";
-    cancelAddTaskNameBtn.textContent = "Cancel";
-
-    addTaskBtnSect.appendChild(cancelAddTaskNameBtn);
-
-    formAddTask.appendChild(addTaskBtnSect);
-
-addTaskDialog.appendChild(formAddTask);
-
-
-taskSection.appendChild(addTaskDialog);
-
+function renderTasks(array, listId) {
+
+  const taskSection = document.querySelector(`.tasksect[data-list-id="${listId}"]`);
+console.log("Passed to renderTasks:", listId);
+  
 console.log(taskSection);
 
-addTaskDialog.showModal();
+   if (!taskSection) {
+    console.warn(`No task section found for list ID: ${listId}`);
+    return;
+  }
 
-// start form listener
-
-formAddTask.addEventListener('submit', (e) => {
-
+  taskSection.replaceChildren(); // only replace the task section, not the whole list section
     
+const tasks = array.filter(item => item.type === 'task' && item.listId === listId);
 
-    e.preventDefault(); // We don't want to submit this fake form
+  tasks.forEach(task => {
    
-    const formData = new FormData(formAddTask);
-        //listTitle.textContent = formData.get("add-list-title");
-
-
- const { format } = require("date-fns");
-
- const name = formData.get("add-tsk-title");
- const details = formData.get("add-tsk-details");
- const date = formData.get("add-tsk-date");
-
- //const dueDate = format(new Date(date), "MMM dd ''yy");
-
-//const dueDate = format(parseISO(date), "MMM dd ''yy");
-
-const [year, month, day] = date.split("-");
-const jsDate = new Date(year, month - 1, day); // Local midnight, no timezone issues
-
-const dueDate = format(jsDate, "MMM dd ''yy");
-
-
- console.log(dueDate);
- const priority = formData.get("add-tsk-priority");
-
-const listTitle = document.querySelector(".list");
-
- const listId = listTitle.dataset.id;
-
- console.log(listId);
-
- const categHeading = document.querySelector(".category");
-
- const categoryId = categHeading.dataset.id;
- console.log(categoryId);
-
- // Add to todo array
- addTask(name, details, dueDate, priority, listId, categoryId);
-taskSection.replaceChildren();
-renderTasks(); // is duplicating
-
-
- formAddTask.reset();
-        
-    formAddTask.remove();
-    addTaskDialog.close(); // Remove form after submit
-    addTaskDialog.remove();
- 
-
-
-});
-
-
-cancelAddTaskNameBtn.addEventListener('click', (e) => {
-
-    e.preventDefault(); // We don't want to submit this fake form
-
-    formAddTask.remove();
-    addTaskDialog.close(); // Remove form after click
-    addTaskDialog.remove();
-  });
-
-} // if statement for listener
-
-}); // btton listener
-
-
-
-//return { addTask };
-
-}
-
-function renderExpandedTasks() {
-
-  // start of expanded task display
-
-  const categMainSection = document.querySelector(".categmainsect");
- // const taskSection = document.querySelector(".tasksect");
-
-categMainSection.addEventListener("click", (e) => {
-
-  const clickedEditTaskBtn = e.target.closest('.edittask');
-  const currentCardDiv = e.target.closest('.card');
-
-  
-
-    //taskSection.replaceChildren();
-       
-  
-  
-  //const index = Number(currentCardDiv.dataset.index);
-  
-  
-  //console.log(currentCardDiv.dataset.index); // Should log a number string
-  
-  if (clickedEditTaskBtn) {
-    alert('edittask');
-  
-    
-    
-        // const cardDiv = document.querySelector(".card");
-        
-         const existingExpandTasks = currentCardDiv.querySelector(".expand-toggle"); // checks if it exists
-         //const existingTaskEditDiv = cardDiv.querySelector("#task-edit-div");
-  // the following does a toggle
-         if (existingExpandTasks) {
-          
-          existingExpandTasks.remove();
-          //existingTaskEditDiv.remove();
-         } else {
-  
-          
-  
-          const expandTasks = document.createElement("div");
-         // expandTasks.setAttribute("id", "expand-togglediv");
-          expandTasks.classList.add("expand-toggle");
-
-          
-          
-          const taskDetails = document.createElement("div");
-          //taskDetails.setAttribute("id", "task-details");
-          taskDetails.classList.add("tskdetailsdiv");
-          
-          
-          for (let i = 0; i < mytoDOs.length; i++) {
-taskDetails.textContent = "";
-
-          taskDetails.textContent = `${mytoDOs[i].details}`;
-
-        } // for loop
-  
-          expandTasks.appendChild(taskDetails);
-
-        
-  
-          //cardDiv.appendChild(taskDetails);
-  
-          const taskEditDiv = document.createElement("div");
-          //taskEditDiv.setAttribute("id", "task-edit-div");
-          taskEditDiv.classList.add("tskeditdiv");
-  
-          // edit button
-  
-          const editDisplayedTaskBtn = document.createElement("button");
-  //editDisplayedTaskBtn.setAttribute("id", "edit-displayed-task");
-  editDisplayedTaskBtn.classList.add("editdisplayedtskbtn");
-  
-  const editDisplayedTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  editDisplayedTaskSVG.classList.add("editdisplayedtsk");
-  editDisplayedTaskSVG.setAttribute('viewBox', '0 0 24 24');
-  editDisplayedTaskSVG.setAttribute("height", "20px");
-  editDisplayedTaskSVG.setAttribute("width", "20px");
-  
-  const editDisplayedTaskSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  editDisplayedTaskSVGPath.setAttribute(
-  "d", "M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z");
-  
-  editDisplayedTaskSVG.appendChild(editDisplayedTaskSVGPath);
-  
-  editDisplayedTaskBtn.appendChild(editDisplayedTaskSVG);
-  
-  taskEditDiv.appendChild(editDisplayedTaskBtn);
-  
-  expandTasks.appendChild(taskEditDiv);
-  
-          //delete task button
-  
-          const deleteTaskBtn = document.createElement("button");
-          deleteTaskBtn.setAttribute("id", "delete-task");
-          deleteTaskBtn.classList.add("deletetskbtn");
-  
-  const deleteTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  deleteTaskSVG.classList.add("editdisplayedtsk");
-  deleteTaskSVG.setAttribute('viewBox', '0 0 24 24');
-  deleteTaskSVG.setAttribute("height", "20px");
-  deleteTaskSVG.setAttribute("width", "20px");
-  
-  const deleteTaskSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  deleteTaskSVGPath.setAttribute(
-  "d", "M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z");
-  
-  deleteTaskSVG.appendChild(deleteTaskSVGPath);
-  
-  deleteTaskBtn.appendChild(deleteTaskSVG);
-  
-  taskEditDiv.appendChild(deleteTaskBtn);
-  
-  expandTasks.appendChild(taskEditDiv);
-  
-  currentCardDiv.appendChild(expandTasks);
-  
-  
-  // start of button edit listener
-  
-  expandTasks.addEventListener("click", (e) => {
-  
-  //const editDisplayedTaskBtns = document.querySelectorAll(".editdisplayedtskbtn");
-  
-  const clickedEditDisplayedTasks = e.target.closest('.editdisplayedtskbtn');
-  const clickedDeleteTaskBtn = e.target.closest('.deletetskbtn');
-  
-  if (clickedEditDisplayedTasks) {
-    alert('editdisplayedtskbtn');
-  
-  
-      const taskTxt = document.querySelector(".tskTxt");
-      
-  
-      const originalTitle = taskTxt.textContent;
-  const originalDetails = taskDetails.textContent;
-  
-  
-  
-  //create form
-  
-      const formTaskEdit = document.createElement("form");
-      formTaskEdit.setAttribute("name", "formedit");
-      formTaskEdit.classList.add("formedit");
-      
-      const formTaskTitleEdit = document.createElement("input");
-      formTaskTitleEdit.type = "text";
-      formTaskTitleEdit.name = "edit-task-title";
-      formTaskTitleEdit.id = "edit-task-title";
-      formTaskTitleEdit.value = originalTitle;
-  
-      formTaskEdit.appendChild(formTaskTitleEdit);
-  
-      const formTaskDetailsEdit = document.createElement("input");
-      formTaskDetailsEdit.type = "text";
-      formTaskDetailsEdit.name = "edit-task-details";
-      formTaskDetailsEdit.id = "edit-task-details";
-     formTaskDetailsEdit.value = originalDetails; // Prefill current details
-  
-      formTaskEdit.appendChild(formTaskDetailsEdit);
-  
-      const editTaskBtnSect = document.createElement("div");
-      editTaskBtnSect.setAttribute("id", "taskeditBtn-sect");
-  
-      const formTaskEditSubmitBtn = document.createElement("button");
-      formTaskEditSubmitBtn.type = "submit"; // Important: type submit so form submit event fires
-      formTaskEditSubmitBtn.id = "submit-edit-task";
-      formTaskEditSubmitBtn.textContent = "Edit Task";
-  
-      editTaskBtnSect.appendChild(formTaskEditSubmitBtn);
-  
-      const formTaskEditCancelBtn = document.createElement("button");
-      formTaskEditCancelBtn.type = "button"; // prevent form submit
-      formTaskEditCancelBtn.id = "cancel-edit-task";
-      formTaskEditCancelBtn.textContent = "Cancel Edit";
-  
-      editTaskBtnSect.appendChild(formTaskEditCancelBtn);
-  
-      formTaskEdit.appendChild(editTaskBtnSect);
-  
-      //expandTasks.appendChild(formTaskEdit);
-      taskTxt.parentElement.appendChild(formTaskEdit);
-  
-  
-  // Clear current content
-  taskTxt.textContent = "";
-  taskDetails.textContent = "";
-  
-  
-      formTaskEdit.addEventListener('submit', (e) => {
-  
-          e.preventDefault(); // We don't want to submit this fake form
-      
-          const formData = new FormData(formTaskEdit);
-        taskTxt.textContent = formData.get("edit-task-title");
-        taskDetails.textContent = formData.get("edit-task-details");
-        formTaskEdit.remove(); // Remove form after save
-  
-    });
-  
-    formTaskEditCancelBtn.addEventListener('click', (e) => {
-  
-      e.preventDefault(); // We don't want to submit this fake form
-  
-      taskTxt.textContent = originalTitle;
-        taskDetails.textContent = originalDetails;
-        formTaskEdit.remove(); // Remove form after click
-    });
-  
-  } else if (clickedDeleteTaskBtn) {
-    alert('deletetskbtn');
-
-    const currentCardDiv2 = document.querySelector(".card");
-    
-    for (let i = 0; i < mytoDOs.length; i++) {
-    
-      // tasks section
-     // taskSection.replaceChildren();
-    
-      let taskID = mytoDOs[i].id;
-      
-         
-         console.log(taskID);
-    
-        // taskSection.setAttribute("data-id", `${taskID}`);
-
-        currentCardDiv2.setAttribute("data-id", `${taskID}`);
-    
-         let tskIndex2Del = currentCardDiv2.dataset.id; //taskSection.dataset.id;
-    
-    
-         
-         console.log(tskIndex2Del);
-    
-         console.log(mytoDOs);
-    
-         console.log(currentCardDiv2.dataset.id);
-    
-    
-
-    const index = [...Array.from(currentCardDiv2.parentElement.children)].indexOf(currentCardDiv2);
-
-
-    console.log(index);
-
-    if (taskID === tskIndex2Del) {
-
-      mytoDOs.splice(index, 1); // does it delete the active card
-
-      if (currentCardDiv2) {
-        currentCardDiv2.remove();
-      }
-      //taskSection.replaceChildren();
-      //renderTasks();
-
-    }
-  } // for loop
-  }
-});
-         
-         
-         
-         }
-    
-  } // end of first if
-
-
-         });
-
-}
-
-
-function renderTasks() {
-    
-   //const categMainSection = document.querySelector(".categmainsect");
-
-  //const listSection = document.querySelector(".listsect");
-
-//const categoryEl = document.querySelector(`[data-id="${categoryId}"]`);
-//const listContainer = categoryEl.querySelector('.listsect');
-
-    
-    
-   // const taskSection = listSection.querySelector(".tasksect");
-//console.log(newmytoDos);
-//console.log(mytoDOs);
-
-//const listTitle = categMainSection.closest(".list-title-txt");
-//const listId = listTitle.dataset.id;
-
-//const listEl = document.querySelector(`[data-id="${listId}"]`);
-//let tasksContainer = listEl.querySelector('.tasksect');
-//const addNewTaskDiv = listEl.querySelector(".newtaskdiv");
-
-//const taskSection = document.createElement("div");
-//taskSection.setAttribute("id", "task-sect");
-
-//taskSection.classList.add("tasksect");
-
-//tasksContainer.replaceChildren(); // needs to be outside loop
-
-const clearedLists = new Set();
-
-//for (let i = 0; i < mytoDOs.length; i++) { // iterating prints the amount of arrays in cards 
-
-
-  /* // use for upcoming task and todays tasks with duedates
-
-const todoList = [
-    { id: 1, task: "Grocery shopping", completed: false },
-    { id: 2, task: "Laundry", completed: true },
-    { id: 3, task: "Walk the dog", completed: false }
-];
-
-// Example 1: Count the number of completed tasks
-const completedCount = todoList.reduce((count, todo) => {
-    return todo.completed ? count + 1 : count;
-}, 0);
-
-console.log("Completed tasks:", completedCount); // Output: Completed tasks: 1
-
-
-  */
-
-//const taskName = mytoDOs[i].name;
-
-let tasks = mytoDOs.find( mytoDO => mytoDO['type'] === 'task' );
-
-  //const task = mytoDOs[i];
-
-  if (tasks) {
-
-
-let targetLists = mytoDOs.filter(function (list) {
-  return list.listname;
-});
-
-let listIds = targetLists.map(function (ids) {
-  return ids.id;
-});
-
-console.log(targetLists);
-
-console.log(listIds);
-
-let currentListID = listIds.reduce(function (accumulator, currentItem) {
-  console.log('accumulator: ', accumulator);
-    console.log('currentValue:', currentItem);
-  
-  return accumulator;
-  
-});
-
-
-const listId = currentListID;
-
-const targetListName = document.querySelector(`[data-id="${listId}"]`);
-
-
-
-//const targetListName = document.querySelector(".list"); 
-
-
-//const categoryEl = document.querySelector('.category');
-
-
-
-console.log(targetListName);
-
-
-
-
-let targetCategs = mytoDOs.filter(function (categ) {
-  return categ.categname;
-});
-
-let categIds = targetCategs.map(function (ids) {
-  return ids.id;
-});
-
-console.log(targetCategs);
-
-console.log(categIds);
-
-
-let currentCategID = categIds.reduce(function (accumulator, currentItem) {
-  console.log('accumulator: ', accumulator);
-    console.log('currentValue:', currentItem);
-  
-  return accumulator;
-  
-});
-
-
-const categoryId = currentCategID;
-
-const targetCategName = document.querySelector(`[data-id="${categoryId}"]`);
-
-console.log(targetCategName);
-
-
-
-
-
-  //find matching ids
-
- const listMatchID = String(targetListName.dataset.id); //mytoDOs.find(item => item.listname === targetListName)?.id;
- 
-const categoryMatchID = String(targetCategName.dataset.id); //mytoDOs.find(item => item.categname === targetCategName)?.id;
-
-//console.log(targetListName.dataset.id);
-//console.log(targetCategName.dataset.id);
-
-console.log(listMatchID);
-console.log(categoryMatchID);
-
-
-if (listMatchID !== undefined) {
-  console.log(`Found List with ID: ${listMatchID}`);
-} else {
-  console.log("List not found.");
-}
-
-if (categoryMatchID !== undefined) {
-  console.log(`Found Category with ID: ${categoryMatchID}`);
-} else {
-  console.log("Category not found.");
-}
-
-
-  
-  //const listId = listMatchID;
- // const categoryId = categoryMatchID;
-
-
-
-//console.log("Rendering task:", task);
-//console.log("Looking for categoryEl with ID:", categoryId);
-//console.log("Looking for listEl with ID:", listId);
-
-const listEl = targetListName;
-
-console.log(listEl); 
-
-const categoryEl = targetCategName;
-
-console.log(categoryEl);
-
-const categMainSection = categoryEl.closest(".categmainsect");  // get the wrapping div
-
-  const listContainer = categMainSection.querySelector('.listsect');
-
-  console.log(listContainer);
-
-// If the listEl is not yet inside categoryEl, append it
-  if (!listContainer.contains(listEl)) {
-    listContainer.appendChild(listEl);
-  }
-  
-
-
-
-let tasksContainer = listContainer.querySelector(".tasksect");
-
-console.log(tasksContainer);
-
-  const addNewTaskDiv = listContainer.querySelector(".newtaskdiv");
-
-  console.log(addNewTaskDiv);
-
-  
-
-
-
-const currentIDValue = mytoDOs.listId = listId;
-
-
-
-if (currentIDValue) {
-
+console.log(task);
 
 const cardDiv = document.createElement("div");
 cardDiv.classList.add("card", "tasks");
+cardDiv.dataset.taskId = task.id;
 
+console.log("task:", cardDiv.dataset.taskId);
 
-let targetCards = mytoDOs.filter(function (cards) {
-  return cards.name;
-});
-
-let cardIds = targetCards.map(function (ids) {
-  return ids.id;
-});
-
-console.log(targetCards);
-
-console.log(cardIds);
-
-let currentCardIDs = cardIds.reduce(function (accumulator, currentItem) {
-  console.log('accumulator: ', accumulator);
-    console.log('currentValue:', currentItem);
-  
-  return accumulator;
-  
-});
-
-const idObj = currentCardIDs;
-
-cardDiv.setAttribute("data-id", `${idObj}`);
+cardDiv.dataset.listId = task.listId;
+console.log("Assigned list:", cardDiv.dataset.listId);
 
 
 
 
-console.log(cardDiv.dataset.id);
-
-
-
-cardDiv.setAttribute("data-list-id", `${listId}`);
+// start edit task btn div
 
 const editTaskDiv = document.createElement("div");
 //editTaskDiv.setAttribute("id", "editdivbtn");
@@ -2256,63 +878,9 @@ taskTxtDiv.classList.add("tsktxtdiv");
 const taskTxt = document.createElement("p");
 //taskTxt.setAttribute("id", "task-text");
 taskTxt.classList.add("tskTxt");
-//taskTxt.textContent = `${formattodaydate.todayDate} Clean Room`;
-//taskTxt.textContent = `${mytoDO[0].dueDate} ${mytoDO[0].name} ${mytoDO[0].priority}`;
 
-let cardNames = targetCards.map(function (names) {
-  return names.name;
-});
+taskTxt.textContent = `${task.dueDate} ${task.name} ${task.priority}`;
 
-let currentCard = cardNames.reduce(function (accumulator, currentItem) {
-  console.log('accumulator: ', accumulator);
-    console.log('currentValue:', currentItem);
-  
-  return accumulator;
-  
-});
-
-console.log(currentCard);
-
-console.log(cardNames);
-
-let cardDueDates = targetCards.map(function (dueDates) {
-  return dueDates.dueDate;
-});
-
-console.log(targetCards);
-
-console.log(cardDueDates);
-
-let currentDueDate = cardDueDates.reduce(function (accumulator, currentItem) {
-  console.log('accumulator: ', accumulator);
-    console.log('currentValue:', currentItem);
-  
-  return accumulator;
-  
-});
-
-let cardPriority = targetCards.map(function (priorities) {
-  return priorities.priority;
-});
-
-console.log(cardPriority);
-
-let currentPriority = cardPriority.reduce(function (accumulator, currentItem) {
-  console.log('accumulator: ', accumulator);
-    console.log('currentValue:', currentItem);
-  
-  return accumulator;
-  
-});
-
-//taskTxt.textContent = "";
-
-taskTxt.textContent = `${currentDueDate} ${currentCard} ${currentPriority}`;
-//console.log(newmytoDos);
-console.log(mytoDOs);
-//taskTxt.textContent = `${task.dueDate} ${task.name} ${task.priority}`;
-
-//taskTxt.appendChild(urgentLabel);
 
 
 taskTxtDiv.appendChild(taskTxt);
@@ -2325,49 +893,12 @@ cardDiv.appendChild(taskDisplay);
 
 // append card div to right list
 
-if (!tasksContainer) {
-    tasksContainer = document.createElement("div");
-    tasksContainer.classList.add("tasksect");
-    //tasksContainer.appendChild(cardDiv);
-   // listContainer.insertBefore(tasksContainer, addNewTaskDiv);
-    //categMainSection.appendChild(listContainer);
-  }
-
-console.log("Appending card to tasksContainer for listId:", listId);
-
-  // Only clear once per list
-if (!clearedLists.has(listId)) {
-  tasksContainer.replaceChildren();
-  clearedLists.add(listId);
-}
-
-// continue
-
-//taskSection.appendChild(cardDiv);
-
-
-
-tasksContainer.appendChild(cardDiv);
-listContainer.insertBefore(tasksContainer, addNewTaskDiv);
-    categMainSection.appendChild(listContainer);
-
-
-
-//listSection.insertBefore(taskSection, addNewTaskDiv);
-
-//listEl.insertBefore(tasksContainer, addNewTaskDiv);
-
-//categoryEl.appendChild(listEl);
-   
-//categMainSection.appendChild(listEl);
-
-} // another if
-} // if statement
-
-//} //for loop
-//}); // mytodo loop
     
-//renderExpandedTasks(); //maybe recursion calling each other function
+    taskSection.appendChild(cardDiv);
+   
+
+
+  });
     
 }
 
@@ -2379,17 +910,15 @@ export const createHomePage = () => {
     sidebarLoad();
     headerLoad();
     todoSectLoad();
-    categorySectBtns();
-    listBtns();
-    renderTasks();
 
     
 }
 
 //createHomePage();
 
+/*
 export const loadDom = document.addEventListener("DOMContentLoaded", () => {
-    createHomePage();
+  
     completeTask();
     addCategPopUp();
     addTaskPopUp();
@@ -2400,5 +929,7 @@ export const loadDom = document.addEventListener("DOMContentLoaded", () => {
     
     
   });
+
+  */
 
   

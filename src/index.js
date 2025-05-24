@@ -9,8 +9,7 @@ import "./styles.css";
 
 import { createHomePage } from "./DOMstuff.js";
 
-import { loadDom } from "./DOMstuff.js";
 
 
-createHomePage;
-loadDom;
+
+createHomePage();
