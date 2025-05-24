@@ -686,9 +686,14 @@ listTitle.dataset.listId = list.id;
         else if (clickedListEditBtn) {
                     alert('editlist');
 
+const listHeading = clickedListEditBtn.closest(".listheading");
+  if (!listHeading) return;
+
+  console.log(listHeading);
+
 //const listTitleDiv  = e.target.closest(".listtitle");                   
 
-const listTitle = categorySection.querySelector(`.list[data-category-id="${categoryId}"]`);
+const listTitle = listHeading.querySelector(".list");
 //const listTitle = categorySection.querySelector(`.list[data-category-id="${categoryId}"]`);
     console.log(listTitle);
 
@@ -779,8 +784,12 @@ listTitle.textContent = originalListTitle;
                 }  else if (clickedListDeleteBtn) {
       alert('.deletelist');
 
-const listSection = categorySection.querySelector(".listsect");
+      console.log(e.target)
+
+const listSection = e.target.closest(".listsect");
       if (!listSection) return;
+
+      console.log(listSection);
      
          if (listSection) { 
             listSection.remove();
