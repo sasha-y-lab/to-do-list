@@ -473,6 +473,7 @@ categHeadingDiv.appendChild(categoryEditDiv);
 listSection.classList.add("listsect");
 listSection.dataset.categoryId = category.id;
 
+
 console.log("Set on listSection:", category.id);
 
 

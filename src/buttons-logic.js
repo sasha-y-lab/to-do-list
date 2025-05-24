@@ -309,8 +309,13 @@ todoSect.addEventListener('click', (e) => {
 const clickedListDeleteBtn = e.target.closest('.deletelist');
 
 
+// check for add task btn
+
+const clickedNewTaskBtn = e.target.closest('.newtaskbtn');
+
+
  // If neither was clicked, do nothing
-  if (!clickedCategEditBtn && !clickedCategDeleteBtn && !clickedAddListBtn && !clickedListEditBtn && !clickedListDeleteBtn) return;
+  if (!clickedCategEditBtn && !clickedCategDeleteBtn && !clickedAddListBtn && !clickedListEditBtn && !clickedListDeleteBtn && !clickedNewTaskBtn) return;
 
  // Find the category section
   const categorySection = e.target.closest('.categmainsect');
@@ -504,10 +509,14 @@ categHeading.parentElement.insertBefore(formCategEdit, categoryEditDiv);
 
             const formData = new FormData(formAddList);
     const listname = formData.get("add-list-title");
+
     
+    console.log("active category?:", categorySection);
+
+const categoryId = categorySection.dataset.categoryId;
 
     // Add to todo array
-                const list = addListName(listname);    
+                const list = addListName(listname, categoryId);    
 console.log("New list returned:", list);
 
 // start opening the right category element
@@ -664,6 +673,7 @@ listTitle.textContent = list.name;
 listTitle.dataset.listId = list.id;
     listTitle.dataset.categoryId = categoryId;
     listSection.dataset.categoryId = categoryId;
+    listSection.dataset.listId = list.id;
     taskSection.dataset.listId = list.id;
 
     console.log("Set on List Section:", categoryId);
@@ -795,7 +805,343 @@ const listSection = e.target.closest(".listsect");
             listSection.remove();
          }
 
-        }
+        } 
+
+        else if (clickedNewTaskBtn) {
+          alert('newtaskbtn');
+        
+        const listSection = e.target.closest(".listsect");
+        
+console.log(listSection);
+
+         const taskSection = listSection.querySelector(".tasksect");
+        
+      console.log("Right Task Section?:", taskSection);
+        
+         // add tasks now
+            
+            const addTaskDialog = document.createElement("dialog");
+            addTaskDialog.setAttribute("id", "addtsk-dialog");
+            
+            const formAddTask = document.createElement("form");
+            formAddTask.setAttribute("name", "formaddtsk");
+            formAddTask.classList.add("formaddtsk");
+        
+            // add tsk name
+        
+            const taskNameSect = document.createElement("div");
+            taskNameSect.setAttribute("id", "taskNameDiv");
+        
+            const taskNameLabel = document.createElement("label");
+            taskNameLabel.setAttribute("id", "add-tsk-label");
+            taskNameLabel.textContent = "TASK NAME";
+                
+                const formTaskTitle = document.createElement("input");
+                formTaskTitle.type = "text";
+                formTaskTitle.name = "add-tsk-title";
+                formTaskTitle.id = "add-tsk-title";
+                formTaskTitle.minLength = "2";
+                formTaskTitle.required = true;
+                formTaskTitle.placeholder = "Set Up Email";
+                
+                taskNameLabel.appendChild(formTaskTitle);
+        
+                taskNameSect.appendChild(taskNameLabel);
+        
+            formAddTask.appendChild(taskNameSect);
+        
+            // add task-details
+        
+            const taskDetailsSect = document.createElement("div");
+            taskDetailsSect.setAttribute("id", "taskDetailsDiv");
+        
+            const taskDetailsLabel = document.createElement("label");
+            taskDetailsLabel.setAttribute("id", "add-tskdetails-label");
+            taskDetailsLabel.textContent = "TASK DETAILS";
+        
+            const formTaskDetails = document.createElement("textarea");
+            formTaskDetails.name = "add-tsk-details";
+            formTaskDetails.id = "add-tsk-details";
+            formTaskDetails.rows = "5";
+            formTaskDetails.cols  = "30";
+            formTaskDetails.required = true;
+            formTaskDetails.placeholder = "Log in & set up auto responders.";
+                
+                taskDetailsLabel.appendChild(formTaskDetails);
+        
+                taskDetailsSect.appendChild(taskDetailsLabel);
+        
+            formAddTask.appendChild(taskDetailsSect);
+        
+            // due-date
+        
+            const taskDateSect = document.createElement("div");
+            taskDateSect.setAttribute("id", "taskDateDiv");
+        
+            const taskDateLabel = document.createElement("label");
+            taskDateLabel.setAttribute("id", "add-tskdate-label");
+            taskDateLabel.textContent = "TASK DUE DATE";
+        
+            const formTaskDate = document.createElement("input");
+            formTaskDate.type = "date";
+            formTaskDate.name = "add-tsk-date";
+            formTaskDate.id = "add-tsk-date";
+            formTaskDate.required = true;
+            
+                
+            taskDateLabel.appendChild(formTaskDate);
+        
+                taskDateSect.appendChild(taskDateLabel);
+        
+            formAddTask.appendChild(taskDateSect);
+        
+            // priority 
+        
+            const taskPrioritySect = document.createElement("div");
+            taskPrioritySect.setAttribute("id", "taskPriorityDiv");
+        
+            const taskPriorityLabel = document.createElement("label");
+            taskPriorityLabel.setAttribute("id", "add-tskpriority-label");
+            taskPriorityLabel.textContent = "TASK PRIORITY";
+        
+            const formTaskPriority = document.createElement("select");
+            formTaskPriority.name = "add-tsk-priority";
+            formTaskPriority.id = "add-tsk-priority";
+            formTaskPriority.required = true;
+        
+            const urgentOption = document.createElement("option");
+            urgentOption.value = "urgent";
+            urgentOption.textContent = "Urgent";
+            
+            formTaskPriority.appendChild(urgentOption);
+        
+            const moderateOption = document.createElement("option");
+            moderateOption.value = "moderate";
+            moderateOption.textContent = "Moderate";
+        
+            formTaskPriority.appendChild(moderateOption);
+        
+            const lowOption = document.createElement("option");
+            lowOption.value = "low";
+            lowOption.textContent = "Low";
+        
+            formTaskPriority.appendChild(lowOption); 
+            
+            const noneOption = document.createElement("option");
+            noneOption.value = "none";
+            noneOption.textContent = "None";
+        
+            formTaskPriority.appendChild(noneOption);
+        
+            
+                
+            taskPriorityLabel.appendChild(formTaskPriority);
+        
+            taskPrioritySect.appendChild(taskPriorityLabel);
+        
+            formAddTask.appendChild(taskPrioritySect);
+        
+        
+        
+            //button sects
+        
+            const addTaskBtnSect = document.createElement("div");
+            addTaskBtnSect.setAttribute("id", "addtskBtn-sect");
+        
+            const addTaskNameBtn = document.createElement("button")
+            addTaskNameBtn.type = "submit"; // Important: type submit so form submit event fires
+            addTaskNameBtn.id = "submit-tsk-name";
+            addTaskNameBtn.textContent = "Add Task";
+        
+            addTaskBtnSect.appendChild(addTaskNameBtn);
+        
+        
+            const cancelAddTaskNameBtn = document.createElement("button");
+            cancelAddTaskNameBtn.type = "button"; // prevent form submit
+            cancelAddTaskNameBtn.id = "cancel-addtsk-name";
+            cancelAddTaskNameBtn.textContent = "Cancel";
+        
+            addTaskBtnSect.appendChild(cancelAddTaskNameBtn);
+        
+            formAddTask.appendChild(addTaskBtnSect);
+        
+        addTaskDialog.appendChild(formAddTask);
+        
+        
+        taskSection.appendChild(addTaskDialog);
+        
+        console.log(taskSection);
+        
+        addTaskDialog.showModal();
+        
+        // start form listener
+        
+        formAddTask.addEventListener('submit', (e) => {
+        
+            
+        
+            e.preventDefault(); // We don't want to submit this fake form
+
+
+            const formData = new FormData(formAddTask);
+    const taskname = formData.get("add-tsk-title");
+    
+    const { format } = require("date-fns");
+        
+         const details = formData.get("add-tsk-details");
+         const date = formData.get("add-tsk-date");
+        
+         
+        const [year, month, day] = date.split("-");
+        const jsDate = new Date(year, month - 1, day); // Local midnight, no timezone issues
+        
+        const dueDate = format(jsDate, "MMM dd ''yy");
+        
+        
+        
+         console.log(dueDate);
+         const priority = formData.get("add-tsk-priority");
+        
+    
+
+    console.log("active list?:", listSection);
+const listId = listSection.dataset.categoryId;
+
+    // Add to todo array
+                const task = addTask(taskname, details, dueDate, priority, listId);    
+console.log("New task returned:", task);
+           
+// add cards here
+
+const cardDiv = document.createElement("div");
+cardDiv.classList.add("card", "tasks");
+
+
+// start edit task btn div
+
+const editTaskDiv = document.createElement("div");
+//editTaskDiv.setAttribute("id", "editdivbtn");
+editTaskDiv.classList.add("editdivbtn");
+
+const editTaskBtn = document.createElement("button");
+//editTaskBtn.setAttribute("id", "edit-task");
+editTaskBtn.classList.add("edittask");
+
+const editTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+editTaskSVG.classList.add("editbtn");
+editTaskSVG.setAttribute('viewBox', '0 0 24 24');
+editTaskSVG.setAttribute("height", "20px");
+editTaskSVG.setAttribute("width", "20px");
+
+const editTaskSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+editTaskSVGPath.setAttribute(
+    "d", "M16,12A2,2 0 0,1 18,10A2,2 0 0,1 20,12A2,2 0 0,1 18,14A2,2 0 0,1 16,12M10,12A2,2 0 0,1 12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12M4,12A2,2 0 0,1 6,10A2,2 0 0,1 8,12A2,2 0 0,1 6,14A2,2 0 0,1 4,12Z");
+
+editTaskSVG.appendChild(editTaskSVGPath);
+
+editTaskBtn.appendChild(editTaskSVG);
+
+editTaskDiv.appendChild(editTaskBtn);
+
+cardDiv.appendChild(editTaskDiv);
+
+
+// task display
+
+const taskDisplay = document.createElement("div");
+//taskDisplay.setAttribute("id", "taskdisplay");
+taskDisplay.classList.add("displaytask");
+
+const checkoffDiv = document.createElement("div");
+//checkoffDiv.setAttribute("id", "checkoff-div");
+checkoffDiv.classList.add("checkoffdiv");
+
+const checkOffTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+checkOffTaskSVG.classList.add("check-off");
+checkOffTaskSVG.setAttribute('viewBox', '0 0 24 24');
+checkOffTaskSVG.setAttribute("height", "20px");
+checkOffTaskSVG.setAttribute("width", "20px");
+
+const checkOffTaskSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+checkOffTaskSVGPath.setAttribute(
+"d", "M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z");
+
+checkOffTaskSVG.appendChild(checkOffTaskSVGPath);
+
+checkoffDiv.appendChild(checkOffTaskSVG);
+
+taskDisplay.appendChild(checkoffDiv);
+
+const taskTxtDiv = document.createElement("div");
+taskTxtDiv.setAttribute("id", "tsk-txt-div");
+taskTxtDiv.classList.add("tsktxtdiv");
+
+
+
+//const { urgentLabel } = urgent();
+
+const taskTxt = document.createElement("p");
+//taskTxt.setAttribute("id", "task-text");
+taskTxt.classList.add("tskTxt");
+
+taskTxt.textContent = `${task.dueDate} ${task.name} ${task.priority}`;
+
+
+
+taskTxtDiv.appendChild(taskTxt);
+
+
+taskDisplay.appendChild(taskTxtDiv);
+
+
+cardDiv.appendChild(taskDisplay);
+
+// append card div to right list
+
+    
+    taskSection.appendChild(cardDiv);
+            
+        
+        
+      console.log(mytoDOs);
+
+    cardDiv.dataset.taskId = task.id;
+console.log("task:", cardDiv.dataset.taskId);
+console.log("current task?:", task.id);
+
+cardDiv.dataset.listId = listId;
+
+console.log("task listID exist?", listId);
+console.log("Assigned list:", cardDiv.dataset.listId);
+
+
+        
+         console.log("Passed on List Id to Task:", listId);
+       
+         
+        
+         formAddTask.reset();
+                
+            formAddTask.remove();
+            addTaskDialog.close(); // Remove form after submit
+            addTaskDialog.remove();
+         
+        
+        
+        });
+        
+        
+        cancelAddTaskNameBtn.addEventListener('click', (e) => {
+        
+            e.preventDefault(); // We don't want to submit this fake form
+        
+            formAddTask.remove();
+            addTaskDialog.close(); // Remove form after click
+            addTaskDialog.remove();
+          });
+        
+        
+    }
 
       
 
@@ -812,300 +1158,15 @@ const listSection = e.target.closest(".listsect");
 
 
 
-    const clickedListEditBtn = e.target.closest('.editlist');
-const clickedListDeleteBtn = e.target.closest('.deletelist');
-
-
-
-    if (clickedListEditBtn) {
-      alert('editlist');
-
-      const originalListTitle = listTitle.textContent;
+   
 
 
 
 
-//create form
-
-const formListEdit = document.createElement("form");
-formListEdit.setAttribute("name", "formlistedit");
-formListEdit.classList.add("formlistedit");
-
-const formListTitleEdit = document.createElement("input");
-formListTitleEdit.type = "text";
-formListTitleEdit.name = "edit-list-title";
-formListTitleEdit.id = "edit-list-title";
-formListTitleEdit.value = originalListTitle;
-
-formListEdit.appendChild(formListTitleEdit);
-
-
-const editListBtnSect = document.createElement("div");
-editListBtnSect.setAttribute("id", "listeditBtn-sect");
-editListBtnSect.classList.add("listbtnsectedit");
-
-const formListEditSubmitBtn = document.createElement("button");
-formListEditSubmitBtn.type = "submit"; // Important: type submit so form submit event fires
-formListEditSubmitBtn.id = "submit-edit-list";
-formListEditSubmitBtn.textContent = "Edit";
-
-editListBtnSect.appendChild(formListEditSubmitBtn);
-
-const formListEditCancelBtn = document.createElement("button");
-formListEditCancelBtn.type = "button"; // prevent form submit
-formListEditCancelBtn.id = "cancel-edit-list";
-formListEditCancelBtn.textContent = "Cancel";
-
-editListBtnSect.appendChild(formListEditCancelBtn);
-
-formListEdit.appendChild(editListBtnSect);
-
-//expandTasks.appendChild(formTaskEdit);
-listTitle.parentElement.insertBefore(formListEdit, listEditDiv);
-
-
-// Clear current content
-listTitle.textContent = "";
-
-
-formListEdit.addEventListener('submit', (e) => {
-
-    e.preventDefault(); // We don't want to submit this fake form
-
-    const formData = new FormData(formListEdit);
-    listTitle.textContent = formData.get("edit-list-title");
-
-
-    const originalName = originalListTitle;
-    const updatedName = formData.get("edit-list-title");
-    
-    updateArrayObjectByKey(mytoDOs, "listname", originalName, "listname", updatedName);
-
-
-  formListEdit.remove(); // Remove form after save
-
-
-});
-
-formListEditCancelBtn.addEventListener('click', (e) => {
-
-e.preventDefault(); // We don't want to submit this fake form
-
-listTitle.textContent = originalListTitle;
-  
-  formListEdit.remove(); // Remove form after click
-  
-});
-
-
-
-
-      
-    } else if (clickedListDeleteBtn) {
-      //alert('test');
-
-      
-     
-         if (listSection) { 
-            listSection.remove();
-         }
-     
-
-    }
-    }, false);
-  
-  
-}); // end of listener
-
-
-
-cancelAddListNameBtn.addEventListener('click', (e) => {
-
-    e.preventDefault(); // We don't want to submit this fake form
-
-    formAddList.remove();
-    addListDialog.close(); // Remove form after click
-    addListDialog.remove();
-  });
-
-    }
-    }
     
 
-    export const addNewTaskBtnLoad = () => {
-    
-     const categMainSection = document.querySelector("#category-sect-main");
-    
-    const listSection = document.querySelector(".listsect");
     
     
-     categMainSection.addEventListener("click", (e) => {
-        
-    const clickedAddNewList = e.target.closest('.addlist');
-    
-    
-    if (clickedAddNewList) {
-      //alert('addlist');
-    
-     
-    
-     //const listTitleDiv = document.querySelector(".listtitle");
-    
-     //const listHeading = listSection.closest(".listheading");
-    
-    // new task btn section
-    
-    const addNewTaskDiv = document.createElement("div");
-    addNewTaskDiv.setAttribute("id", "new-task");
-    addNewTaskDiv.classList.add("newtaskdiv");
-    
-    const newTaskBtn = document.createElement("button");
-    newTaskBtn.setAttribute("id", "newtask");
-    newTaskBtn.classList.add("newtaskbtn");
-    
-    const addNewTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    addNewTaskSVG.classList.add("addnewtsk");
-    addNewTaskSVG.setAttribute('viewBox', '0 0 24 24');
-    addNewTaskSVG.setAttribute("height", "20px");
-    addNewTaskSVG.setAttribute("width", "20px");
-    
-    const addNewTaskSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    addNewTaskSVGPath.setAttribute(
-    "d", "M5 19V5H12V12H19V13C19.7 13 20.37 13.13 21 13.35V9L15 3H5C3.89 3 3 3.89 3 5V19C3 20.1 3.89 21 5 21H13.35C13.13 20.37 13 19.7 13 19H5M14 4.5L19.5 10H14V4.5M23 18V20H20V23H18V20H15V18H18V15H20V18H23Z");
-    
-    addNewTaskSVG.appendChild(addNewTaskSVGPath);
-    
-    newTaskBtn.appendChild(addNewTaskSVG);
-    
-    const addNewTaskTxt = document.createElement("p");
-    addNewTaskTxt.classList.add("add-new-tsk-txt");
-    addNewTaskTxt.textContent = "New Task";
-    
-    newTaskBtn.appendChild(addNewTaskTxt);
-    
-    addNewTaskDiv.appendChild(newTaskBtn);
-    
-    //taskSection.appendChild(addNewTaskDiv);
-    
-    if (listSection) {
-    
-      listSection.appendChild(addNewTaskDiv);
-    }
-    
-    }
-    
-     });
-    
-    
-    }
-
-
-    listSection.addEventListener('click', function(e) {
-
-  const clickedListEditBtn = e.target.closest('.editlist');
-const clickedListDeleteBtn = e.target.closest('.deletelist');
-
-
-
-    if (clickedListEditBtn) {
-      alert('editlist');
-
-      const originalListTitle = listTitle.textContent;
-
-
-
-
-//create form
-
-const formListEdit = document.createElement("form");
-formListEdit.setAttribute("name", "formlistedit");
-formListEdit.classList.add("formlistedit");
-
-const formListTitleEdit = document.createElement("input");
-formListTitleEdit.type = "text";
-formListTitleEdit.name = "edit-list-title";
-formListTitleEdit.id = "edit-list-title";
-formListTitleEdit.value = originalListTitle;
-
-formListEdit.appendChild(formListTitleEdit);
-
-
-const editListBtnSect = document.createElement("div");
-editListBtnSect.setAttribute("id", "listeditBtn-sect");
-editListBtnSect.classList.add("listbtnsectedit");
-
-const formListEditSubmitBtn = document.createElement("button");
-formListEditSubmitBtn.type = "submit"; // Important: type submit so form submit event fires
-formListEditSubmitBtn.id = "submit-edit-list";
-formListEditSubmitBtn.textContent = "Edit";
-
-editListBtnSect.appendChild(formListEditSubmitBtn);
-
-const formListEditCancelBtn = document.createElement("button");
-formListEditCancelBtn.type = "button"; // prevent form submit
-formListEditCancelBtn.id = "cancel-edit-list";
-formListEditCancelBtn.textContent = "Cancel";
-
-editListBtnSect.appendChild(formListEditCancelBtn);
-
-formListEdit.appendChild(editListBtnSect);
-
-//expandTasks.appendChild(formTaskEdit);
-//listTitle.parentElement.appendChild(formListEdit);
-listTitle.parentElement.insertBefore(formListEdit, listEditDiv);
-
-
-// Clear current content
-listTitle.textContent = "";
-
-
-formListEdit.addEventListener('submit', (e) => {
-
-    e.preventDefault(); // We don't want to submit this fake form
-
-    const formData = new FormData(formListEdit);
-    listTitle.textContent = formData.get("edit-list-title");
-
-
-    const originalName = originalListTitle;
-    const updatedName = formData.get("edit-list-title");
-    
-    updateArrayObjectByKey(mytoDOs, "listname", originalName, "listname", updatedName);
-
-
-  formListEdit.remove(); // Remove form after save
-  
-
-});
-
-formListEditCancelBtn.addEventListener('click', (e) => {
-
-e.preventDefault(); // We don't want to submit this fake form
-
-listTitle.textContent = originalListTitle;
-  
-  formListEdit.remove(); // Remove form after click
-  
-});
-
-
-
-
-      
-    } else if (clickedListDeleteBtn) {
-      //alert('test');
-
-      
-     
-         if (listSection) { 
-            listSection.remove();
-         }
-     
-
-    }
-    }, false);
-
-
 
     const completeTask = () => {
     
