@@ -96,7 +96,7 @@ class taskTodoElement {
 }
     */
 
-class Task {
+export class Task {
     constructor(name, details, dueDate, priority, listId) {
         this.name = name;
         this.details = details;
@@ -109,7 +109,7 @@ class Task {
     }
 }
 
-class List {
+export class List {
     constructor(name, categoryId) {
         this.name = name;
         this.type = 'list';
@@ -118,7 +118,7 @@ class List {
     }
 }
 
-class Category {
+export class Category {
     constructor(name) {
         this.name = name;
         this.type = 'category';
@@ -159,9 +159,9 @@ mytoDOs = mytoDOs.concat(newmytoDos);
 export function addTask(name, details, dueDate, priority, listId) {
     const todotask = new Task(name, details, dueDate, priority, listId);
 
-//const taskObj = {task: todotask, id: `${crypto.randomUUID()}`};
-//mytoDO.push(taskObj);
+
 mytoDOs.splice(1, 0, todotask);
+return todotask;
 
   }
 
@@ -169,12 +169,15 @@ mytoDOs.splice(1, 0, todotask);
     const todolist = new List(name, categoryId);
 
 mytoDOs.splice(1, 0, todolist);
+return todolist;
   }
 
   export function addCategName(name) {
     const todocateg = new Category(name);
 
 mytoDOs.splice(1, 0, todocateg);
+
+return todocateg;
   }
   
   export { mytoDOs, newmytoDos }; 

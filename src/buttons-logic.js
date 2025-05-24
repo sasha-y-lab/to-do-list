@@ -17,7 +17,426 @@ function updateArrayObjectByKey(array, matchKey, matchValue, updateKey, newValue
   }
   
 
-export function categorySectBtns() {
+
+
+  export const addCategPopUp = () => {
+        // form goes in here
+        
+        const addCategoryDiv = document.querySelector("#add-category-div");
+        
+        
+        
+        const addCategoryBtn = document.querySelector("#addcat");
+        
+        
+        
+        addCategoryBtn.addEventListener("click", (e) => {
+        
+        
+        const addCategDialog = document.createElement("dialog");
+        addCategDialog.setAttribute("id", "addcateg");
+        
+        const formAddCateg = document.createElement("form");
+        formAddCateg.setAttribute("name", "formaddcateg");
+        formAddCateg.classList.add("formaddcateg");
+        
+        
+        const categoryNameDiv = document.createElement("div");
+        categoryNameDiv.setAttribute("id", "categNamediv");
+        
+        const categNameLabel = document.createElement("label");
+        categNameLabel.setAttribute("id", "add-categ-label");
+        categNameLabel.textContent = "CATEGORY NAME";
+            
+            const formCategTitle = document.createElement("input");
+            formCategTitle.type = "text";
+            formCategTitle.name = "add-categ-title";
+            formCategTitle.id = "add-categ-title";
+            formCategTitle.minLength = "2";
+            formCategTitle.required = true;
+            formCategTitle.placeholder = "Work";
+            
+        categNameLabel.appendChild(formCategTitle);
+        
+        categoryNameDiv.appendChild(categNameLabel);
+        
+        formAddCateg.appendChild(categoryNameDiv);
+        
+        
+            //formAddCateg.appendChild(formCategTitle);
+        
+            //button sects
+        
+            const addCategBtnSect = document.createElement("div");
+            addCategBtnSect.setAttribute("id", "addcategBtn-sect");
+        
+            const addCategNameBtn = document.createElement("button")
+            addCategNameBtn.type = "submit"; // Important: type submit so form submit event fires
+            addCategNameBtn.id = "submit-categ-name";
+            addCategNameBtn.textContent = "Add Category";
+        
+            addCategBtnSect.appendChild(addCategNameBtn);
+        
+        
+            const cancelAddCategNameBtn = document.createElement("button");
+            cancelAddCategNameBtn.type = "button"; // prevent form submit
+            cancelAddCategNameBtn.id = "cancel-addcateg-name";
+            cancelAddCategNameBtn.textContent = "Cancel";
+        
+            addCategBtnSect.appendChild(cancelAddCategNameBtn);
+        
+            formAddCateg.appendChild(addCategBtnSect);
+        
+            addCategDialog.appendChild(formAddCateg);
+        
+            addCategoryDiv.appendChild(addCategDialog);
+        
+        
+            addCategDialog.showModal();
+        
+        
+        
+            formAddCateg.addEventListener('submit', (e) => {
+        
+                e.preventDefault(); // We don't want to submit this fake form
+
+
+                const formData = new FormData(formAddCateg);
+    const name = formData.get("add-categ-title");
+    
+
+    // Add to todo array
+                const category = addCategName(name);    
+console.log("New category returned:", category);
+                 
+
+
+        
+                const todoSect = document.querySelector("#todo-sect");
+            // category sect
+        
+             // start of category section
+        
+             const categMainSection = document.createElement("div");
+             //categMainSection.setAttribute("id", "category-sect-main");
+             categMainSection.classList.add("categmainsect");
+            
+         
+             const categHeadingDiv = document.createElement("div");
+             //categHeadingDiv.setAttribute("id", "category-heading-sect");
+             categHeadingDiv.classList.add("categheadingdiv");
+         
+             const categHeading = document.createElement("h2");
+             categHeading.classList.add("category-title", "category");
+             //categHeading.textContent = "Category 1";
+
+                categHeading.textContent = name;
+
+                categHeadingDiv.appendChild(categHeading);
+        
+        
+               // start of edit or delete
+
+     const categoryEditDiv = document.createElement("div");
+     categoryEditDiv.setAttribute("id", "cat-edit-div");
+     categoryEditDiv.classList.add("categeditdiv");
+
+        // edit button
+
+        const editCategoryBtn = document.createElement("button");
+        editCategoryBtn.setAttribute("id", "edit-category");
+        editCategoryBtn.classList.add("editcateg");
+
+const editCategSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+editCategSVG.classList.add("editcategoryname");
+editCategSVG.setAttribute('viewBox', '0 0 24 24');
+editCategSVG.setAttribute("height", "20px");
+editCategSVG.setAttribute("width", "20px");
+
+const editCategSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+editCategSVGPath.setAttribute(
+"d", "M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z");
+
+editCategSVG.appendChild(editCategSVGPath);
+
+editCategoryBtn.appendChild(editCategSVG);
+
+categoryEditDiv.appendChild(editCategoryBtn);
+
+
+
+        //delete category button
+
+        const deleteCategoryBtn = document.createElement("button");
+        deleteCategoryBtn.setAttribute("id", "delete-category");
+        deleteCategoryBtn.classList.add("deletecateg");
+
+const deleteCategSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+deleteCategSVG.classList.add("deletecategname");
+deleteCategSVG.setAttribute('viewBox', '0 0 24 24');
+deleteCategSVG.setAttribute("height", "20px");
+deleteCategSVG.setAttribute("width", "20px");
+
+const deleteCategSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+deleteCategSVGPath.setAttribute(
+"d", "M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z");
+
+deleteCategSVG.appendChild(deleteCategSVGPath);
+
+deleteCategoryBtn.appendChild(deleteCategSVG);
+
+categoryEditDiv.appendChild(deleteCategoryBtn);
+
+categHeadingDiv.appendChild(categoryEditDiv);
+ 
+     //categHeadingDiv.appendChild(categHeading);
+ 
+     categMainSection.appendChild(categHeadingDiv);
+             
+         
+             // add list button
+         
+             const addListBtnDiv = document.createElement("div");
+            // addListBtnDiv.setAttribute("id", "listbtn-div");
+             addListBtnDiv.classList.add("listbtn-div");
+         
+             const addListBtn = document.createElement("button");
+             addListBtn.classList.add("addlist");
+             
+         
+             const addListSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+             addListSVG.classList.add("addlst");
+             addListSVG.setAttribute('viewBox', '0 0 24 24');
+             addListSVG.setAttribute("height", "20px");
+             addListSVG.setAttribute("width", "20px");
+         
+         const addListSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+         addListSVGPath.setAttribute(
+                 "d", "M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z");
+         
+                 addListSVG.appendChild(addListSVGPath);
+         
+                 addListBtn.appendChild(addListSVG);
+         
+             const addListTxt = document.createElement("p");
+             addListTxt.classList.add("addlist-txt");
+             addListTxt.textContent = "Add List";
+         
+             addListBtn.appendChild(addListTxt);
+         
+             addListBtnDiv.appendChild(addListBtn);
+         
+             categMainSection.appendChild(addListBtnDiv);
+
+             const listSection = document.createElement("div");
+//listSection.setAttribute("id", "list-sect");
+listSection.classList.add("listsect");
+
+
+categMainSection.appendChild(listSection);
+         
+            // categMainSection.appendChild(categHeadingDiv);
+        
+        
+             if (todoSect) {
+                todoSect.appendChild(categMainSection);
+             }
+
+             console.log(mytoDOs);
+        
+             // Now create your DOM using category.id and category.name
+    categMainSection.dataset.categoryId = category.id;
+    categHeading.dataset.categoryId = category.id;
+    categHeading.textContent = category.name;
+    listSection.dataset.categoryId = category.id;
+
+    console.log("Set on Category Section:", category.id);
+                
+       
+        
+                formAddCateg.reset();
+                
+              formAddCateg.remove();
+              addCategDialog.close(); // Remove form after submit
+              addCategDialog.remove();
+            
+        
+          });
+        
+        
+          cancelAddCategNameBtn.addEventListener('click', (e) => {
+        
+            e.preventDefault(); // We don't want to submit this fake form
+        
+            formAddCateg.remove();
+            addCategDialog.close(); // Remove form after click
+            addCategDialog.remove();
+          });
+        
+        });
+        
+        
+        
+        
+        }
+
+
+
+export function todosSectAddDeleteBtns() {
+
+
+const todoSect = document.querySelector("#todo-sect");
+    console.log(todoSect);
+
+if (!todoSect) return;
+
+    
+
+todoSect.addEventListener('click', (e) => {
+
+
+
+  // Check for edit/delete click
+  const clickedCategEditBtn = e.target.closest('.editcateg');
+ const clickedCategDeleteBtn = e.target.closest('.deletecateg');
+
+
+ // If neither was clicked, do nothing
+  if (!clickedCategEditBtn && !clickedCategDeleteBtn) return;
+
+ // Find the category section
+  const categorySection = e.target.closest('.categmainsect');
+  if (!categorySection) return; // cant put any buttons after this as the return exists everything
+
+  // Read the category ID from the data attribute
+  const categoryId = categorySection.dataset.categoryId;
+
+  // Now you have the correct category ID linked to the clicked button
+  console.log('Clicked category ID:', categoryId);
+
+
+ 
+  // Do your edit logic here using categoryId...
+
+  if (clickedCategEditBtn) {
+          alert('editcateg');
+
+
+          const categoryEditDiv = e.target.closest('.categeditdiv');
+          console.log("CategoryEditDiv:", categoryEditDiv);
+
+// add categheading class
+const categHeading = document.querySelector(`.category[data-category-id="${categoryId}"]`);
+
+console.log("Category Name:", categHeading.textContent);
+
+
+          const originalTitle = categHeading.textContent;
+
+          
+
+//create form
+
+const formCategEdit = document.createElement("form");
+formCategEdit.setAttribute("name", "formcategedit");
+formCategEdit.classList.add("formcategedit");
+
+const formCategTitleEdit = document.createElement("input");
+formCategTitleEdit.type = "text";
+formCategTitleEdit.name = "edit-categ-title";
+formCategTitleEdit.id = "edit-categ-title";
+formCategTitleEdit.value = originalTitle;
+
+formCategEdit.appendChild(formCategTitleEdit);
+
+
+const editCategBtnSect = document.createElement("div");
+editCategBtnSect.setAttribute("id", "categeditBtn-sect");
+editCategBtnSect.classList.add("categbtnsectedit");
+
+const formCategEditSubmitBtn = document.createElement("button");
+formCategEditSubmitBtn.type = "submit"; // Important: type submit so form submit event fires
+formCategEditSubmitBtn.id = "submit-edit-categ";
+formCategEditSubmitBtn.textContent = "Edit";
+
+editCategBtnSect.appendChild(formCategEditSubmitBtn);
+
+const formCategEditCancelBtn = document.createElement("button");
+formCategEditCancelBtn.type = "button"; // prevent form submit
+formCategEditCancelBtn.id = "cancel-edit-categ";
+formCategEditCancelBtn.textContent = "Cancel";
+
+editCategBtnSect.appendChild(formCategEditCancelBtn);
+
+formCategEdit.appendChild(editCategBtnSect);
+
+//expandTasks.appendChild(formTaskEdit);
+//categHeading.parentElement.appendChild(formCategEdit);
+
+// appending form to element to replace that element
+//categHeading.appendChild(formCategEdit); // shows up instead of pop up
+
+categHeading.parentElement.insertBefore(formCategEdit, categoryEditDiv);
+
+        
+        // Clear current content
+        categHeading.textContent = "";
+        
+        
+        
+            formCategEdit.addEventListener('submit', (e) => {
+        
+                e.preventDefault(); // We don't want to submit this fake form
+            
+                const formData = new FormData(formCategEdit);
+                categHeading.textContent = formData.get("edit-categ-title");
+        
+                const originalName = originalTitle;
+                const updatedName = formData.get("edit-categ-title");
+                
+                updateArrayObjectByKey(mytoDOs, "name", originalName, "name", updatedName);
+        
+        
+        
+              formCategEdit.remove(); // Remove form after save
+        
+          });
+        
+          formCategEditCancelBtn.addEventListener('click', (e) => {
+        
+            e.preventDefault(); // We don't want to submit this fake form
+        
+            categHeading.textContent = originalTitle;
+              
+              formCategEdit.remove(); // Remove form after click
+          });
+        
+        //console.log(newmytoDos);
+        
+        
+                  
+                } else if (clickedCategDeleteBtn) {
+                  alert('deletecateg');
+        
+                 
+                     if (categorySection) { 
+                        categorySection.replaceChildren();
+                     }
+                 
+                } 
+      
+      
+
+  
+}, false);
+
+
+}
+
+
+        /*
+
+function categorySectBtns() {
 // event delegation listener here for todosect
 
      todoSect.addEventListener('click', function(e) {
@@ -754,264 +1173,7 @@ listTitle.textContent = originalListTitle;
         //completeTask();
 
 
-        export const addCategPopUp = () => {
-        // form goes in here
         
-        const addCategoryDiv = document.querySelector("#add-category-div");
-        
-        
-        
-        const addCategoryBtn = document.querySelector("#addcat");
-        
-        
-        
-        addCategoryBtn.addEventListener("click", (e) => {
-        
-        
-        const addCategDialog = document.createElement("dialog");
-        addCategDialog.setAttribute("id", "addcateg");
-        
-        const formAddCateg = document.createElement("form");
-        formAddCateg.setAttribute("name", "formaddcateg");
-        formAddCateg.classList.add("formaddcateg");
-        
-        
-        const categoryNameDiv = document.createElement("div");
-        categoryNameDiv.setAttribute("id", "categNamediv");
-        
-        const categNameLabel = document.createElement("label");
-        categNameLabel.setAttribute("id", "add-categ-label");
-        categNameLabel.textContent = "CATEGORY NAME";
-            
-            const formCategTitle = document.createElement("input");
-            formCategTitle.type = "text";
-            formCategTitle.name = "add-categ-title";
-            formCategTitle.id = "add-categ-title";
-            formCategTitle.minLength = "2";
-            formCategTitle.required = true;
-            formCategTitle.placeholder = "Work";
-            
-        categNameLabel.appendChild(formCategTitle);
-        
-        categoryNameDiv.appendChild(categNameLabel);
-        
-        formAddCateg.appendChild(categoryNameDiv);
-        
-        
-            //formAddCateg.appendChild(formCategTitle);
-        
-            //button sects
-        
-            const addCategBtnSect = document.createElement("div");
-            addCategBtnSect.setAttribute("id", "addcategBtn-sect");
-        
-            const addCategNameBtn = document.createElement("button")
-            addCategNameBtn.type = "submit"; // Important: type submit so form submit event fires
-            addCategNameBtn.id = "submit-categ-name";
-            addCategNameBtn.textContent = "Add Category";
-        
-            addCategBtnSect.appendChild(addCategNameBtn);
-        
-        
-            const cancelAddCategNameBtn = document.createElement("button");
-            cancelAddCategNameBtn.type = "button"; // prevent form submit
-            cancelAddCategNameBtn.id = "cancel-addcateg-name";
-            cancelAddCategNameBtn.textContent = "Cancel";
-        
-            addCategBtnSect.appendChild(cancelAddCategNameBtn);
-        
-            formAddCateg.appendChild(addCategBtnSect);
-        
-            addCategDialog.appendChild(formAddCateg);
-        
-            addCategoryDiv.appendChild(addCategDialog);
-        
-        
-            addCategDialog.showModal();
-        
-        
-        
-            formAddCateg.addEventListener('submit', (e) => {
-        
-                e.preventDefault(); // We don't want to submit this fake form
-        
-                const todoSect = document.querySelector("#todo-sect");
-            // category sect
-        
-             // start of category section
-        
-             const categMainSection = document.createElement("div");
-             //categMainSection.setAttribute("id", "category-sect-main");
-             categMainSection.classList.add("categmainsect");
-         
-             const categHeadingDiv = document.createElement("div");
-             //categHeadingDiv.setAttribute("id", "category-heading-sect");
-             categHeadingDiv.classList.add("categheadingdiv");
-         
-             const categHeading = document.createElement("h2");
-             categHeading.classList.add("category-title", "category");
-             //categHeading.textContent = "Category 1";
-        
-             const formData = new FormData(formAddCateg);
-                categHeading.textContent = formData.get("add-categ-title");
-        
-        
-             // start of edit or delete
-        
-             const categoryEditDiv = document.createElement("div");
-            // categoryEditDiv.setAttribute("id", "cat-edit-div");
-            categoryEditDiv.classList.add("categeditdiv");
-        
-                // edit button
-        
-                const editCategoryBtn = document.createElement("button");
-               // editCategoryBtn.setAttribute("id", "edit-category");
-               editCategoryBtn.classList.add("editcateg");
-        
-        const editCategSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-        editCategSVG.classList.add("editcategoryname");
-        editCategSVG.setAttribute('viewBox', '0 0 24 24');
-        editCategSVG.setAttribute("height", "20px");
-        editCategSVG.setAttribute("width", "20px");
-        
-        const editCategSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        editCategSVGPath.setAttribute(
-        "d", "M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z");
-        
-        editCategSVG.appendChild(editCategSVGPath);
-        
-        editCategoryBtn.appendChild(editCategSVG);
-        
-        categoryEditDiv.appendChild(editCategoryBtn);
-        
-        
-        
-                //delete category button
-        
-                const deleteCategoryBtn = document.createElement("button");
-                //deleteCategoryBtn.setAttribute("id", "delete-category");
-                deleteCategoryBtn.classList.add("deletecateg");
-        
-        const deleteCategSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-        deleteCategSVG.classList.add("deletecategname");
-        deleteCategSVG.setAttribute('viewBox', '0 0 24 24');
-        deleteCategSVG.setAttribute("height", "20px");
-        deleteCategSVG.setAttribute("width", "20px");
-        
-        const deleteCategSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        deleteCategSVGPath.setAttribute(
-        "d", "M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z");
-        
-        deleteCategSVG.appendChild(deleteCategSVGPath);
-        
-        deleteCategoryBtn.appendChild(deleteCategSVG);
-        
-        categoryEditDiv.appendChild(deleteCategoryBtn);
-        
-        categHeading.appendChild(categoryEditDiv);
-         
-             categHeadingDiv.appendChild(categHeading);
-         
-             categMainSection.appendChild(categHeadingDiv);
-             
-         
-             // add list button
-         
-             const addListBtnDiv = document.createElement("div");
-            // addListBtnDiv.setAttribute("id", "listbtn-div");
-             addListBtnDiv.classList.add("listbtn-div");
-         
-             const addListBtn = document.createElement("button");
-             addListBtn.classList.add("addlist");
-             
-         
-             const addListSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-             addListSVG.classList.add("addlst");
-             addListSVG.setAttribute('viewBox', '0 0 24 24');
-             addListSVG.setAttribute("height", "20px");
-             addListSVG.setAttribute("width", "20px");
-         
-         const addListSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-         addListSVGPath.setAttribute(
-                 "d", "M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z");
-         
-                 addListSVG.appendChild(addListSVGPath);
-         
-                 addListBtn.appendChild(addListSVG);
-         
-             const addListTxt = document.createElement("p");
-             addListTxt.classList.add("addlist-txt");
-             addListTxt.textContent = "Add List";
-         
-             addListBtn.appendChild(addListTxt);
-         
-             addListBtnDiv.appendChild(addListBtn);
-         
-             categMainSection.appendChild(addListBtnDiv);
-         
-            // categMainSection.appendChild(categHeadingDiv);
-        
-        
-             if (todoSect) {
-                todoSect.appendChild(categMainSection);
-                }
-        
-                
-                const categname = formData.get("add-categ-title");
-        
-                // Add to todo array
-                addCategName(categname);
-        
-        
-                // add id
-        
-                //const formCategData = document.getElementById('add-categ-title');
-        
-                //console.log(formCategData);
-        
-        const targetCategName = formData.get("add-categ-title").trim();
-        const matchingCategId = mytoDOs.find(item => item.categname === targetCategName)?.id;
-        
-        if (matchingCategId !== undefined) {
-          console.log(`Found Category with ID: ${matchingCategId}`);
-        } else {
-          console.log("Category not found.");
-        }
-               
-        categHeading.setAttribute("data-id", `${matchingCategId}`);
-        
-        
-        
-        
-                //console.log(newmytoDos);
-                console.log(mytoDOs);
-                
-        
-                formAddCateg.reset();
-                
-              formAddCateg.remove();
-              addCategDialog.close(); // Remove form after submit
-              addCategDialog.remove();
-            
-        
-          });
-        
-        
-          cancelAddCategNameBtn.addEventListener('click', (e) => {
-        
-            e.preventDefault(); // We don't want to submit this fake form
-        
-            formAddCateg.remove();
-            addCategDialog.close(); // Remove form after click
-            addCategDialog.remove();
-          });
-        
-        });
-        
-        
-        
-        
-        }
         
         
         
@@ -1549,4 +1711,6 @@ listTitle.textContent = originalListTitle;
                  });
         
         }
+
+        */
         

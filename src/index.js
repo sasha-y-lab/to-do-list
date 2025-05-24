@@ -9,7 +9,19 @@ import "./styles.css";
 
 import { createHomePage } from "./DOMstuff.js";
 
+import { addCategPopUp, todosSectAddDeleteBtns } from "./buttons-logic.js";
+
 
 
 
 createHomePage();
+
+
+export const loadDom = document.addEventListener("DOMContentLoaded", () => {
+  
+   addCategPopUp();
+    todosSectAddDeleteBtns();
+    
+  });
+
+  
