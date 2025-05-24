@@ -316,11 +316,16 @@ const clickedNewTaskBtn = e.target.closest('.newtaskbtn');
 // check for expanded display button
 
 const clickedEditTaskBtn = e.target.closest('.edittask');
-          
+
+
+// check for expanded display edit task details btn & delete entire task btn
+
+const clickedEditDisplayedTasks = e.target.closest('.editdisplayedtskbtn');
+const clickedDeleteTaskBtn = e.target.closest('.deletetskbtn');
 
 
  // If neither was clicked, do nothing
-  if (!clickedCategEditBtn && !clickedCategDeleteBtn && !clickedAddListBtn && !clickedListEditBtn && !clickedListDeleteBtn && !clickedNewTaskBtn && !clickedEditTaskBtn) return;
+  if (!clickedCategEditBtn && !clickedCategDeleteBtn && !clickedAddListBtn && !clickedListEditBtn && !clickedListDeleteBtn && !clickedNewTaskBtn && !clickedEditTaskBtn && !clickedEditDisplayedTasks && !clickedDeleteTaskBtn) return;
 
  // Find the category section
   const categorySection = e.target.closest('.categmainsect');
@@ -445,6 +450,8 @@ categHeading.parentElement.insertBefore(formCategEdit, categoryEditDiv);
                      if (categorySection) { 
                         categorySection.replaceChildren();
                      }
+
+                     console.log(mytoDOs);
                  
                 } else if (clickedAddListBtn) {
 
@@ -809,6 +816,8 @@ const listSection = e.target.closest(".listsect");
          if (listSection) { 
             listSection.remove();
          }
+
+         console.log(mytoDOs);
 
         } 
 
@@ -1260,6 +1269,115 @@ console.log(task);
 
 
                 }
+
+                else if (clickedEditDisplayedTasks) {
+            alert('editdisplayedtskbtn');
+          
+          const cardDiv = e.target.closest(".card");
+
+          console.log(cardDiv);
+
+              const taskTxt = cardDiv.querySelector(".tskTxt");
+
+              console.log(taskTxt);
+
+              const taskDetails = cardDiv.querySelector(".tskdetailsdiv");
+
+              console.log(taskDetails);
+              
+          
+              const originalTitle = taskTxt.textContent;
+          const originalDetails = taskDetails.textContent;
+          
+          
+          
+          //create form
+          
+              const formTaskEdit = document.createElement("form");
+              formTaskEdit.setAttribute("name", "formedit");
+              formTaskEdit.classList.add("formedit");
+              
+              const formTaskTitleEdit = document.createElement("input");
+              formTaskTitleEdit.type = "text";
+              formTaskTitleEdit.name = "edit-task-title";
+              formTaskTitleEdit.id = "edit-task-title";
+              formTaskTitleEdit.value = originalTitle;
+          
+              formTaskEdit.appendChild(formTaskTitleEdit);
+          
+              const formTaskDetailsEdit = document.createElement("input");
+              formTaskDetailsEdit.type = "text";
+              formTaskDetailsEdit.name = "edit-task-details";
+              formTaskDetailsEdit.id = "edit-task-details";
+             formTaskDetailsEdit.value = originalDetails; // Prefill current details
+          
+              formTaskEdit.appendChild(formTaskDetailsEdit);
+          
+              const editTaskBtnSect = document.createElement("div");
+              editTaskBtnSect.setAttribute("id", "taskeditBtn-sect");
+          
+              const formTaskEditSubmitBtn = document.createElement("button");
+              formTaskEditSubmitBtn.type = "submit"; // Important: type submit so form submit event fires
+              formTaskEditSubmitBtn.id = "submit-edit-task";
+              formTaskEditSubmitBtn.textContent = "Edit Task";
+          
+              editTaskBtnSect.appendChild(formTaskEditSubmitBtn);
+          
+              const formTaskEditCancelBtn = document.createElement("button");
+              formTaskEditCancelBtn.type = "button"; // prevent form submit
+              formTaskEditCancelBtn.id = "cancel-edit-task";
+              formTaskEditCancelBtn.textContent = "Cancel Edit";
+          
+              editTaskBtnSect.appendChild(formTaskEditCancelBtn);
+          
+              formTaskEdit.appendChild(editTaskBtnSect);
+          
+              //expandTasks.appendChild(formTaskEdit);
+              taskTxt.parentElement.appendChild(formTaskEdit);
+          
+          
+          // Clear current content
+          taskTxt.textContent = "";
+          taskDetails.textContent = "";
+          
+          
+              formTaskEdit.addEventListener('submit', (e) => {
+          
+                  e.preventDefault(); // We don't want to submit this fake form
+              
+                  const formData = new FormData(formTaskEdit);
+                taskTxt.textContent = formData.get("edit-task-title");
+                taskDetails.textContent = formData.get("edit-task-details");
+                formTaskEdit.remove(); // Remove form after save
+          
+            });
+          
+            formTaskEditCancelBtn.addEventListener('click', (e) => {
+          
+              e.preventDefault(); // We don't want to submit this fake form
+          
+              taskTxt.textContent = originalTitle;
+                taskDetails.textContent = originalDetails;
+                formTaskEdit.remove(); // Remove form after click
+            });
+          
+          } else if (clickedDeleteTaskBtn) {
+            alert('deletetskbtn');
+        
+            const cardDiv = e.target.closest(".card");
+
+            console.log(cardDiv);
+            
+           
+              if (cardDiv) {
+                cardDiv.remove();
+              }
+             
+              console.log(mytoDOs);
+        
+            }
+         
+          
 
     
 
