@@ -296,13 +296,21 @@ todoSect.addEventListener('click', (e) => {
 
 
 
-  // Check for edit/delete click
+  // Check for category edit/delete click
   const clickedCategEditBtn = e.target.closest('.editcateg');
  const clickedCategDeleteBtn = e.target.closest('.deletecateg');
 
+ // Check for addlist btn
+ const clickedAddListBtn = e.target.closest('.addlist');
+
+ // check for list edit/delete click
+
+  const clickedListEditBtn = e.target.closest('.editlist');
+const clickedListDeleteBtn = e.target.closest('.deletelist');
+
 
  // If neither was clicked, do nothing
-  if (!clickedCategEditBtn && !clickedCategDeleteBtn) return;
+  if (!clickedCategEditBtn && !clickedCategDeleteBtn && !clickedAddListBtn && !clickedListEditBtn && !clickedListDeleteBtn) return;
 
  // Find the category section
   const categorySection = e.target.closest('.categmainsect');
@@ -320,13 +328,17 @@ todoSect.addEventListener('click', (e) => {
 
   if (clickedCategEditBtn) {
           alert('editcateg');
+          console.log(e.target)
 
 
           const categoryEditDiv = e.target.closest('.categeditdiv');
           console.log("CategoryEditDiv:", categoryEditDiv);
 
 // add categheading class
-const categHeading = document.querySelector(`.category[data-category-id="${categoryId}"]`);
+//const categHeading = document.querySelector(`.category[data-category-id="${categoryId}"]`); // wrong query
+
+const categHeading = categorySection.querySelector(`.category[data-category-id="${categoryId}"]`);
+
 
 console.log("Category Name:", categHeading.textContent);
 
@@ -417,142 +429,19 @@ categHeading.parentElement.insertBefore(formCategEdit, categoryEditDiv);
                   
                 } else if (clickedCategDeleteBtn) {
                   alert('deletecateg');
+                  console.log(e.target)
         
                  
                      if (categorySection) { 
                         categorySection.replaceChildren();
                      }
                  
-                } 
-      
-      
+                } else if (clickedAddListBtn) {
 
-  
-}, false);
-
-
-}
-
-
-        /*
-
-function categorySectBtns() {
-// event delegation listener here for todosect
-
-     todoSect.addEventListener('click', function(e) {
-
-        const clickedCategEditBtn = e.target.closest('.editcateg');
-        const clickedCategDeleteBtn = e.target.closest('.deletecateg');
-        
-
-
-        if (clickedCategEditBtn) {
-          alert('editcateg');
-
-          const originalTitle = categHeading.textContent;
-
-//create form
-
-const formCategEdit = document.createElement("form");
-formCategEdit.setAttribute("name", "formcategedit");
-formCategEdit.classList.add("formcategedit");
-
-const formCategTitleEdit = document.createElement("input");
-formCategTitleEdit.type = "text";
-formCategTitleEdit.name = "edit-categ-title";
-formCategTitleEdit.id = "edit-categ-title";
-formCategTitleEdit.value = originalTitle;
-
-formCategEdit.appendChild(formCategTitleEdit);
-
-
-const editCategBtnSect = document.createElement("div");
-editCategBtnSect.setAttribute("id", "categeditBtn-sect");
-editCategBtnSect.classList.add("categbtnsectedit");
-
-const formCategEditSubmitBtn = document.createElement("button");
-formCategEditSubmitBtn.type = "submit"; // Important: type submit so form submit event fires
-formCategEditSubmitBtn.id = "submit-edit-categ";
-formCategEditSubmitBtn.textContent = "Edit";
-
-editCategBtnSect.appendChild(formCategEditSubmitBtn);
-
-const formCategEditCancelBtn = document.createElement("button");
-formCategEditCancelBtn.type = "button"; // prevent form submit
-formCategEditCancelBtn.id = "cancel-edit-categ";
-formCategEditCancelBtn.textContent = "Cancel";
-
-editCategBtnSect.appendChild(formCategEditCancelBtn);
-
-formCategEdit.appendChild(editCategBtnSect);
-
-//expandTasks.appendChild(formTaskEdit);
-//categHeading.parentElement.appendChild(formCategEdit);
-
-// appending form to element to replace that element
-//categHeading.appendChild(formCategEdit); // shows up instead of pop up
-
-categHeading.parentElement.insertBefore(formCategEdit, categoryEditDiv);
-
-        
-        // Clear current content
-        categHeading.textContent = "";
-        
-        
-        
-            formCategEdit.addEventListener('submit', (e) => {
-        
-                e.preventDefault(); // We don't want to submit this fake form
-            
-                const formData = new FormData(formCategEdit);
-                categHeading.textContent = formData.get("edit-categ-title");
-        
-                const originalName = originalTitle;
-                const updatedName = formData.get("edit-categ-title");
-                
-                updateArrayObjectByKey(mytoDOs, "categname", originalName, "categname", updatedName);
-        
-        
-        
-              formCategEdit.remove(); // Remove form after save
-        
-          });
-        
-          formCategEditCancelBtn.addEventListener('click', (e) => {
-        
-            e.preventDefault(); // We don't want to submit this fake form
-        
-            categHeading.textContent = originalTitle;
-              
-              formCategEdit.remove(); // Remove form after click
-          });
-        
-        //console.log(newmytoDos);
-        
-        
-                  
-                } else if (clickedCategDeleteBtn) {
-                  alert('deletecateg');
-        
-                 
-                     if (categMainSection) { 
-                        categMainSection.replaceChildren();
-                     }
-                 
-                } 
-      
-      }, false);
-
-    } // for loop
-
-    export function listBtns() {
-
-        const clickedAddListBtn = e.target.closest('.addlist');
-
-        if (clickedAddListBtn) {
                   alert('addlist');
-        
-                  const addListDialog = document.createElement("dialog");
+                  console.log(e.target)
+
+                 const addListDialog = document.createElement("dialog");
             addListDialog.setAttribute("id", "addlist-dialog");
             
             const formAddList = document.createElement("form");
@@ -576,11 +465,6 @@ categHeading.parentElement.insertBefore(formCategEdit, categoryEditDiv);
             listNameLabel.appendChild(formListTitle);
             formAddList.appendChild(listNameLabel);
         
-        
-            
-
-        
-
 //button sects
         
             const addListBtnSect = document.createElement("div");
@@ -606,7 +490,7 @@ categHeading.parentElement.insertBefore(formCategEdit, categoryEditDiv);
         
         addListDialog.appendChild(formAddList);
         
-        addListBtnDiv.appendChild(addListDialog);
+        categorySection.appendChild(addListDialog);
         
         addListDialog.showModal();
         
@@ -616,22 +500,30 @@ categHeading.parentElement.insertBefore(formCategEdit, categoryEditDiv);
         formAddList.addEventListener('submit', (e) => {
         
             e.preventDefault(); // We don't want to submit this fake form
+
+
+            const formData = new FormData(formAddList);
+    const listname = formData.get("add-list-title");
+    
+
+    // Add to todo array
+                const list = addListName(listname);    
+console.log("New list returned:", list);
+
+// start opening the right category element
         
-        const categoryEl = document.querySelector('.category');
+       // const categoryEl = document.querySelector('.category');
         
        
         
-          const categorySection = categoryEl.closest('.categmainsect'); 
+          //categorySection = categoryEl.closest('.categmainsect'); 
             
-        const listContainer = document.createElement("div"); //categorySection.querySelector('.listsect');
-        listContainer.classList.add("listsect");
+        const listSection = document.createElement("div"); //categorySection.querySelector('.listsect');
+        listSection.classList.add("listsect");
         
         
-        console.log(listContainer);
+        console.log(listSection);
          
-         //const listSection = document.createElement("div");
-        //listSection.setAttribute("id", "list-sect");
-        //listSection.classList.add("listsect");
         
         const listHeading = document.createElement("div");
         //listHeading.setAttribute("id", "list-heading");
@@ -643,31 +535,15 @@ categHeading.parentElement.insertBefore(formCategEdit, categoryEditDiv);
         
         const listTitle = document.createElement("h3");
         listTitle.classList.add("list-title-txt", "list");
-        //listTitle.setAttribute("data-category-id", `${categoryId}`);
-        //const categoryId = listTitle.dataset.categoryId;
+              
         
-        
-        //ad form data
-        
-        const formData = new FormData(formAddList);
-        
-        listTitle.textContent = formData.get("add-list-title");
-        
-        
-         
-        
-            
-        
-        
-        
-        
-        //listTitle.textContent = "Daily Tasks";
-        
-        //listTitle.textContent = 
+        //ad form data        
+        listTitle.textContent = listname;
         
         
         listTitleDiv.appendChild(listTitle);
         
+
         // start of edit or delete
         
         const listEditDiv = document.createElement("div");
@@ -725,57 +601,207 @@ categHeading.parentElement.insertBefore(formCategEdit, categoryEditDiv);
         listHeading.appendChild(listTitleDiv);
         
         
-        // listHeading.appendChild(addListBtnDiv);
         
-        //listSection.appendChild(listHeading);
-        
-        listContainer.appendChild(listHeading);
+        listSection.appendChild(listHeading);
+
+
+// add task section here
+
+const taskSection = document.createElement("div");
+taskSection.classList.add("tasksect");
+taskSection.setAttribute("id", "task-sect");
+
+
+listSection.appendChild(taskSection);
 
 
 
-        // sent to array
+// add new task button here
+
+// new task btn section
+
+const addNewTaskDiv = document.createElement("div");
+addNewTaskDiv.setAttribute("id", "new-task");
+addNewTaskDiv.classList.add("newtaskdiv");
+
+const newTaskBtn = document.createElement("button");
+newTaskBtn.setAttribute("id", "newtask");
+newTaskBtn.classList.add("newtaskbtn");
+
+const addNewTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+addNewTaskSVG.classList.add("addnewtsk");
+addNewTaskSVG.setAttribute('viewBox', '0 0 24 24');
+addNewTaskSVG.setAttribute("height", "20px");
+addNewTaskSVG.setAttribute("width", "20px");
+
+const addNewTaskSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+addNewTaskSVGPath.setAttribute(
+"d", "M5 19V5H12V12H19V13C19.7 13 20.37 13.13 21 13.35V9L15 3H5C3.89 3 3 3.89 3 5V19C3 20.1 3.89 21 5 21H13.35C13.13 20.37 13 19.7 13 19H5M14 4.5L19.5 10H14V4.5M23 18V20H20V23H18V20H15V18H18V15H20V18H23Z");
+
+addNewTaskSVG.appendChild(addNewTaskSVGPath);
+
+newTaskBtn.appendChild(addNewTaskSVG);
+
+const addNewTaskTxt = document.createElement("p");
+addNewTaskTxt.classList.add("add-new-tsk-txt");
+addNewTaskTxt.textContent = "New Task";
+
+newTaskBtn.appendChild(addNewTaskTxt);
+
+addNewTaskDiv.appendChild(newTaskBtn);
+
+//taskSection.appendChild(addNewTaskDiv);
+
+
+
+  listSection.appendChild(addNewTaskDiv);
+
+  categorySection.appendChild(listSection);
+
+// add datasets
+
+listTitle.textContent = list.name;
+listTitle.dataset.listId = list.id;
+    listTitle.dataset.categoryId = categoryId;
+    listSection.dataset.categoryId = categoryId;
+    taskSection.dataset.listId = list.id;
+
+    console.log("Set on List Section:", categoryId);
+
+    console.log("ID Set on List Title & task section:", list.id);
+
         
-        const listname = formData.get("add-list-title");
-        
-         // Add to todo array
-         addListName(listname);
-         
-         // DO NOT MOVE ID - it logs the right list
-        // add id
-        
-          const formListData = document.getElementById('add-list-title'); 
-        
-          console.log(formListData);
-        
-        const targetListName = formListData.value.trim();
-        
-        console.log(targetListName);
-        
-        const matchingListId = mytoDOs.find(item => item.listname === targetListName)?.id;
-        
-        console.log(matchingListId);
-        
-        if (matchingListId !== undefined) {
-          console.log(`Found list with ID: ${matchingListId}`);
-        } else {
-          console.log("List not found.");
-        
-        }
-        
-        
-        listTitle.setAttribute("data-id", `${matchingListId}`);
-        //listTitle.setAttribute("data-category-id", `${categoryId}`);
-        
-        
-        console.log(mytoDOs);
-        //console.log(newmytoDos);
         
         addListDialog.close();
         addListDialog.remove();
-        
-        // start delegation here for add and delete buttons
 
-        listContainer.addEventListener('click', function(e) {
+
+      }); // end of add list form listener
+                  
+
+        }
+      
+
+
+        else if (clickedListEditBtn) {
+                    alert('editlist');
+
+//const listTitleDiv  = e.target.closest(".listtitle");                   
+
+const listTitle = categorySection.querySelector(`.list[data-category-id="${categoryId}"]`);
+//const listTitle = categorySection.querySelector(`.list[data-category-id="${categoryId}"]`);
+    console.log(listTitle);
+
+    const listEditDiv = e.target.closest('.listeditdiv');
+          console.log("CategoryEditDiv:", listEditDiv);
+
+if (!listTitle && !listEditDiv) return;
+
+
+
+
+                const originalListTitle = listTitle.textContent;
+
+
+
+
+//create form
+
+const formListEdit = document.createElement("form");
+formListEdit.setAttribute("name", "formlistedit");
+formListEdit.classList.add("formlistedit");
+
+const formListTitleEdit = document.createElement("input");
+formListTitleEdit.type = "text";
+formListTitleEdit.name = "edit-list-title";
+formListTitleEdit.id = "edit-list-title";
+formListTitleEdit.value = originalListTitle;
+
+formListEdit.appendChild(formListTitleEdit);
+
+
+const editListBtnSect = document.createElement("div");
+editListBtnSect.setAttribute("id", "listeditBtn-sect");
+editListBtnSect.classList.add("listbtnsectedit");
+
+const formListEditSubmitBtn = document.createElement("button");
+formListEditSubmitBtn.type = "submit"; // Important: type submit so form submit event fires
+formListEditSubmitBtn.id = "submit-edit-list";
+formListEditSubmitBtn.textContent = "Edit";
+
+editListBtnSect.appendChild(formListEditSubmitBtn);
+
+const formListEditCancelBtn = document.createElement("button");
+formListEditCancelBtn.type = "button"; // prevent form submit
+formListEditCancelBtn.id = "cancel-edit-list";
+formListEditCancelBtn.textContent = "Cancel";
+
+editListBtnSect.appendChild(formListEditCancelBtn);
+
+formListEdit.appendChild(editListBtnSect);
+
+//expandTasks.appendChild(formTaskEdit);
+listTitle.parentElement.insertBefore(formListEdit, listEditDiv);
+
+
+// Clear current content
+listTitle.textContent = "";
+
+
+formListEdit.addEventListener('submit', (e) => {
+
+    e.preventDefault(); // We don't want to submit this fake form
+
+    const formData = new FormData(formListEdit);
+    listTitle.textContent = formData.get("edit-list-title");
+
+
+    const originalName = originalListTitle;
+    const updatedName = formData.get("edit-list-title");
+    
+    updateArrayObjectByKey(mytoDOs, "name", originalName, "name", updatedName);
+
+
+  formListEdit.remove(); // Remove form after save
+
+
+});
+
+formListEditCancelBtn.addEventListener('click', (e) => {
+
+e.preventDefault(); // We don't want to submit this fake form
+
+listTitle.textContent = originalListTitle;
+  
+  formListEdit.remove(); // Remove form after click
+  
+});
+                }  else if (clickedListDeleteBtn) {
+      alert('.deletelist');
+
+const listSection = categorySection.querySelector(".listsect");
+      if (!listSection) return;
+     
+         if (listSection) { 
+            listSection.remove();
+         }
+
+        }
+
+      
+
+  
+}, false);
+
+
+}
+
+
+
+
+        /*
+
+
 
     const clickedListEditBtn = e.target.closest('.editlist');
 const clickedListDeleteBtn = e.target.closest('.deletelist');
