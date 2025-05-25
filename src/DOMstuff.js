@@ -48,7 +48,7 @@ const sidebarLoad = () => {
     // input today, upcoming, categories between here
 todoToday();
 todoUpcoming();
-todoCategories();
+//todoCategories();
 
    
 
@@ -203,11 +203,29 @@ upcomingTasksNotify.appendChild(upcomingNotifText);
 
 }
 
-const todoCategories = () => {
+export const todoCategories = () => {
+
+//const allCategories = mytoDOs.filter(item => item.type === 'category');
+//console.log("All categories in array: ", allCategories);
+
+//const allCategories = mytoDOs.find(item => item.type === 'category');
+
+//console.log("All categories in array: ", allCategories);
+
+//console.log(allCategories.name);
+
+const existingCategorySect = document.querySelector("#category-sect");
+if (existingCategorySect) {
+  existingCategorySect.remove();
+}
+
+
     const sidebar = document.querySelector("#sidebar");
 
     const categorySect = document.createElement("div");
     categorySect.setAttribute("id", "category-sect");
+
+    categorySect.replaceChildren();
 
     const categorySectHeading = document.createElement("h3");
     categorySectHeading.textContent = "Categories";
@@ -217,13 +235,84 @@ const todoCategories = () => {
     const categorySectDisplay = document.createElement("div");
     categorySectDisplay.setAttribute("id", "category-sect-display");
     categorySectDisplay.classList.add("side-category-display");
-    categorySectDisplay.textContent = "Category 1";
+    //categorySectDisplay.textContent = "Category 1";
+//categorySectDisplay.textContent = allCategories[0].name; // equals Category 1
+
+//console.log(allCategories[0].name);
+
+//categorySectDisplay.replaceChildren();
+
+
+
+const categoryList = document.createElement("ul"); // Create an unordered list
+
+
+// add loop here
+
+const categories = mytoDOs
+  .filter(item => item.type === 'category')
+  .sort((a, b) => a.createdAt - b.createdAt);
+
+  categories.forEach(category => {
+   
+console.log(category);
+
+   
+      const listItem = document.createElement("li");
+
+const categoryLinks = document.createElement("a");
+
+//const categoryNameElements = document.querySelectorAll(`.category[data-category-id="${category.id}"]`);
+const categoryNameElement = document.querySelector(`.category[data-category-id="${category.id}"]`);
+//const categoryNameElements = document.querySelectorAll(`.category`);
+
+console.log(categoryNameElement);
+
+
+
+if (categoryNameElement) {
+
+const originalId = categoryNameElement.id;
+
+  //categoryLinks.setAttribute("href", `.category[data-category-id="${category.id}"]`);
+
+ categoryLinks.href = "#" + originalId;
+
+  console.log(categoryLinks.href);
+
+ // Scroll to the element after a short delay to ensure the ID is set
+    setTimeout(() => {
+      categoryNameElement.scrollIntoView({ behavior: 'smooth' });
+
+      
+    }, 100);
+  } else {
+    console.error('Target element not found.');
+  }
+   
+
+
+
+categoryLinks.classList.add("categlinks");
+categoryLinks.textContent = category.name;
+
+listItem.appendChild(categoryLinks);
+
+categoryList.appendChild(listItem);
+
+  });
+
+categorySectDisplay.appendChild(categoryList);
+
+    //categorySectHeading.appendChild(categorySectDisplay);
 
     categorySect.appendChild(categorySectDisplay);
 
     if (sidebar) {
         sidebar.appendChild(categorySect);
       }
+
+      
     
     
 }
@@ -851,9 +940,11 @@ export const togglePriority = (task, priorityLabelDiv) => {
 
 export const createHomePage = () => {
     
-    sidebarLoad();
+    
     headerLoad();
     todoSectLoad();
+    sidebarLoad();
+   
     
 
     

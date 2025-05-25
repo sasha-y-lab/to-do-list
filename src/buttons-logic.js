@@ -1,6 +1,6 @@
 import { mytoDOs, addTask, addListName, addCategName } from "./todo-logic.js";
 
-import { createPriorityLabel, togglePriority } from "./DOMstuff.js";
+import { createPriorityLabel, togglePriority, todoCategories } from "./DOMstuff.js";
 
 
 /**
@@ -110,7 +110,13 @@ function updateArrayObjectByKey(array, matchKey, matchValue, updateKey, newValue
     // Add to todo array
                 const category = addCategName(name);    
 console.log("New category returned:", category);
-                 
+             
+
+const categorySect = document.querySelector("#category-sect");
+
+categorySect.replaceChildren();
+//update category list on sidebar
+todoCategories();
 
 
         
@@ -554,6 +560,7 @@ const categoryId = categorySection.dataset.categoryId;
     // Add to todo array
                 const list = addListName(listname, categoryId);    
 console.log("New list returned:", list);
+
 
 // start opening the right category element
         

@@ -123,6 +123,7 @@ export class Category {
         this.name = name;
         this.type = 'category';
         this.id = crypto.randomUUID();
+        this.createdAt = Date.now();
     }
 }
 
