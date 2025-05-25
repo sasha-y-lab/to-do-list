@@ -103,9 +103,10 @@ export class Task {
         this.dueDate = dueDate;
         this.priority = priority;
         this.type = "task";
-        this.isPriority = false;
+        //this.isPriority = false;
         this.listId = listId;
         this.id = crypto.randomUUID();
+        this.completed = false;
     }
 }
 

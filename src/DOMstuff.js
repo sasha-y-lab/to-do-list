@@ -1,6 +1,7 @@
 
 import { mytoDOs } from "./todo-logic.js";
 
+import { formatDate } from "./date-utility.js";
 
 
 console.log(mytoDOs);
@@ -79,22 +80,45 @@ const todoToday = () => {
    
       // input notification here
 
-notifToday();
+//notifToday();
 
 
 
 }
 
-const notifToday = () => {
+export const notifToday = () => {
+
+const dateGetter = formatDate();
+
+ const todaysDate = dateGetter.todayDate;
+
+ // deletes previously loaded element
+const existingNotifyDiv = document.querySelector("#notify-today");
+if (existingNotifyDiv) {
+  existingNotifyDiv.remove();
+}
+
+
+ // find all duedates with today's date
+
+ const categories = mytoDOs
+  .filter(item => item.type === 'task' && item.dueDate === todaysDate);
+
+  const todaysDueDates = categories.length;
+
+  console.log(todaysDueDates);
+
 
     const todayTasks = document.querySelector("#today-tasks");
 
     const todayTasksHeader = document.querySelector("#today-tsk-header");
 
+    
     const todayTasksNotify = document.createElement("div");
     todayTasksNotify.setAttribute("id", "notify-today");
     todayTasksNotify.classList.add("notify");
     //todayTasksNotify.textContent = "";
+    
 
     // notif circle
     const todayNotifCircle = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -113,7 +137,8 @@ todayNotifCircle.appendChild(todayNotifCirclePath);
 todayTasksNotify.appendChild(todayNotifCircle);
 
 const todayNotifText = document.createElement("p");
-todayNotifText.textContent = "12";
+todayNotifText.textContent = todaysDueDates; //"12";
+
 todayNotifText.classList.add("notif-text");
 
 todayTasksNotify.appendChild(todayNotifText);

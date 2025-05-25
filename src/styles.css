@@ -51,6 +51,8 @@ height: 100%;
 .notify {
     display: flex;
     justify-content: center;
+    z-index: 0;
+    
     
 }
 
@@ -58,14 +60,19 @@ height: 100%;
     fill: #D8CC34;
     color: white;
     
+    
 }
 
 .notif-text {
-
-    margin-left: -23px;
+    
+    margin-left: -1.3rem;
+    z-index: 2;
     margin-top: 7px;
     font-size: 0.8rem;
     font-weight: bold;
+    
+    
+    
 
 }
 
@@ -513,8 +520,17 @@ padding-top: 10px;
     color: white;
 }
 
+
 .checked {
     fill: grey;
+    z-index: 2;
     
     
+}
+
+.crossed-out {
+
+    color: gray;
+  text-decoration: line-through;
+
 }

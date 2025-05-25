@@ -7,7 +7,7 @@ import "./styles.css";
 
 //formatDate();
 
-import { createHomePage,  todoCategories } from "./DOMstuff.js";
+import { createHomePage,  todoCategories, notifToday } from "./DOMstuff.js";
 
 import { addCategPopUp, todosSectAddDeleteBtns } from "./buttons-logic.js";
 
@@ -22,6 +22,7 @@ export const loadDom = document.addEventListener("DOMContentLoaded", () => {
    addCategPopUp();
     todosSectAddDeleteBtns();
      todoCategories();
+     notifToday();
     
   });
 

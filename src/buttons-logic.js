@@ -1,6 +1,6 @@
 import { mytoDOs, addTask, addListName, addCategName } from "./todo-logic.js";
 
-import { createPriorityLabel, togglePriority, todoCategories } from "./DOMstuff.js";
+import { createPriorityLabel, togglePriority, todoCategories, notifToday } from "./DOMstuff.js";
 
 
 /**
@@ -1069,6 +1069,15 @@ const listId = listSection.dataset.categoryId;
     // Add to todo array
                 const task = addTask(taskname, details, dueDate, priority, listId);    
 console.log("New task returned:", task);
+
+const todayTasksNotify = document.querySelector("#notify-today");
+
+
+todayTasksNotify.replaceChildren();
+
+// render array of todo duedates that are for today only
+
+notifToday();
            
 // add cards here
 
@@ -1219,11 +1228,15 @@ console.log("Assigned list:", cardDiv.dataset.listId);
             console.log(cardDiv);
                 
                  const existingExpandTasks = cardDiv.querySelector(".expand-toggle"); // checks if it exists
-               
+               console.log(existingExpandTasks);
+
+
           // the following does a toggle
                  if (existingExpandTasks) {
                   
                   existingExpandTasks.remove();
+                  //taskDetails.style.display = "none";
+
                   //existingTaskEditDiv.remove();
                  } else {
 
@@ -1249,7 +1262,7 @@ console.log("Assigned list:", cardDiv.dataset.listId);
                   const expandTasks = document.createElement("div");
                  // expandTasks.setAttribute("id", "expand-togglediv");
                   expandTasks.classList.add("expand-toggle");
-        
+                  //expandTasks.style.display = "block";
                   
                   
                   const taskDetails = document.createElement("div");
@@ -1325,6 +1338,39 @@ console.log("Assigned list:", cardDiv.dataset.listId);
           cardDiv.appendChild(expandTasks);
 
   //}); // end of loop
+
+  const existingSpan2 = cardDiv.querySelector(".span2");
+
+  console.log(existingSpan2);
+
+  if (existingSpan2) {
+existingSpan2.style.color = "black";
+    existingSpan2.style.textDecoration = "none";
+
+  }
+
+if (!taskDetails.querySelector(".crossed-out")) {
+    
+
+    const task = mytoDOs.find(item => item.type === 'task' && item.id === taskId);
+    console.log("matching task ids?", task.id, taskId);
+
+    // ✅ Only cross out if task is actually complete
+    if (task.completed) {
+      const span2 = document.createElement("span");
+      span2.classList.add("crossed-out", "span2");
+      span2.textContent = taskDetails.textContent;
+      taskDetails.textContent = "";
+      taskDetails.appendChild(span2);
+    }
+
+  } else {
+
+    const span2 = expandTasks.querySelector(".crossed-out");
+    console.log("span2 exists?: ", span2);
+    span2.style.display = "block";
+  }
+
 
                  }
 
@@ -1452,14 +1498,85 @@ if (taskIndex !== -1) {
 
             else if (checkedCircle) {
               alert('checkoffdiv');
-    
-              const checkOffTaskSVG = e.target.closest(".check-off");
+    const cardDiv = e.target.closest(".card");
+
+    // const cardDiv = checkedCircle.closest(".card");
+console.log("cardDiv exist?:", cardDiv);
+
+    // Find task text inside this card
+      const taskTxt = cardDiv.querySelector(".tskTxt");
+      
+
+console.log("taskTxt exist?:", taskTxt);
+
+const existingCheckmark = cardDiv.querySelector(".checked"); // checks if it exists
+
+const existingSpan1 = cardDiv.querySelector(".span1");
+const existingSpan2 = cardDiv.querySelector(".span2");
+
+console.log("span 1 & 2 exist?", existingSpan1, existingSpan2);
+
+const checkOffTaskSVG = cardDiv.querySelector(".check-off");
+
+const taskDisplay = cardDiv.querySelector(".displaytask");
+
+const checkoffDiv = cardDiv.querySelector(".checkoffdiv");
+
+console.log("taskdisplay exists?:", taskDisplay);
+
+console.log("checkoffdiv exists?:", checkoffDiv);
+
+
+
+
+
+
+               
+          // the following does a toggle
+                 if (existingCheckmark) {
+                  
+                  existingCheckmark.remove();
+                  existingSpan1.style.color = "black";
+    existingSpan1.style.textDecoration = "none";
+                //  existingSpan2.style.color = "black";
+    //existingSpan2.style.textDecoration = "none";
+
+                  // then put back circle
+                  
+                  const checkOffTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+checkOffTaskSVG.classList.add("check-off");
+checkOffTaskSVG.setAttribute('viewBox', '0 0 24 24');
+checkOffTaskSVG.setAttribute("height", "20px");
+checkOffTaskSVG.setAttribute("width", "20px");
+
+const checkOffTaskSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+checkOffTaskSVGPath.setAttribute(
+"d", "M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z");
+
+checkOffTaskSVG.appendChild(checkOffTaskSVGPath);
+
+checkoffDiv.appendChild(checkOffTaskSVG);
+
+                 
+                  //existingTaskEditDiv.remove();
+                 } else {
+
+                  
+              
 
               console.log(checkOffTaskSVG);
 
-      if (checkOffTaskSVG) checkOffTaskSVG.remove();
+              
+
+      if (checkOffTaskSVG) {
+        
+        checkOffTaskSVG.remove();
+
+      
     
     
+
+
     // start new check
     
     
@@ -1468,6 +1585,8 @@ if (taskIndex !== -1) {
     checkTaskSVG.setAttribute('viewBox', '0 0 24 24');
     checkTaskSVG.setAttribute("height", "20px");
     checkTaskSVG.setAttribute("width", "20px");
+
+    
     
     const checkTaskSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
     checkTaskSVGPath.setAttribute(
@@ -1479,40 +1598,57 @@ if (taskIndex !== -1) {
     checkedCircle.appendChild(checkTaskSVG);
   
     
-    const cardDiv = checkedCircle.closest(".card");
-console.log("cardDiv exist?:", cardDiv);
-
-    // Find task text inside this card
-      const taskTxt = cardDiv.querySelector(".tskTxt");
-
-console.log("taskTxt exist?:", taskTxt);
+   
 
       const editTaskDiv = cardDiv.querySelector(".editdivbtn");
       console.log("editTaskDiv exist?:", editTaskDiv);
 
       const expandTasks = cardDiv.querySelector(".expand-toggle");
 
-      console.log("expand task div exists?:", expandTasks);
-    
-    
-    const span = document.createElement("span");
-    span.textContent = taskTxt.textContent;
-    span.style.color = "gray";
-    span.style.textDecoration = "line-through";
-    
-      
-    
-    
-    if (taskTxt) {
-        taskTxt.textContent = "";
-        taskTxt.appendChild(span);
-        editTaskDiv.remove();
-        if (expandTasks) {
-          expandTasks.remove();
-        }
+     // const taskDetails = cardDiv.querySelector(".tskdetailsdiv");
 
-    }
+      console.log("expand task div exists?:", expandTasks);
+
+      const taskId = cardDiv.dataset.taskId;
+
+      console.log(taskId);
     
+    const task = mytoDOs.find(item => item.type === 'task' && item.id === taskId && item.completed === false);
+
+console.log("matching task ids?", task.id, taskId); 
+
+    task.completed = true;
+
+    
+
+if (taskTxt) {
+  const span = document.createElement("span");
+  span.classList.add("crossed-out");
+  span.textContent = taskTxt.textContent;
+  taskTxt.textContent = "";
+  taskTxt.appendChild(span);
+}
+  /*
+  if (expandTasks) {
+    
+
+    if (taskDetails) {
+      const span2 = document.createElement("span");
+      span2.classList.add("span2", "crossed-out");
+      span2.textContent = taskDetails.textContent;
+
+      taskDetails.textContent = "";
+      taskDetails.appendChild(span2);
+    }
+  }
+
+  */
+
+       
+       
+  } // first if else
+
+} // if statement for toggle
             } // else if statement 
 
             else if (priorityLabel) {
