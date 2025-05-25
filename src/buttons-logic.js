@@ -324,8 +324,13 @@ const clickedEditDisplayedTasks = e.target.closest('.editdisplayedtskbtn');
 const clickedDeleteTaskBtn = e.target.closest('.deletetskbtn');
 
 
+// check for empty circle button
+
+const checkedCircle = e.target.closest('.checkoffdiv');
+
+
  // If neither was clicked, do nothing
-  if (!clickedCategEditBtn && !clickedCategDeleteBtn && !clickedAddListBtn && !clickedListEditBtn && !clickedListDeleteBtn && !clickedNewTaskBtn && !clickedEditTaskBtn && !clickedEditDisplayedTasks && !clickedDeleteTaskBtn) return;
+  if (!clickedCategEditBtn && !clickedCategDeleteBtn && !clickedAddListBtn && !clickedListEditBtn && !clickedListDeleteBtn && !clickedNewTaskBtn && !clickedEditTaskBtn && !clickedEditDisplayedTasks && !clickedDeleteTaskBtn && !checkedCircle) return;
 
  // Find the category section
   const categorySection = e.target.closest('.categmainsect');
@@ -1423,6 +1428,66 @@ if (taskIndex !== -1) {
               console.log(mytoDOs);
         
             }
+
+            else if (checkedCircle) {
+              alert('checkoffdiv');
+    
+              const checkOffTaskSVG = e.target.closest(".check-off");
+
+              console.log(checkOffTaskSVG);
+
+      if (checkOffTaskSVG) checkOffTaskSVG.remove();
+    
+    
+    // start new check
+    
+    
+    const checkTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    checkTaskSVG.classList.add("checked");
+    checkTaskSVG.setAttribute('viewBox', '0 0 24 24');
+    checkTaskSVG.setAttribute("height", "20px");
+    checkTaskSVG.setAttribute("width", "20px");
+    
+    const checkTaskSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    checkTaskSVGPath.setAttribute(
+    "d", "M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z");
+    
+    checkTaskSVG.appendChild(checkTaskSVGPath);
+    
+       
+    checkedCircle.appendChild(checkTaskSVG);
+  
+    
+    const cardDiv = checkedCircle.closest(".card");
+console.log("cardDiv exist?:", cardDiv);
+
+    // Find task text inside this card
+      const taskTxt = cardDiv.querySelector(".tskTxt");
+
+console.log("taskTxt exist?:", taskTxt);
+
+      const editTaskDiv = cardDiv.querySelector(".editdivbtn");
+      console.log("editTaskDiv exist?:", editTaskDiv);
+    
+    
+    const span = document.createElement("span");
+    span.textContent = taskTxt.textContent;
+    span.style.color = "gray";
+    span.style.textDecoration = "line-through";
+    
+      
+    
+    
+    if (taskTxt) {
+        taskTxt.textContent = "";
+        taskTxt.appendChild(span);
+       // expandTaskDiv.remove();
+        editTaskDiv.remove();
+        
+    }
+    
+            } // else if statement 
+    
          
           
 
@@ -1438,279 +1503,6 @@ if (taskIndex !== -1) {
 
 
 
-
-        /*
-
-    
     
 
-    const completeTask = () => {
-    
-    const todoSect = document.querySelector("#todo-sect");
-    
-    //const listSection = todoSect.closest(".listsect");
-    
-          //const taskSection = listSection.closest(".tasksect");
-    
-           //const taskDisplay = document.querySelector("#taskdisplay");
-    
-          // const currentCardDiv = document.querySelector(".card");
-          // const currentCardDiv2 = currentCardDiv.dataset.id;
-    
-          // const editTaskDiv = document.querySelector(".editdivbtn");
-    
-          // const taskTxt = document.querySelector(".tskTxt");
-    
-          //const checkoffDiv = document.querySelector(".checkoffdiv");
-           
-    
-           //const checkOffTaskSVG = document.querySelector(".check-off");
-    
-           todoSect.addEventListener("click", (e) => {
-    
-            const checkedCircle = e.target.closest('.checkoffdiv');
-    
-            
-    
-            if (!checkedCircle) return;
-    
-    const cardDiv = checkedCircle.closest(".card");
-    const checkoffDiv = checkedCircle.closest(".checkoffdiv");
-      const listSection = cardDiv.closest(".listsect");
-      
-      //const taskSection = cardDiv.closest(".tasksect");
-    
-       // Debug: Confirm you're inside the correct list/card
-      console.log("List ID:", listSection.dataset.id); // if data-id on list
-      console.log("Card ID:", cardDiv.dataset.id);     // if data-id on card
-    
-    
-            if (checkedCircle) {
-              alert('check-off');
-    
-              const currentCircleSVG = checkedCircle.querySelector(".check-off");
-      if (currentCircleSVG) currentCircleSVG.remove();
-    
-    
-    //checkOffTaskSVG.remove();
-    
-    
-    const checkTaskSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    checkTaskSVG.classList.add("checked");
-    checkTaskSVG.setAttribute('viewBox', '0 0 24 24');
-    checkTaskSVG.setAttribute("height", "20px");
-    checkTaskSVG.setAttribute("width", "20px");
-    
-    const checkTaskSVGPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    checkTaskSVGPath.setAttribute(
-    "d", "M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z");
-    
-    checkTaskSVG.appendChild(checkTaskSVGPath);
-    
-    
-    if (checkoffDiv) {
-    
-    checkoffDiv.appendChild(checkTaskSVG);
-    }
-    
-    
-    // Find task text inside this card
-      const taskTxt = cardDiv.querySelector(".tskTxt");
-      const editTaskDiv = cardDiv.querySelector(".editdivbtn");
-    
-    
-    const span = document.createElement("span");
-    span.textContent = taskTxt.textContent;
-    span.style.color = "gray";
-    span.style.textDecoration = "line-through";
-    
-    //const expandTaskDiv = document.querySelector(".expand-toggle");
-    
-    
-    
-    
-    if (taskTxt) {
-        taskTxt.textContent = "";
-        taskTxt.appendChild(span);
-       // expandTaskDiv.remove();
-        editTaskDiv.remove();
-        
-    }
-    
-            } // if statement for non svg listener
-    
-           });
-    
-        }
-        //completeTask();
-
-
-        
-        
-        
-        
-        
-        
-
-        function renderExpandedTasks() {
-        
-          // start of expanded task display
-        
-        
-         
-          
-          // start of button edit listener
-          
-          expandTasks.addEventListener("click", (e) => {
-          
-          //const editDisplayedTaskBtns = document.querySelectorAll(".editdisplayedtskbtn");
-          
-          const clickedEditDisplayedTasks = e.target.closest('.editdisplayedtskbtn');
-          const clickedDeleteTaskBtn = e.target.closest('.deletetskbtn');
-          
-          if (clickedEditDisplayedTasks) {
-            alert('editdisplayedtskbtn');
-          
-          
-              const taskTxt = document.querySelector(".tskTxt");
-              
-          
-              const originalTitle = taskTxt.textContent;
-          const originalDetails = taskDetails.textContent;
-          
-          
-          
-          //create form
-          
-              const formTaskEdit = document.createElement("form");
-              formTaskEdit.setAttribute("name", "formedit");
-              formTaskEdit.classList.add("formedit");
-              
-              const formTaskTitleEdit = document.createElement("input");
-              formTaskTitleEdit.type = "text";
-              formTaskTitleEdit.name = "edit-task-title";
-              formTaskTitleEdit.id = "edit-task-title";
-              formTaskTitleEdit.value = originalTitle;
-          
-              formTaskEdit.appendChild(formTaskTitleEdit);
-          
-              const formTaskDetailsEdit = document.createElement("input");
-              formTaskDetailsEdit.type = "text";
-              formTaskDetailsEdit.name = "edit-task-details";
-              formTaskDetailsEdit.id = "edit-task-details";
-             formTaskDetailsEdit.value = originalDetails; // Prefill current details
-          
-              formTaskEdit.appendChild(formTaskDetailsEdit);
-          
-              const editTaskBtnSect = document.createElement("div");
-              editTaskBtnSect.setAttribute("id", "taskeditBtn-sect");
-          
-              const formTaskEditSubmitBtn = document.createElement("button");
-              formTaskEditSubmitBtn.type = "submit"; // Important: type submit so form submit event fires
-              formTaskEditSubmitBtn.id = "submit-edit-task";
-              formTaskEditSubmitBtn.textContent = "Edit Task";
-          
-              editTaskBtnSect.appendChild(formTaskEditSubmitBtn);
-          
-              const formTaskEditCancelBtn = document.createElement("button");
-              formTaskEditCancelBtn.type = "button"; // prevent form submit
-              formTaskEditCancelBtn.id = "cancel-edit-task";
-              formTaskEditCancelBtn.textContent = "Cancel Edit";
-          
-              editTaskBtnSect.appendChild(formTaskEditCancelBtn);
-          
-              formTaskEdit.appendChild(editTaskBtnSect);
-          
-              //expandTasks.appendChild(formTaskEdit);
-              taskTxt.parentElement.appendChild(formTaskEdit);
-          
-          
-          // Clear current content
-          taskTxt.textContent = "";
-          taskDetails.textContent = "";
-          
-          
-              formTaskEdit.addEventListener('submit', (e) => {
-          
-                  e.preventDefault(); // We don't want to submit this fake form
-              
-                  const formData = new FormData(formTaskEdit);
-                taskTxt.textContent = formData.get("edit-task-title");
-                taskDetails.textContent = formData.get("edit-task-details");
-                formTaskEdit.remove(); // Remove form after save
-          
-            });
-          
-            formTaskEditCancelBtn.addEventListener('click', (e) => {
-          
-              e.preventDefault(); // We don't want to submit this fake form
-          
-              taskTxt.textContent = originalTitle;
-                taskDetails.textContent = originalDetails;
-                formTaskEdit.remove(); // Remove form after click
-            });
-          
-          } else if (clickedDeleteTaskBtn) {
-            alert('deletetskbtn');
-        
-            const currentCardDiv2 = document.querySelector(".card");
-            
-            for (let i = 0; i < mytoDOs.length; i++) {
-            
-              // tasks section
-             // taskSection.replaceChildren();
-            
-              let taskID = mytoDOs[i].id;
-              
-                 
-                 console.log(taskID);
-            
-                // taskSection.setAttribute("data-id", `${taskID}`);
-        
-                currentCardDiv2.setAttribute("data-id", `${taskID}`);
-            
-                 let tskIndex2Del = currentCardDiv2.dataset.id; //taskSection.dataset.id;
-            
-            
-                 
-                 console.log(tskIndex2Del);
-            
-                 console.log(mytoDOs);
-            
-                 console.log(currentCardDiv2.dataset.id);
-            
-            
-        
-            const index = [...Array.from(currentCardDiv2.parentElement.children)].indexOf(currentCardDiv2);
-        
-        
-            console.log(index);
-        
-            if (taskID === tskIndex2Del) {
-        
-              mytoDOs.splice(index, 1); // does it delete the active card
-        
-              if (currentCardDiv2) {
-                currentCardDiv2.remove();
-              }
-              //taskSection.replaceChildren();
-              //renderTasks();
-        
-            }
-          } // for loop
-          }
-        });
-                 
-                 
-                 
-                 }
-            
-          } // end of first if
-        
-        
-                 });
-        
-        }
-
-        */
-        
+   
