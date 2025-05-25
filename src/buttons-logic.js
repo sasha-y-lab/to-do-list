@@ -1,6 +1,6 @@
 import { mytoDOs, addTask, addListName, addCategName, distanceOfDueDate, populateLocalStorage } from "./todo-logic.js";
 
-import { createPriorityLabel, togglePriority, todoCategories, notifToday, notifUpcoming, renderTasks, categoryLoad, listLoad } from "./DOMstuff.js";
+import { createPriorityLabel, togglePriority, todoCategories, notifToday, notifUpcoming, renderTasks, categoryLoad, listLoad, clearUI } from "./DOMstuff.js";
 
 
 
@@ -115,7 +115,13 @@ console.log("New category returned:", category);
 
 
 populateLocalStorage(); // for local storage
-categoryLoad([category]); // for local storage
+
+// add clearing function here
+//clearUI();
+
+categoryLoad(mytoDOs);  // ✅ fresh render
+//listLoad(mytoDOs);
+//renderTasks(mytoDOs);
 
 const categorySect = document.querySelector("#category-sect");
 
@@ -570,8 +576,13 @@ console.log("New list returned:", list);
 
 
 populateLocalStorage(); // for local storage
-//listLoad([list], categoryId); // for local storage
-listLoad([list], list.categoryId); // for local storage
+
+//add clearing function here
+//clearUI();
+
+//categoryLoad(mytoDOs);  // ✅ fresh render
+listLoad(mytoDOs, categoryId);
+//renderTasks(mytoDOs);
 
 // start opening the right category element
         
@@ -1083,8 +1094,11 @@ console.log("New task returned:", task);
 
 
 populateLocalStorage(); // for local storage
-//renderTasks([task], listId); // for local storage
-renderTasks([task], task.listId); // for local storage
+// add clearing function here
+//clearUI();
+//categoryLoad(mytoDOs);  // ✅ fresh render
+//listLoad(mytoDOs);
+renderTasks(mytoDOs, listId);
 
 const todayTasksNotify = document.querySelector("#notify-today");
 const upcomingTasksNotify = document.querySelector("#notify-coming");

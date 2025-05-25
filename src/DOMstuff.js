@@ -475,12 +475,25 @@ export const todoSectLoad = () => {
         mainContent.appendChild(todoSect);
     }
     //input category
-    //categoryLoad(mytoDOs);
+    categoryLoad(mytoDOs);
 
-categoryLoad(myCategoriesObj);
+//categoryLoad(myCategoriesObj);
 
 
    
+}
+
+
+export function clearUI() {
+
+  const todoSect = document.querySelector("#todo-sect");
+    console.log(todoSect);
+
+if (!todoSect) return;
+
+    todoSect.replaceChildren();
+
+
 }
 
 
@@ -646,8 +659,8 @@ categMainSection.appendChild(listSection);
 
      //listLoad(array, category.id);
 
-     listLoad(myListsObj, category.id); //// must call new JSON array
-
+    // listLoad(myListsObj, category.id); //// must call new JSON array
+listLoad(mytoDOs, category.id);
 /*
 myListsObj.forEach(list => {
   listLoad(list, list.categoryId);
@@ -659,6 +672,7 @@ myListsObj.forEach(list => {
 
 }); // category loop
 }
+
 
 
 
@@ -824,7 +838,8 @@ addNewTaskDiv.appendChild(newTaskBtn);
 
 //renderTasks(array, list.id);
 
-renderTasks(myTasksObj, list.id) // must call new JSON array
+//renderTasks(myTasksObj, list.id) // must call new JSON array
+renderTasks(mytoDOs, list.id);
 
 /*
 myTasksObj.forEach(task => {
@@ -834,6 +849,8 @@ myTasksObj.forEach(task => {
 
   });
 }
+
+//listLoad(mytoDOs, category.id);
 
 
 
@@ -985,6 +1002,8 @@ cardDiv.appendChild(taskDisplay);
   });
     
 }
+
+
 
 
 

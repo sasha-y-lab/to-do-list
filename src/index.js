@@ -6,7 +6,7 @@ import "./styles.css";
 
 //formatDate();
 
-import { createHomePage,  todoCategories, notifToday, notifUpcoming, categoryLoad } from "./DOMstuff.js";
+import { createHomePage,  todoCategories, notifToday, notifUpcoming, categoryLoad, renderTasks, listLoad, clearUI } from "./DOMstuff.js";
 
 import { addCategPopUp, todosSectAddDeleteBtns,  } from "./buttons-logic.js";
 
@@ -40,12 +40,14 @@ console.log("Lists:", myListsObj);
 console.log("Tasks:", myTasksObj);
 
 
-  // Clear and repopulate global mytoDOs array with fresh data from localStorage
-  mytoDOs.length = 0; // Important: reset
-  mytoDOs.push(...myCategoriesObj, ...myListsObj, ...myTasksObj);
+ mytoDOs.length = 0; // clear it
+mytoDOs.push(...myCategoriesObj, ...myListsObj, ...myTasksObj); // refill it
 
-  // Then render the UI from the now-complete mytoDOs
-  categoryLoad(myCategoriesObj);
+clearUI();
+
+categoryLoad(mytoDOs);
+//listLoad(mytoDOs);
+//renderTasks(mytoDOs);
  
 
   

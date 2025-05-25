@@ -187,7 +187,7 @@ function resetLocalStorageWithDummy() {
   location.reload(); // reload page so app re-initializes from localStorage
 }
 
-
+//resetLocalStorageWithDummy();
 
 export function addTask(name, details, dueDate, priority, listId) {
     const todotask = new Task(name, details, dueDate, priority, listId);
