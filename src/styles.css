@@ -113,10 +113,11 @@ header {
     align-items: center;
     padding-left: 50px;
     padding-right: 50px;
-    min-height: 125px;
-  padding: 0 50px;
-  flex-shrink: 0;
-  grid-row: 1 / 1;
+    max-height: 25%;
+  padding: 50px 50px;
+  flex: 0 0 auto;
+  grid-row: 1 / 2;
+  overflow: hidden;
     
 }
 
@@ -146,8 +147,10 @@ button#addcat {
     padding-top: 50px;
     padding-bottom: 25px;
     height: 100%;
-    grid-row: 2 / 3;
+    grid-row: 2 / 5;
     flex-wrap: wrap;
+    flex: 1 1 auto; /* Take up remaining space */
+  overflow-y: auto;
       
     
 }

@@ -96,17 +96,21 @@ class taskTodoElement {
 }
     */
 
+   const { format, isAfter, formatDistance } = require("date-fns");
+
 export class Task {
     constructor(name, details, dueDate, priority, listId) {
         this.name = name;
         this.details = details;
-        this.dueDate = dueDate;
+        this.dueDate = String(format(new Date(dueDate),  "MMM dd ''yy"));
         this.priority = priority;
         this.type = "task";
         //this.isPriority = false;
         this.listId = listId;
         this.id = crypto.randomUUID();
         this.completed = false;
+        this.isAfterToday = isAfter(new Date(this.dueDate), Date.now());
+        this.distanceFromToday = formatDistance(format(Date.now(), "MMM dd ''yy"), format(new Date(this.dueDate), "MMM dd ''yy"))
     }
 }
 
@@ -140,6 +144,8 @@ let mytoDOs = [
 ];
 */
 
+const dueDate = (format(new Date(2025, 7, 1), "MMM dd ''yy"))
+
 // Create category first
 const category1 = new Category("Category 1");
 
@@ -147,7 +153,7 @@ const category1 = new Category("Category 1");
 const list1 = new List("Daily Tasks", category1.id);
 
 // Create a task that belongs to that list
-const task1 = new Task("Clean my room", "Vacuum & throw out garbage", "May 31, '25", "Urgent", list1.id);
+const task1 = new Task("Clean my room", "Vacuum & throw out garbage", `${String(dueDate)}`, "Urgent", list1.id);
 
 // Now your main array:
 let mytoDOs = [category1, list1, task1];
@@ -183,50 +189,19 @@ return todocateg;
   }
   
   export { mytoDOs, newmytoDos }; 
-/*
-export const displayCategory = () => {
 
-    todoSect.replaceChildren();
+export const distanceOfDueDate = () => {
 
-for (let i = 0; i < mytoDO.length; i++) {
+const tasks = mytoDOs.filter(item => item.type === 'task' && item.completed === false && item.distanceFromToday === "7 days" || item.distanceFromToday === "1 day");
+console.log(tasks);
 
-    const categPlaceholder = categoryMainSect;
-        categPlaceholder.classList.add(".categ-placeholder");
-        
+for (let i = 0; i < tasks.length; i++) {
 
-        taskText.textContent = mytoDO.dueDate + mytoDO.name + mytoDO.priority;
+alert(`Your task: "${tasks[i].name}", is ${tasks[i].distanceFromToday} away!`);
 
-    let taskID = mytoDO[i].id;
-         
-         console.log(taskID);
-
-         categPlaceholder.setAttribute("data-id", `${taskID}`);
-
-         let taskIndex2Del = categPlaceholder.dataset.id;
-
-
-         console.log(taskIndex2Del);
-
-
-         console.log(mytoDO);
-
-         deleteTaskBtn.onclick = function () { 
-
-         const index = [...Array.from(categPlaceholder.parentElement.children)].indexOf(categPlaceholder);
-
-         console.log(index);
-
-         if (taskID === taskIndex2Del) {
-
-            mytoDO.splice(index, 1);
+console.log(`Your task: "${tasks[i].name}", is ${tasks[i].distanceFromToday} away!`);
 
 }
 
-         } // button listener
-
-}
-
-}
-displayCategory();
-*/
+  }
 

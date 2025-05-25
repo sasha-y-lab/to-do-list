@@ -96,22 +96,26 @@ const dateGetter = formatDate();
 const existingNotifyDiv = document.querySelector("#notify-today");
 if (existingNotifyDiv) {
   existingNotifyDiv.remove();
+
 }
 
 
  // find all duedates with today's date
 
- const categories = mytoDOs
-  .filter(item => item.type === 'task' && item.dueDate === todaysDate);
+ const tasks = mytoDOs
+  .filter(item => item.type === 'task' && item.dueDate === todaysDate && !item.completed);
 
-  const todaysDueDates = categories.length;
+  const todaysDueDates = tasks.length;
 
   console.log(todaysDueDates);
 
 
+  
+
     const todayTasks = document.querySelector("#today-tasks");
 
     const todayTasksHeader = document.querySelector("#today-tsk-header");
+
 
     
     const todayTasksNotify = document.createElement("div");
@@ -144,11 +148,15 @@ todayNotifText.classList.add("notif-text");
 todayTasksNotify.appendChild(todayNotifText);
 // end of notif circle
 
+
+
     todayTasksHeader.appendChild(todayTasksNotify);
 
     if (todayTasks) {
 todayTasks.appendChild(todayTasksHeader);
     }
+
+
 
 }
 
@@ -177,14 +185,45 @@ const todoUpcoming = () => {
 
     // input notification here
 
-    notifUpcoming();
+   // notifUpcoming();
 
 
 
 
 }
 
-const notifUpcoming = () => {
+export const notifUpcoming = () => {
+
+//const dateGetter = formatDate();
+
+const { format } = require("date-fns");
+
+ const todaysDate = format(Date.now(), "MMM dd ''yy");
+
+ 
+                const oldupcomingTasks = document.querySelector("#coming-tasks");
+  const oldupcomingTasksHeader = document.querySelector("#coming-tsk-header");
+
+  if (!oldupcomingTasks || !oldupcomingTasksHeader) return;
+
+  // ✅ Only remove the old notify circle, not the header title
+  const existingNotifyDiv = document.querySelector("#notify-coming");
+  if (existingNotifyDiv) {
+    oldupcomingTasksHeader.removeChild(existingNotifyDiv);
+  }
+
+  
+
+// find all dates greater than todays date
+
+const tasks = mytoDOs.filter(item => item.type === 'task' && item.completed === false && item.isAfterToday === true);
+console.log(tasks);
+
+const upcomingDueDates = tasks.length;
+
+  console.log(upcomingDueDates);
+
+
 
     const upcomingTasks = document.querySelector("#coming-tasks");
 
@@ -213,7 +252,7 @@ const notifUpcoming = () => {
              upcomingTasksNotify.appendChild(upcomingNotifCircle);
 
              const upcomingNotifText = document.createElement("p");
-upcomingNotifText.textContent = "12";
+upcomingNotifText.textContent = upcomingDueDates; //"12";
 upcomingNotifText.classList.add("notif-text");
 
 upcomingTasksNotify.appendChild(upcomingNotifText);
@@ -224,9 +263,12 @@ upcomingTasksNotify.appendChild(upcomingNotifText);
     if (upcomingTasks) {
         upcomingTasks.appendChild(upcomingTasksHeader);
             }
-    
+
+         console.log(upcomingDueDates);
 
 }
+
+
 
 export const todoCategories = () => {
 
@@ -962,7 +1004,7 @@ export const createHomePage = () => {
     headerLoad();
     todoSectLoad();
     sidebarLoad();
-   
+   //upcomingTasksDueDates();
     
 
     

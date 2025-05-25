@@ -1,6 +1,7 @@
-import { mytoDOs, addTask, addListName, addCategName } from "./todo-logic.js";
+import { mytoDOs, addTask, addListName, addCategName, distanceOfDueDate } from "./todo-logic.js";
 
-import { createPriorityLabel, togglePriority, todoCategories, notifToday } from "./DOMstuff.js";
+import { createPriorityLabel, togglePriority, todoCategories, notifToday, notifUpcoming } from "./DOMstuff.js";
+
 
 
 /**
@@ -1071,13 +1072,20 @@ const listId = listSection.dataset.categoryId;
 console.log("New task returned:", task);
 
 const todayTasksNotify = document.querySelector("#notify-today");
-
+const upcomingTasksNotify = document.querySelector("#notify-coming");
 
 todayTasksNotify.replaceChildren();
+
+upcomingTasksNotify.replaceChildren();
 
 // render array of todo duedates that are for today only
 
 notifToday();
+
+// render array of upcoming todos duedates
+notifUpcoming();
+
+distanceOfDueDate();
            
 // add cards here
 
@@ -1565,6 +1573,26 @@ checkoffDiv.appendChild(checkOffTaskSVG);
               
 
               console.log(checkOffTaskSVG);
+
+              
+              const todayTasksNotify = document.querySelector("#notify-today");
+
+              const oldupcomingTasksHeader = document.querySelector("#coming-tsk-header");
+const upcomingTasksNotify = document.querySelector("#notify-coming");
+
+todayTasksNotify.replaceChildren();
+
+//upcomingTasksNotify.replaceChildren();
+
+oldupcomingTasksHeader.replaceChild(upcomingTasksNotify);
+
+
+// render array of todo duedates that are for today only
+
+notifToday();
+
+// render array of upcoming todos duedates
+notifUpcoming();
 
               
 
