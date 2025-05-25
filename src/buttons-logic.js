@@ -448,8 +448,21 @@ categHeading.parentElement.insertBefore(formCategEdit, categoryEditDiv);
         
                  
                      if (categorySection) { 
-                        categorySection.replaceChildren();
+                        categorySection.remove();
                      }
+
+const categoryId = categorySection.dataset.categoryId;
+
+              console.log(categoryId);
+
+              const categoryIndex = mytoDOs.findIndex(item => item.type === 'category' && item.id === categoryId);
+             
+              console.log(categoryIndex);
+
+if (categoryIndex !== -1) {
+    mytoDOs.splice(categoryIndex, 1);
+  }
+
 
                      console.log(mytoDOs);
                  
@@ -817,6 +830,20 @@ const listSection = e.target.closest(".listsect");
             listSection.remove();
          }
 
+
+const listId = listSection.dataset.listId;
+
+              console.log(listId);
+
+              const listIndex = mytoDOs.findIndex(item => item.type === 'list' && item.id === listId);
+             
+              console.log(listIndex);
+
+if (listIndex !== -1) {
+    mytoDOs.splice(listIndex, 1);
+  }
+
+
          console.log(mytoDOs);
 
         } 
@@ -1177,13 +1204,21 @@ console.log("Assigned list:", cardDiv.dataset.listId);
                  
                   const listId = cardDiv.dataset.listId;
 
+                  const taskId = cardDiv.dataset.taskId;
+
+                  console.log("task id exists?", taskId);
+
                   console.log("listId exist?:", listId);
           
-                  const tasks = mytoDOs.filter(item => item.type === 'task' && item.listId === listId);
+                  //const tasks = mytoDOs.filter(item => item.type === 'task' && item.listId === listId);
 
-  tasks.forEach(task => {
+
+                  // to access array without looping everything and causing duplication
+                  const tasks = mytoDOs.find(item => item.type === 'task' && item.id === taskId);
+
+  //tasks.forEach(task => {
    
-console.log(task);
+//console.log(task);
           
                   const expandTasks = document.createElement("div");
                  // expandTasks.setAttribute("id", "expand-togglediv");
@@ -1199,7 +1234,7 @@ console.log(task);
                  
         taskDetails.textContent = "";
         
-                  taskDetails.textContent = `${task.details}`;
+                  taskDetails.textContent = `${tasks.details}`;
         
                
           
@@ -1263,7 +1298,7 @@ console.log(task);
           
           cardDiv.appendChild(expandTasks);
 
-  }); // end of loop
+  //}); // end of loop
 
                  }
 
@@ -1372,7 +1407,19 @@ console.log(task);
               if (cardDiv) {
                 cardDiv.remove();
               }
+
+              const taskId = cardDiv.dataset.taskId;
+
+              console.log(taskId);
+
+              const taskIndex = mytoDOs.findIndex(item => item.type === 'task' && item.id === taskId);
              
+              console.log(taskIndex);
+
+if (taskIndex !== -1) {
+    mytoDOs.splice(taskIndex, 1);
+  }
+
               console.log(mytoDOs);
         
             }
