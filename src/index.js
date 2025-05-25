@@ -12,8 +12,14 @@ import { addCategPopUp, todosSectAddDeleteBtns,  } from "./buttons-logic.js";
 
 import { distanceOfDueDate, mytoDOs, retrieveLocalStorageDatate } from "./todo-logic.js";
 
-
-
+/*// seed dummy data
+if (!localStorage.getItem("allCategoriesJSON")) {
+  const dummyData = [
+    { id: "cat-1", name: "Default Category", type: "category" },
+    // add dummy list & task if needed
+  ];
+  localStorage.setItem("allCategoriesJSON", JSON.stringify(dummyData));
+} */
 
 
 
@@ -23,29 +29,23 @@ createHomePage();
 
 export const loadDom = document.addEventListener("DOMContentLoaded", () => {
  
-   const { myTasksObj, myListsObj, myCategoriesObj } = retrieveLocalStorageDatate();
+  // retrieveLocalStorageDatate(); // this sets mytoDOs
 
-   console.log(mytoDOs);
+ // categoryLoad(mytoDOs);
 
-  
+ const { myTasksObj, myListsObj, myCategoriesObj } = retrieveLocalStorageDatate();
 
-   console.log("Categories:", myCategoriesObj); // Should be an array of category objects
-    // Re-render categories first (if your UI nests lists/tasks under categories)
-  // ✅ Load categories ONCE with the full array
+ console.log("Categories:", myCategoriesObj);
+console.log("Lists:", myListsObj);
+console.log("Tasks:", myTasksObj);
+
+
+  // Clear and repopulate global mytoDOs array with fresh data from localStorage
+  mytoDOs.length = 0; // Important: reset
+  mytoDOs.push(...myCategoriesObj, ...myListsObj, ...myTasksObj);
+
+  // Then render the UI from the now-complete mytoDOs
   categoryLoad(myCategoriesObj);
-
- 
-   // ✅ Render each list with its categoryId
-console.log("Lists:", myListsObj);       // Should be an array of list objects
-
- // listLoad(myListsObj); don't need to call if inside listload
-
-
-
-  console.log("Tasks:", myTasksObj);       // Should be an array of task objects
-  // ✅ Render each task with its listId
- 
-    //renderTasks(myTasksObj); don't need to call if inside listload
  
 
   

@@ -1,6 +1,6 @@
 import { mytoDOs, addTask, addListName, addCategName, distanceOfDueDate, populateLocalStorage } from "./todo-logic.js";
 
-import { createPriorityLabel, togglePriority, todoCategories, notifToday, notifUpcoming } from "./DOMstuff.js";
+import { createPriorityLabel, togglePriority, todoCategories, notifToday, notifUpcoming, renderTasks, categoryLoad, listLoad } from "./DOMstuff.js";
 
 
 
@@ -113,13 +113,17 @@ function updateArrayObjectByKey(array, matchKey, matchValue, updateKey, newValue
 console.log("New category returned:", category);
              
 
+
+populateLocalStorage(); // for local storage
+categoryLoad([category]); // for local storage
+
 const categorySect = document.querySelector("#category-sect");
 
 categorySect.replaceChildren();
 //update category list on sidebar
 todoCategories();
 
-populateLocalStorage();
+
 
         
                 const todoSect = document.querySelector("#todo-sect");
@@ -563,7 +567,10 @@ const categoryId = categorySection.dataset.categoryId;
                 const list = addListName(listname, categoryId);    
 console.log("New list returned:", list);
 
-populateLocalStorage();
+
+
+populateLocalStorage(); // for local storage
+listLoad([list], categoryId); // for local storage
 
 // start opening the right category element
         
@@ -1073,6 +1080,10 @@ const listId = listSection.dataset.categoryId;
                 const task = addTask(taskname, details, dueDate, priority, listId);    
 console.log("New task returned:", task);
 
+
+populateLocalStorage(); // for local storage
+renderTasks([task], listId); // for local storage
+
 const todayTasksNotify = document.querySelector("#notify-today");
 const upcomingTasksNotify = document.querySelector("#notify-coming");
 
@@ -1089,7 +1100,7 @@ notifUpcoming();
 
 distanceOfDueDate();
 
-populateLocalStorage();
+
            
 // add cards here
 

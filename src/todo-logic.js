@@ -164,11 +164,36 @@ let newmytoDos = [];
 
 mytoDOs = mytoDOs.concat(newmytoDos);
 
+
+
+function saveDummyDataToLocalStorage() {
+  // Filter each type
+  const dummyTasks = mytoDOs.filter(item => item.type === 'task');
+  const dummyLists = mytoDOs.filter(item => item.type === 'list');
+  const dummyCategories = mytoDOs.filter(item => item.type === 'category');
+
+  // Save separately to localStorage
+  localStorage.setItem('allTasksJSON', JSON.stringify(dummyTasks));
+  localStorage.setItem('allListsJSON', JSON.stringify(dummyLists));
+  localStorage.setItem('allCategoriesJSON', JSON.stringify(dummyCategories));
+
+  console.log('Dummy data saved to localStorage');
+}
+
+
+function resetLocalStorageWithDummy() {
+  localStorage.clear();
+  saveDummyDataToLocalStorage();
+  location.reload(); // reload page so app re-initializes from localStorage
+}
+
+
+
 export function addTask(name, details, dueDate, priority, listId) {
     const todotask = new Task(name, details, dueDate, priority, listId);
 
 
-mytoDOs.splice(1, 0, todotask);
+mytoDOs.push(todotask);
 return todotask;
 
   }
@@ -176,14 +201,14 @@ return todotask;
   export function addListName(name, categoryId) {
     const todolist = new List(name, categoryId);
 
-mytoDOs.splice(1, 0, todolist);
+mytoDOs.push(todolist);
 return todolist;
   }
 
   export function addCategName(name) {
     const todocateg = new Category(name);
 
-mytoDOs.splice(1, 0, todocateg);
+mytoDOs.push(todocateg);
 
 return todocateg;
   }
@@ -241,6 +266,9 @@ const categoryJSON = JSON.stringify(myCategories);
 localStorage.setItem("allCategoriesJSON", categoryJSON);
 
 
+
+
+
 }
 
 
@@ -271,6 +299,20 @@ export function retrieveLocalStorageDatate() {
     // Retrieve categories
     let categoriesText = localStorage.getItem("allCategoriesJSON");
     let myCategoriesObj = categoriesText ? JSON.parse(categoriesText) : [];
+
+// ⬇️ Combine all into global mytoDOs so your app logic stays consistent
+  if (typeof mytoDOs !== "undefined") {
+    mytoDOs.length = 0; // Clear it first if needed
+    mytoDOs.push(...myTasksObj, ...myListsObj, ...myCategoriesObj);
+  }
+
+  // If nothing exists in storage, use dummy
+  if (!tasksText && !listsText && !categoriesText) {
+    myTasksObj = mytoDOs.filter(item => item.type === "task");
+    myListsObj = mytoDOs.filter(item => item.type === "list");
+    myCategoriesObj = mytoDOs.filter(item => item.type === "category");
+  }
+
 
     return { myTasksObj, myListsObj, myCategoriesObj };
 

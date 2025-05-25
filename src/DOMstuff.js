@@ -6,7 +6,7 @@ import { formatDate } from "./date-utility.js";
 
 console.log(mytoDOs);
 
-const { myTasksObj, myListsObj } = retrieveLocalStorageDatate();
+const { myTasksObj, myListsObj, myCategoriesObj } = retrieveLocalStorageDatate();
 
 
 // just what is seen on the main page. 
@@ -475,7 +475,9 @@ export const todoSectLoad = () => {
         mainContent.appendChild(todoSect);
     }
     //input category
-    categoryLoad(mytoDOs);
+    //categoryLoad(mytoDOs);
+
+categoryLoad([myCategoriesObj]);
 
 
    
@@ -494,6 +496,12 @@ const todoSect = document.querySelector("#todo-sect");
 if (!todoSect) return;
 
     todoSect.replaceChildren();
+
+
+    if (!Array.isArray(array)) {
+    console.error("categoryLoad error: passed value is not an array", array);
+    return;
+  }
 
 const categories = array.filter(item => item.type === 'category');
 
@@ -640,8 +648,12 @@ categMainSection.appendChild(listSection);
 
      listLoad(myListsObj, category.id); //// must call new JSON array
 
+/*
+myListsObj.forEach(list => {
+  listLoad(list, list.categoryId);
+});
 
-
+*/
 
 
 
@@ -813,6 +825,12 @@ addNewTaskDiv.appendChild(newTaskBtn);
 //renderTasks(array, list.id);
 
 renderTasks(myTasksObj, list.id) // must call new JSON array
+
+/*
+myTasksObj.forEach(task => {
+  renderTasks(task, task.listId);
+});
+*/
 
   });
 }
