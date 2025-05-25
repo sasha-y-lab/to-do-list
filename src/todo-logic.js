@@ -205,3 +205,73 @@ console.log(`Your task: "${tasks[i].name}", is ${tasks[i].distanceFromToday} awa
 
   }
 
+export function populateLocalStorage() {
+
+//Set up a function that saves the projects (and todos) to localStorage
+//  every time a new project (or todo) is created
+
+
+    // retreive all tasks & turn to string and save to local storage
+const myTasks = mytoDOs.filter(item => item.type === 'task');
+
+console.log(myTasks);
+
+const tasksJSON = JSON.stringify(myTasks);
+
+localStorage.setItem("allTasksJSON", tasksJSON);
+
+// retreive all lists & turn to string and save to local storage
+
+const myLists = mytoDOs.filter(item => item.type === 'list');
+
+console.log(myLists);
+
+const listsJSON = JSON.stringify(myLists);
+
+localStorage.setItem("allListsJSON", listsJSON);
+
+// retrieve all categories & turn to string and save to local storage
+
+const myCategories = mytoDOs.filter(item => item.type === 'category');
+
+console.log(myCategories);
+
+const categoryJSON = JSON.stringify(myCategories);
+
+localStorage.setItem("allCategoriesJSON", categoryJSON);
+
+
+}
+
+
+export function retrieveLocalStorageDatate() {
+
+    // set up a function that looks for that data in localStorage when 
+    // your app is first loaded.
+
+
+    // Retrieve storage data:
+
+
+ // Retrieve tasks
+    let tasksText = localStorage.getItem("allTasksJSON");
+    let myTasksObj = tasksText ? JSON.parse(tasksText) : [];
+
+    // Reformat dueDate to human-readable string
+    myTasksObj.forEach(task => {
+        if (task.dueDate) {
+            task.dueDate = format(new Date(task.dueDate), "MMM dd ''yy");
+        }
+    });
+
+    // Retrieve lists
+    let listsText = localStorage.getItem("allListsJSON");
+    let myListsObj = listsText ? JSON.parse(listsText) : [];
+
+    // Retrieve categories
+    let categoriesText = localStorage.getItem("allCategoriesJSON");
+    let myCategoriesObj = categoriesText ? JSON.parse(categoriesText) : [];
+
+    return { myTasksObj, myListsObj, myCategoriesObj };
+
+}

@@ -1,4 +1,4 @@
-import { mytoDOs, addTask, addListName, addCategName, distanceOfDueDate } from "./todo-logic.js";
+import { mytoDOs, addTask, addListName, addCategName, distanceOfDueDate, populateLocalStorage } from "./todo-logic.js";
 
 import { createPriorityLabel, togglePriority, todoCategories, notifToday, notifUpcoming } from "./DOMstuff.js";
 
@@ -119,6 +119,7 @@ categorySect.replaceChildren();
 //update category list on sidebar
 todoCategories();
 
+populateLocalStorage();
 
         
                 const todoSect = document.querySelector("#todo-sect");
@@ -562,6 +563,7 @@ const categoryId = categorySection.dataset.categoryId;
                 const list = addListName(listname, categoryId);    
 console.log("New list returned:", list);
 
+populateLocalStorage();
 
 // start opening the right category element
         
@@ -1086,6 +1088,8 @@ notifToday();
 notifUpcoming();
 
 distanceOfDueDate();
+
+populateLocalStorage();
            
 // add cards here
 

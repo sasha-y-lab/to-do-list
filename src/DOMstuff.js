@@ -1,10 +1,12 @@
 
-import { mytoDOs } from "./todo-logic.js";
+import { mytoDOs, retrieveLocalStorageDatate } from "./todo-logic.js";
 
 import { formatDate } from "./date-utility.js";
 
 
 console.log(mytoDOs);
+
+const { myTasksObj, myListsObj } = retrieveLocalStorageDatate();
 
 
 // just what is seen on the main page. 
@@ -634,7 +636,9 @@ categMainSection.appendChild(listSection);
         todoSect.appendChild(categMainSection);
     
 
-     listLoad(array, category.id);
+     //listLoad(array, category.id);
+
+     listLoad(myListsObj, category.id); //// must call new JSON array
 
 
 
@@ -806,7 +810,9 @@ addNewTaskDiv.appendChild(newTaskBtn);
 
 
 
-renderTasks(array, list.id);
+//renderTasks(array, list.id);
+
+renderTasks(myTasksObj, list.id) // must call new JSON array
 
   });
 }
@@ -832,7 +838,7 @@ export const createPriorityLabel = (priority) => {
 
         
 
-function renderTasks(array, listId) {
+export function renderTasks(array, listId) {
 
   const taskSection = document.querySelector(`.tasksect[data-list-id="${listId}"]`);
 console.log("Passed to renderTasks:", listId);
