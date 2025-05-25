@@ -477,7 +477,7 @@ export const todoSectLoad = () => {
     //input category
     //categoryLoad(mytoDOs);
 
-categoryLoad([myCategoriesObj]);
+categoryLoad(myCategoriesObj);
 
 
    

@@ -570,7 +570,8 @@ console.log("New list returned:", list);
 
 
 populateLocalStorage(); // for local storage
-listLoad([list], categoryId); // for local storage
+//listLoad([list], categoryId); // for local storage
+listLoad([list], list.categoryId); // for local storage
 
 // start opening the right category element
         
@@ -1082,7 +1083,8 @@ console.log("New task returned:", task);
 
 
 populateLocalStorage(); // for local storage
-renderTasks([task], listId); // for local storage
+//renderTasks([task], listId); // for local storage
+renderTasks([task], task.listId); // for local storage
 
 const todayTasksNotify = document.querySelector("#notify-today");
 const upcomingTasksNotify = document.querySelector("#notify-coming");
