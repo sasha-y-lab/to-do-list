@@ -44,6 +44,7 @@ height: 100%;
 
     display: flex;
     align-items: center;
+    column-gap: 10px;
 
 }
 
@@ -54,14 +55,38 @@ height: 100%;
 }
 
 .notif-circle {
-    fill: #720606;
+    fill: #D8CC34;
     color: white;
     
 }
 
 .notif-text {
-    margin-left: -24px;
+
+    margin-left: -23px;
     margin-top: 7px;
+    font-size: 0.8rem;
+    font-weight: bold;
+
+}
+
+
+
+.ul-categlist {
+
+    list-style: none;
+     
+}
+
+.categlinks {
+
+    font-weight: bold;
+    cursor: pointer;
+    
+    
+}
+
+.categlinks:hover {
+    color: #D8CC34;
 }
 
 #main-content {

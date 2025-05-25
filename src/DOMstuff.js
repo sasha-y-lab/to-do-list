@@ -245,6 +245,7 @@ if (existingCategorySect) {
 
 
 const categoryList = document.createElement("ul"); // Create an unordered list
+categoryList.classList.add("ul-categlist");
 
 
 // add loop here
@@ -262,35 +263,27 @@ console.log(category);
 
 const categoryLinks = document.createElement("a");
 
+
+
+categoryLinks.addEventListener("click", (e) => {
+    e.preventDefault();
+    const target = document.querySelector(`.category[data-category-id="${category.id}"]`);
 //const categoryNameElements = document.querySelectorAll(`.category[data-category-id="${category.id}"]`);
-const categoryNameElement = document.querySelector(`.category[data-category-id="${category.id}"]`);
+//const categoryNameElement = document.querySelector(`.category[data-category-id="${category.id}"]`);
 //const categoryNameElements = document.querySelectorAll(`.category`);
 
-console.log(categoryNameElement);
+//console.log(categoryNameElement);
+
+console.log(target);
 
 
 
-if (categoryNameElement) {
-
-const originalId = categoryNameElement.id;
-
-  //categoryLinks.setAttribute("href", `.category[data-category-id="${category.id}"]`);
-
- categoryLinks.href = "#" + originalId;
-
-  console.log(categoryLinks.href);
-
- // Scroll to the element after a short delay to ensure the ID is set
-    setTimeout(() => {
-      categoryNameElement.scrollIntoView({ behavior: 'smooth' });
-
-      
-    }, 100);
-  } else {
-    console.error('Target element not found.');
-  }
-   
-
+if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    } else {
+      console.error("Target category not found for id:", category.id);
+    }
+  });
 
 
 categoryLinks.classList.add("categlinks");
