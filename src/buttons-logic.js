@@ -1,5 +1,7 @@
 import { mytoDOs, addTask, addListName, addCategName } from "./todo-logic.js";
 
+import { createPriorityLabel, togglePriority } from "./DOMstuff.js";
+
 
 /**
  * Updates a single key in an object inside an array based on a matching key
@@ -328,6 +330,10 @@ const clickedDeleteTaskBtn = e.target.closest('.deletetskbtn');
 
 const checkedCircle = e.target.closest('.checkoffdiv');
 
+
+// check for priority status div
+
+const priorityLabel = e.target.closest(".priority-label");
 
  // If neither was clicked, do nothing
   if (!clickedCategEditBtn && !clickedCategDeleteBtn && !clickedAddListBtn && !clickedListEditBtn && !clickedListDeleteBtn && !clickedNewTaskBtn && !clickedEditTaskBtn && !clickedEditDisplayedTasks && !clickedDeleteTaskBtn && !checkedCircle) return;
@@ -956,25 +962,25 @@ console.log(listSection);
             formTaskPriority.required = true;
         
             const urgentOption = document.createElement("option");
-            urgentOption.value = "urgent";
+            urgentOption.value = "Urgent";
             urgentOption.textContent = "Urgent";
             
             formTaskPriority.appendChild(urgentOption);
         
             const moderateOption = document.createElement("option");
-            moderateOption.value = "moderate";
+            moderateOption.value = "Moderate";
             moderateOption.textContent = "Moderate";
         
             formTaskPriority.appendChild(moderateOption);
         
             const lowOption = document.createElement("option");
-            lowOption.value = "low";
+            lowOption.value = "Low";
             lowOption.textContent = "Low";
         
             formTaskPriority.appendChild(lowOption); 
             
             const noneOption = document.createElement("option");
-            noneOption.value = "none";
+            noneOption.value = "None";
             noneOption.textContent = "None";
         
             formTaskPriority.appendChild(noneOption);
@@ -1130,12 +1136,20 @@ const taskTxt = document.createElement("p");
 //taskTxt.setAttribute("id", "task-text");
 taskTxt.classList.add("tskTxt");
 
-taskTxt.textContent = `${task.dueDate} ${task.name} ${task.priority}`;
-
+taskTxt.textContent = `${task.dueDate} ${task.name}`;
 
 
 taskTxtDiv.appendChild(taskTxt);
 
+const priorityLabel = createPriorityLabel(task.priority);
+
+console.log("is priorityLabel a div?", priorityLabel);
+
+priorityLabel.classList.add("priority-label");
+
+priorityLabel.addEventListener("click", () => togglePriority(task, priorityLabel));
+
+taskTxtDiv.appendChild(priorityLabel);
 
 taskDisplay.appendChild(taskTxtDiv);
 
@@ -1468,6 +1482,10 @@ console.log("taskTxt exist?:", taskTxt);
 
       const editTaskDiv = cardDiv.querySelector(".editdivbtn");
       console.log("editTaskDiv exist?:", editTaskDiv);
+
+      const expandTasks = cardDiv.querySelector(".expand-toggle");
+
+      console.log("expand task div exists?:", expandTasks);
     
     
     const span = document.createElement("span");
@@ -1481,19 +1499,22 @@ console.log("taskTxt exist?:", taskTxt);
     if (taskTxt) {
         taskTxt.textContent = "";
         taskTxt.appendChild(span);
-       // expandTaskDiv.remove();
         editTaskDiv.remove();
-        
+        if (expandTasks) {
+          expandTasks.remove();
+        }
+
     }
     
             } // else if statement 
+
+            else if (priorityLabel) {
+
+togglePriority();
+
+            }
     
          
-          
-
-    
-
-      
 
   
 }, false);

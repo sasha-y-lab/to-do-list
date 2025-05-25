@@ -666,74 +666,19 @@ renderTasks(array, list.id);
 
 
 
-export const urgent = () => {
+export const createPriorityLabel = (priority) => {
+  const labelDiv = document.createElement("div");
+  const labelTxt = document.createElement("p");
 
-const taskTxtDiv = document.querySelector(".tsktxtdiv");
-const urgentLabel = document.createElement("div");
-urgentLabel.setAttribute("id", "urgent-label");
+  labelTxt.textContent = priority;
+  labelTxt.classList.add(`${priority.toLowerCase()}-status`);
 
-//urgentLabel.textContent = "Urgent";
+  labelDiv.setAttribute("data-priority", priority);
+  labelDiv.classList.add("priority-label");
+  labelDiv.appendChild(labelTxt);
 
-const urgentLabelTxt = document.createElement("p");
-urgentLabelTxt.classList.add("urgent-status");
-urgentLabelTxt.textContent = "Urgent";
-
-urgentLabel.appendChild(urgentLabelTxt);
-
-if (taskTxtDiv) {
-    taskTxtDiv.appendChild(urgentLabel);
-  }
-
-    return { urgentLabel, urgentLabelTxt };
-} 
-
-//urgent();
-
-
-export const moderate = () => {
-
-    const taskTxtDiv = document.querySelector(".tsktxtdiv");
-    const moderateLabel = document.createElement("div");
-    moderateLabel.setAttribute("id", "moderate-label");
-    
-    //urgentLabel.textContent = "Urgent";
-    
-    const moderateLabelTxt = document.createElement("p");
-    moderateLabelTxt.classList.add("moderate-status");
-    moderateLabelTxt.textContent = "Moderate";
-    
-    moderateLabel.appendChild(moderateLabelTxt);
-    
-    if (taskTxtDiv) {
-        taskTxtDiv.appendChild(moderateLabel);
-      }
-    
-        return { moderateLabel, moderateLabelTxt };
-    } 
-
-
-
-
-    export const low = () => {
-
-        const taskTxtDiv = document.querySelector(".tsktxtdiv");
-        const lowLabel = document.createElement("div");
-        lowLabel.setAttribute("id", "low-label");
-        
-        //urgentLabel.textContent = "Urgent";
-        
-        const lowLabelTxt = document.createElement("p");
-        lowLabelTxt.classList.add("low-status");
-        lowLabelTxt.textContent = "Low";
-        
-        lowLabel.appendChild(lowLabelTxt);
-        
-        if (taskTxtDiv) {
-            taskTxtDiv.appendChild(lowLabel);
-          }
-        
-            return { lowLabel, lowLabelTxt };
-        } 
+  return labelDiv;
+};
 
 
         
@@ -837,11 +782,19 @@ const taskTxt = document.createElement("p");
 //taskTxt.setAttribute("id", "task-text");
 taskTxt.classList.add("tskTxt");
 
-taskTxt.textContent = `${task.dueDate} ${task.name} ${task.priority}`;
-
-
+taskTxt.textContent = `${task.dueDate} ${task.name}`;
 
 taskTxtDiv.appendChild(taskTxt);
+
+const priorityLabel = createPriorityLabel(task.priority);
+
+console.log("is priorityLabel a div?", priorityLabel);
+
+priorityLabel.classList.add("priority-label");
+
+priorityLabel.addEventListener("click", () => togglePriority(task, priorityLabel));
+
+taskTxtDiv.appendChild(priorityLabel);
 
 
 taskDisplay.appendChild(taskTxtDiv);
@@ -860,6 +813,39 @@ cardDiv.appendChild(taskDisplay);
     
 }
 
+
+
+export const togglePriority = (task, priorityLabelDiv) => {
+
+    const priorities = ["Urgent", "Moderate", "Low", "None"];
+  const currentIndex = priorities.indexOf(task.priority);
+
+  // Fallback in case currentIndex is -1
+  const nextIndex = currentIndex >= 0 ? (currentIndex + 1) % priorities.length : 0;
+  const newPriority = priorities[nextIndex];
+
+  // Update the task data
+  task.priority = newPriority;
+
+  // Update the label visually
+  const labelTextElement = priorityLabelDiv.querySelector("p");
+
+  if (labelTextElement) {
+    labelTextElement.textContent = newPriority;
+
+    // Remove old classes
+    labelTextElement.classList.remove("urgent-status", "moderate-status", "low-status", "none-status");
+
+    // Add new class safely (guard against undefined)
+    if (typeof newPriority === "string") {
+      labelTextElement.classList.add(`${newPriority.toLowerCase()}-status`);
+    }
+  }
+
+  // Update data attribute used for CSS
+  priorityLabelDiv.setAttribute("data-priority", newPriority);
+
+};
   
 
 
