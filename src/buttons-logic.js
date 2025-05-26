@@ -1479,6 +1479,10 @@ console.log("Assigned list:", cardDiv.dataset.listId);
 
   //}); // end of loop
 
+  // temporarily remove this
+
+  /*
+
   const existingSpan2 = cardDiv.querySelector(".span2");
 
   console.log(existingSpan2);
@@ -1510,7 +1514,7 @@ if (!taskDetails.querySelector(".crossed-out")) {
     console.log("span2 exists?: ", span2);
     span2.style.display = "block";
   }
-
+*/
 
                  }
 
@@ -1698,10 +1702,10 @@ console.log("checkoffdiv exists?:", checkoffDiv);
                  if (existingCheckmark) {
                   
                   existingCheckmark.remove();
-                  existingSpan1.style.color = "black";
+                 // existingSpan1.style.color = "black";
                   //taskTxt.style.color = "black";
                   //taskTxt.style.textDecoration = "none";
-    existingSpan1.style.textDecoration = "none";
+    //existingSpan1.style.textDecoration = "none";
                 //  existingSpan2.style.color = "black";
     //existingSpan2.style.textDecoration = "none";
 
@@ -1721,6 +1725,16 @@ checkOffTaskSVG.appendChild(checkOffTaskSVGPath);
 
 checkoffDiv.appendChild(checkOffTaskSVG);
 
+const taskId = cardDiv.dataset.taskId;
+
+const task = mytoDOs.find(item => item.type === 'task' && item.id === taskId);
+
+if (task) {
+  task.completed = !task.completed;
+  populateLocalStorage();         // ← save changes after toggle
+  notifToday();                   // ← re-render today’s notifications
+  notifUpcoming();                // ← re-render upcoming notifications
+}
                  
                   //existingTaskEditDiv.remove();
                  } else {
@@ -1778,32 +1792,66 @@ checkoffDiv.appendChild(checkOffTaskSVG);
 
       console.log("expand task div exists?:", expandTasks);
 
-      const taskId = cardDiv.dataset.taskId;
+      
+  const taskId = cardDiv.dataset.taskId;
+  const task = mytoDOs.find(item => item.type === 'task' && item.id === taskId);
+  if (!task) return;
 
-      console.log(taskId);
-    
-   // const task = mytoDOs.find(item => item.type === 'task' && item.id === taskId && item.completed === false);
-const task = mytoDOs.find(item => item.type === 'task' && item.id === taskId);
-//console.log("matching task ids?", task.id, taskId); 
-
-if (task) {
   task.completed = !task.completed;
-  populateLocalStorage(); // Make sure to save the updated status
-
-/*
-const todayTasksNotify = document.querySelector("#notify-today");
-
-              //const oldupcomingTasksHeader = document.querySelector("#coming-tsk-header");
-const upcomingTasksNotify = document.querySelector("#notify-coming");
-
-todayTasksNotify.replaceChildren();
-
-upcomingTasksNotify.replaceChildren();*/
-
-  // Update the notification counts
+  populateLocalStorage();
   notifToday();
   notifUpcoming();
-}
+
+  // Re-query taskTxt and checkoffDiv each time
+  const taskTxt = cardDiv.querySelector(".task-text");
+  const checkoffDiv = cardDiv.querySelector(".checkoffdiv");
+  if (!taskTxt || !checkoffDiv) return;
+
+  if (task.completed) {
+    const existing = taskTxt.querySelector(".crossed-out");
+    if (!existing) {
+      const textNode = taskTxt.childNodes[0];
+      if (textNode && textNode.nodeType === Node.TEXT_NODE) {
+        const span = document.createElement("span");
+        span.classList.add("crossed-out");
+        
+        span.textContent = textNode.textContent.trim();
+        taskTxt.replaceChild(span, textNode);
+      }
+    }
+
+    checkoffDiv.replaceChildren();
+    const checked = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    checked.classList.add("checked");
+    checked.setAttribute("viewBox", "0 0 24 24");
+    checked.setAttribute("height", "20px");
+    checked.setAttribute("width", "20px");
+
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", "M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z");
+    checked.appendChild(path);
+    checkoffDiv.appendChild(checked);
+
+  } else {
+    const crossedSpan = taskTxt.querySelector(".crossed-out");
+    if (crossedSpan) {
+
+
+      crossedSpan.textDecoration = "none";
+      crossedSpan.style.color = "black";
+     
+      const originalText = crossedSpan.textContent;
+      crossedSpan.remove();
+      taskTxt.insertAdjacentText("afterbegin", originalText);
+      
+      
+    }
+checkoffDiv.replaceChildren(); // Remove checkmark
+    
+  }
+
+
+
 
     
 

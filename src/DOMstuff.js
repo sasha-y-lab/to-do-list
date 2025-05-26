@@ -229,7 +229,12 @@ export const notifUpcoming = () => {
 
 // find all dates greater than todays date
 
-const tasks = mytoDOs.filter(item => item.type === 'task' && item.completed === false && item.isAfterToday === true);
+const tasks = mytoDOs.filter(item => 
+  item.type === 'task' &&
+  item.completed === false && 
+  item.isAfterToday === true // or whatever condition applies
+);
+
 console.log(tasks);
 
 const upcomingDueDates = tasks.length;
@@ -551,9 +556,9 @@ const todoSect = document.querySelector("#todo-sect");
 
 if (!todoSect) return;
 
-    //todoSect.replaceChildren();
+    todoSect.replaceChildren();
 
-    todoSect.innerHTML = "";
+   // todoSect.innerHTML = "";
 
  
 
@@ -965,12 +970,22 @@ console.log(taskSection);
   }
 
   taskSection.replaceChildren(); // only replace the task section, not the whole list section
+
+
+
+
+  
     
 //const tasks = array.filter(item => item.type === 'task' && item.listId === listId);
 
 const tasks = array.filter(item => item.type === 'task' && item.listId === listId);
 
   tasks.forEach(task => {
+
+
+
+
+
    
 console.log(task);
 
@@ -1078,7 +1093,56 @@ cardDiv.appendChild(taskDisplay);
     
     taskSection.appendChild(cardDiv);
    
+if (task.completed) {
+  // Add .crossed-out style
+  // Check if .crossed-out already exists
+  const alreadyCrossed = taskTxt.querySelector(".crossed-out");
+  if (!alreadyCrossed) {
+    // Grab the plain text node (assumes it's the first child)
+    const textNode = taskTxt.childNodes[0];
+    if (textNode && textNode.nodeType === Node.TEXT_NODE) {
+      const span = document.createElement("span");
+      span.classList.add("crossed-out");
+      span.textContent = textNode.textContent.trim();
+      
 
+      taskTxt.replaceChild(span, textNode); // Replace only the text node
+    }
+  }
+
+  // Add checked icon
+  const checked = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  checked.classList.add("checked");
+  checked.setAttribute('viewBox', '0 0 24 24');
+  checked.setAttribute("height", "20px");
+  checked.setAttribute("width", "20px");
+
+  const checkPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  checkPath.setAttribute("d", "M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z");
+  checked.appendChild(checkPath);
+
+  const checkoffDiv = cardDiv.querySelector(".checkoffdiv");
+  //checkoffDiv.innerHTML = ""; // Clear old icon
+checkoffDiv.replaceChildren();
+
+  checkoffDiv.appendChild(checked);
+}
+
+else {
+  const crossedSpan = taskTxt.querySelector(".crossed-out");
+if (crossedSpan) {
+
+  crossedSpan.textDecoration = "none";
+      crossedSpan.style.color = "black";
+  const originalText = crossedSpan.textContent;
+  crossedSpan.remove(); // remove the span, not the whole taskTxt
+ 
+
+  // Restore the plain text node for the task name
+  taskTxt.insertAdjacentText("afterbegin", originalText);
+}
+
+}
 
   });
     
