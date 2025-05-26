@@ -35,66 +35,7 @@
 //Upcoming – all tasks in the future by closest date to today
 
 
-/*
-import { urgent } from "./DOMstuff.js";
-import { moderate } from "./DOMstuff.js";
-import { low } from "./DOMstuff.js";
 
-import { createHomePage } from "./DOMstuff.js";
-
-import { loadDom } from "./DOMstuff.js";
-
-import { todoSectLoad } from "./DOMstuff.js";
-
-import { categoryLoad } from "./DOMstuff.js";
-
-import { expandTaskDisplay } from "./DOMstuff.js";
-
-import { taskLoad } from "./DOMstuff.js";
-
-
-createHomePage;
-loadDom;
-
-const todoSection = todoSectLoad();
-
-const todoSect = todoSection.todoSect;
-
-console.log(todoSect);
-
-const mainCategorySect = categoryLoad();
-
-const categoryMainSect = mainCategorySect.categMainSection;
-
-const exxpandTaskDisplaySect = expandTaskDisplay();
-
-const deleteTaskBtn = exxpandTaskDisplaySect.deleteTaskBtn;
-
-const taskSection = taskLoad();
-
-const taskText = taskSection.taskTxt;
-
-*/
-
-/*
-class TODO {
-    constructor(todoElement) {
-        this.todoElement = todoElement;
-    
-    }
-
-}
-    */
-
-/*
-class taskTodoElement {
-    constructor(name, details, dueDate, priority) {
-        this.task = new task(name, details, dueDate, priority);
-    }
-
-
-}
-    */
 
    const { format, isAfter, formatDistance } = require("date-fns");
 
@@ -184,7 +125,7 @@ function saveDummyDataToLocalStorage() {
 function resetLocalStorageWithDummy() {
   localStorage.clear();
   saveDummyDataToLocalStorage();
-  location.reload(); // reload page so app re-initializes from localStorage
+  //location.reload(); // reload page so app re-initializes from localStorage - this refreshed like crazy
 }
 
 //resetLocalStorageWithDummy();

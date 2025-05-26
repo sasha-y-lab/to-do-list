@@ -496,6 +496,30 @@ if (!todoSect) return;
 
 }
 
+export function clearListUI(categoryId) {
+
+  const categMainSection = document.querySelector(`.categmainsect[data-category-id="${categoryId}"]`);
+  console.log("categorysection being removed?", categMainSection);
+
+  if (!categMainSection) return;
+
+   categMainSection.replaceChildren();
+
+}
+
+
+export function clearTaskUI(listId) {
+
+  const listSection = document.querySelector(`.listsect[data-list-id="${listId}"]`);
+
+  console.log("listSection being removed?", listSection);
+
+  if (!listSection) return;
+
+   listSection.replaceChildren();
+
+}
+
 
 
 

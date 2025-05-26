@@ -1,6 +1,6 @@
 import { mytoDOs, addTask, addListName, addCategName, distanceOfDueDate, populateLocalStorage } from "./todo-logic.js";
 
-import { createPriorityLabel, togglePriority, todoCategories, notifToday, notifUpcoming, renderTasks, categoryLoad, listLoad, clearUI } from "./DOMstuff.js";
+import { createPriorityLabel, togglePriority, todoCategories, notifToday, notifUpcoming, renderTasks, categoryLoad, listLoad, clearUI, clearListUI, clearTaskUI } from "./DOMstuff.js";
 
 
 
@@ -117,7 +117,7 @@ console.log("New category returned:", category);
 populateLocalStorage(); // for local storage
 
 // add clearing function here
-//clearUI();
+clearUI();
 
 categoryLoad(mytoDOs);  // ✅ fresh render
 //listLoad(mytoDOs);
@@ -578,10 +578,16 @@ console.log("New list returned:", list);
 populateLocalStorage(); // for local storage
 
 //add clearing function here
-//clearUI();
 
-//categoryLoad(mytoDOs);  // ✅ fresh render
+clearListUI(categoryId); //right now clears the wrong category? should i pass category id?
+//clearUI();
 listLoad(mytoDOs, categoryId);
+
+console.log("listload print: ", listLoad(mytoDOs, categoryId)); // what does this print
+//for (let i = 0; i < mytoDOs.length; i++) {
+//categoryLoad(mytoDOs);  //  fresh render
+//listLoad(mytoDOs, mytoDOs[i].categoryId);
+//}
 //renderTasks(mytoDOs);
 
 // start opening the right category element
@@ -1095,10 +1101,19 @@ console.log("New task returned:", task);
 
 populateLocalStorage(); // for local storage
 // add clearing function here
+
+clearTaskUI(listId);
+
+renderTasks(mytoDOs, listId); // what does this print?
+
+console.log("rendertasks print: ", renderTasks(mytoDOs, listId));
 //clearUI();
 //categoryLoad(mytoDOs);  // ✅ fresh render
 //listLoad(mytoDOs);
-renderTasks(mytoDOs, listId);
+
+//for (let i = 0; i < mytoDOs.length; i++) {
+//renderTasks(mytoDOs, mytoDOs[i].listId);
+//}
 
 const todayTasksNotify = document.querySelector("#notify-today");
 const upcomingTasksNotify = document.querySelector("#notify-coming");
