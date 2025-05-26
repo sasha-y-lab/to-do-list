@@ -1067,7 +1067,16 @@ taskTxt.textContent = `${task.dueDate} ${task.name}`;
 
 
   console.log(`Before the click: Task "${task.name}" (ID: ${task.id}) completed? ${task.completed}`);
-  console.log("type of value of task completed, string? boolean? ", task.completed, typeof task.completed);
+ // console.log("type of value of task completed, string? boolean? ", task.completed, typeof task.completed);
+
+  console.log(`Task "${task.name}" has completed:`, task.completed, `(${typeof task.completed})`);
+if (task.completed === true) {
+  console.log(`✓ Will cross out task "${task.name}"`);
+} else if (task.completed === false) {
+  console.log(`✗ Will NOT cross out task "${task.name}"`);
+} else {
+  console.warn(`⚠️ Unexpected task.completed value:`, task.completed);
+}
 // Just add or remove the class, no text node wrapping:
 if (task.completed) {
   taskTxt.classList.add("crossed-out");

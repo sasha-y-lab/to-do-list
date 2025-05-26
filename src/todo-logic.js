@@ -226,6 +226,15 @@ export function retrieveLocalStorageDatate() {
     let tasksText = localStorage.getItem("allTasksJSON");
     let myTasksObj = tasksText ? JSON.parse(tasksText) : [];
 
+
+    // ✅ Normalize completed property as real boolean
+  myTasksObj = myTasksObj.map(task => {
+    if (task.type === "task") {
+      task.completed = task.completed === true || task.completed === "true";
+    }
+    return task;
+  });
+
     // Reformat dueDate to human-readable string
     myTasksObj.forEach(task => {
         if (task.dueDate) {
