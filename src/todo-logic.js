@@ -219,51 +219,55 @@ export function retrieveLocalStorageDatate() {
     // your app is first loaded.
 
 
-    // Retrieve storage data:
+    let myTasksObj = [];
+  let myListsObj = [];
+  let myCategoriesObj = [];
 
-
- // Retrieve tasks
+  try {
     let tasksText = localStorage.getItem("allTasksJSON");
-    let myTasksObj = tasksText ? JSON.parse(tasksText) : [];
-
-
-    // ✅ Normalize completed property as real boolean
-  myTasksObj = myTasksObj.map(task => {
-    if (task.type === "task") {
-      task.completed = task.completed === true || task.completed === "true";
-    }
-    return task;
-  });
-
-    // Reformat dueDate to human-readable string
-    myTasksObj.forEach(task => {
-        if (task.dueDate) {
-            task.dueDate = format(new Date(task.dueDate), "MMM dd ''yy");
+    if (tasksText) {
+      myTasksObj = JSON.parse(tasksText);
+      myTasksObj = myTasksObj.map(task => {
+        if (task.type === "task") {
+          task.completed = task.completed === true || task.completed === "true";
         }
-    });
+        if (task.dueDate) {
+          task.dueDate = format(new Date(task.dueDate), "MMM dd ''yy");
+        }
+        return task;
+      });
+    }
+  } catch (e) {
+    console.error("Error parsing tasks:", e);
+    myTasksObj = [];
+  }
 
-    // Retrieve lists
+  try {
     let listsText = localStorage.getItem("allListsJSON");
-    let myListsObj = listsText ? JSON.parse(listsText) : [];
+    if (listsText) {
+      myListsObj = JSON.parse(listsText);
+    }
+  } catch (e) {
+    console.error("Error parsing lists:", e);
+    myListsObj = [];
+  }
 
-    // Retrieve categories
+  try {
     let categoriesText = localStorage.getItem("allCategoriesJSON");
-    let myCategoriesObj = categoriesText ? JSON.parse(categoriesText) : [];
+    if (categoriesText) {
+      myCategoriesObj = JSON.parse(categoriesText);
+    }
+  } catch (e) {
+    console.error("Error parsing categories:", e);
+    myCategoriesObj = [];
+  }
 
-// ⬇️ Combine all into global mytoDOs so your app logic stays consistent
-  if (typeof mytoDOs !== "undefined") {
-    mytoDOs.length = 0; // Clear it first if needed
+  // Safely reset and repopulate global mytoDOs if it exists
+  if (typeof mytoDOs !== "undefined" && Array.isArray(mytoDOs)) {
+    mytoDOs.length = 0;
     mytoDOs.push(...myTasksObj, ...myListsObj, ...myCategoriesObj);
   }
 
-  // If nothing exists in storage, use dummy
-  if (!tasksText && !listsText && !categoriesText) {
-    myTasksObj = mytoDOs.filter(item => item.type === "task");
-    myListsObj = mytoDOs.filter(item => item.type === "list");
-    myCategoriesObj = mytoDOs.filter(item => item.type === "category");
-  }
-
-
-    return { myTasksObj, myListsObj, myCategoriesObj };
+  return { myTasksObj, myListsObj, myCategoriesObj };
 
 }

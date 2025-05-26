@@ -523,6 +523,8 @@ const filteredCategories = mytoDOs.filter(item => {
   mytoDOs.push(...filteredCategories);
 
 populateLocalStorage();
+notifToday();                   // ← re-render today’s notifications
+  notifUpcoming();
 
 /*
 // Filter out tasks only and save them to allTasksJSON
@@ -962,6 +964,8 @@ const categoryId = mytoDOs[listIndex].categoryId;
   mytoDOs.push(...filteredLists);
 
 populateLocalStorage();
+notifToday();                   // ← re-render today’s notifications
+  notifUpcoming();
 
 listLoad(mytoDOs, categoryId);
 /*
