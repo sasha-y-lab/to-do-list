@@ -458,7 +458,7 @@ categHeading.parentElement.insertBefore(formCategEdit, categoryEditDiv);
                 
                 updateArrayObjectByKey(mytoDOs, "name", originalName, "name", updatedName);
         
-        
+                populateLocalStorage()
         
               formCategEdit.remove(); // Remove form after save
         
@@ -899,6 +899,7 @@ formListEdit.addEventListener('submit', (e) => {
     
     updateArrayObjectByKey(mytoDOs, "name", originalName, "name", updatedName);
 
+    populateLocalStorage()
 
   formListEdit.remove(); // Remove form after save
 
@@ -1371,9 +1372,6 @@ console.log("Assigned list:", cardDiv.dataset.listId);
                console.log(existingExpandTasks);
 
 
-              
-
-
 
   
           // the following does a toggle
@@ -1617,6 +1615,25 @@ taskDetails.appendChild(detailsSpan);
                 taskTxt.textContent = formData.get("edit-task-title");
                 taskDetails.textContent = formData.get("edit-task-details");
                 formTaskEdit.remove(); // Remove form after save
+
+
+              
+          //const originalDetails = taskDetails.textContent;
+
+    const originalName = originalTitle;
+    const updatedName = formData.get("edit-task-title");
+
+    const updatedDetails = formData.get("edit-task-details");
+    
+    updateArrayObjectByKey(mytoDOs, "name", originalName, "name", updatedName);
+
+     updateArrayObjectByKey(mytoDOs, "details", originalDetails, "details", updatedDetails);
+
+     
+
+// save the modified to do
+
+                populateLocalStorage()
           
             });
           
