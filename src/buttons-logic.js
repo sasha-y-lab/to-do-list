@@ -579,13 +579,13 @@ populateLocalStorage(); // for local storage
 
 //add clearing function here
 
-clearListUI(categoryId); //right now clears the wrong category? should i pass category id?
-//clearUI();
-listLoad(mytoDOs, categoryId);
+//clearListUI(categoryId); //right now clears the wrong category? should i pass category id?
+clearUI();
+//listLoad(mytoDOs, categoryId);
 
-console.log("listload print: ", listLoad(mytoDOs, categoryId)); // what does this print
+//console.log("listload print: ", listLoad(mytoDOs, categoryId)); // what does this print? nothing
 //for (let i = 0; i < mytoDOs.length; i++) {
-//categoryLoad(mytoDOs);  //  fresh render
+categoryLoad(mytoDOs);  //  fresh render
 //listLoad(mytoDOs, mytoDOs[i].categoryId);
 //}
 //renderTasks(mytoDOs);
@@ -1102,13 +1102,13 @@ console.log("New task returned:", task);
 populateLocalStorage(); // for local storage
 // add clearing function here
 
-clearTaskUI(listId);
+//clearTaskUI(listId);
 
-renderTasks(mytoDOs, listId); // what does this print?
+//renderTasks(mytoDOs, listId); // what does this print? nothing
 
-console.log("rendertasks print: ", renderTasks(mytoDOs, listId));
-//clearUI();
-//categoryLoad(mytoDOs);  // ✅ fresh render
+//console.log("rendertasks print: ", renderTasks(mytoDOs, listId));
+clearUI();
+categoryLoad(mytoDOs);  // ✅ fresh render
 //listLoad(mytoDOs);
 
 //for (let i = 0; i < mytoDOs.length; i++) {

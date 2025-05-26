@@ -503,7 +503,9 @@ export function clearListUI(categoryId) {
 
   if (!categMainSection) return;
 
-   categMainSection.replaceChildren();
+   //categMainSection.replaceChildren();
+
+   categMainSection.removeChild(document.querySelector(`.listsect[data-category-id="${categoryId}"]`));
 
 }
 
@@ -911,7 +913,9 @@ console.log(taskSection);
 
   taskSection.replaceChildren(); // only replace the task section, not the whole list section
     
-const tasks = array.filter(item => item.type === 'task' && item.listId === listId);
+//const tasks = array.filter(item => item.type === 'task' && item.listId === listId);
+
+const tasks = array.filter(item => item.type === 'task' && item.listId === categoryId);
 
   tasks.forEach(task => {
    
