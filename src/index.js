@@ -43,6 +43,14 @@ console.log("Tasks:", myTasksObj);
  mytoDOs.length = 0; // clear it
 mytoDOs.push(...myCategoriesObj, ...myListsObj, ...myTasksObj); // refill it
 
+/*
+const mytoDOs = [
+  ...JSON.parse(localStorage.getItem('allTasksJSON') || '[]'),
+  ...JSON.parse(localStorage.getItem('allListsJSON') || '[]'),
+  ...JSON.parse(localStorage.getItem('allCategoriesJSON') || '[]'),
+];
+*/
+
 clearUI();
 
 categoryLoad(mytoDOs);

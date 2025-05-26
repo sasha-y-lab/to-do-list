@@ -1,4 +1,4 @@
-import { mytoDOs, addTask, addListName, addCategName, distanceOfDueDate, populateLocalStorage } from "./todo-logic.js";
+import { mytoDOs, addTask, addListName, addCategName, distanceOfDueDate, populateLocalStorage, retrieveLocalStorageDatate } from "./todo-logic.js";
 
 import { createPriorityLabel, togglePriority, todoCategories, notifToday, notifUpcoming, renderTasks, categoryLoad, listLoad, clearUI, clearListUI, clearTaskUI } from "./DOMstuff.js";
 
@@ -490,8 +490,17 @@ const categoryId = categorySection.dataset.categoryId;
              
               console.log(categoryIndex);
 
+              //const { myCategoriesObj } = retrieveLocalStorageDatate();
+
 if (categoryIndex !== -1) {
     mytoDOs.splice(categoryIndex, 1);
+
+// delete in local storage
+
+// Filter out tasks only and save them to allTasksJSON
+  const allCategories = mytoDOs.filter(item => item.type === 'category');
+  localStorage.setItem('allCategoriesJSON', JSON.stringify(allCategories));
+
   }
 
 
@@ -896,12 +905,27 @@ const listId = listSection.dataset.listId;
              
               console.log(listIndex);
 
+             // const { myTasksObj, myListsObj, myCategoriesObj } = retrieveLocalStorageDatate();
+
+             //const { myListsObj } = retrieveLocalStorageDatate();
+
 if (listIndex !== -1) {
     mytoDOs.splice(listIndex, 1);
+// delete in local storage
+    
+
+// Filter out tasks only and save them to allTasksJSON
+  const allLists = mytoDOs.filter(item => item.type === 'list');
+  localStorage.setItem('allListsJSON', JSON.stringify(allLists));
+
   }
 
 
          console.log(mytoDOs);
+
+         
+
+
 
         } 
 
@@ -1553,11 +1577,23 @@ if (!taskDetails.querySelector(".crossed-out")) {
              
               console.log(taskIndex);
 
+              //const { myTasksObj } = retrieveLocalStorageDatate();
+
 if (taskIndex !== -1) {
     mytoDOs.splice(taskIndex, 1);
+
+    // delete in local storage
+
+// Filter out tasks only and save them to allTasksJSON
+  const allTasks = mytoDOs.filter(item => item.type === 'task');
+  localStorage.setItem('allTasksJSON', JSON.stringify(allTasks));
+
   }
 
               console.log(mytoDOs);
+
+
+
         
             }
 
