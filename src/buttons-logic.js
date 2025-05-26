@@ -1381,39 +1381,30 @@ console.log("Assigned list:", cardDiv.dataset.listId);
                    
 
                   const taskId = cardDiv.dataset.taskId;
- const task = mytoDOs.find(item => item.type === 'task' && item.id === taskId);
+  const task = mytoDOs.find(item => item.type === 'task' && item.id === taskId);
   if (!task) return;
 
+  // Toggle completion
   task.completed = !task.completed;
 
-  //re-query 
+  // Query the expanded task details
+  const taskDetails = cardDiv.querySelector(".tskdetailsdiv");
+  if (!taskDetails) return;
 
-const taskDetails = cardDiv.querySelector(".tskdetailsdiv");
-
-            
-    const span = taskDetails.querySelector("span");
-
-if (span) {
-  if (task.completed) {
-    span.classList.add("crossed-out-2");
-  } else {
-    span.classList.remove("crossed-out-2");
+  // Find the span inside taskDetails
+  const span = taskDetails.querySelector("span");
+  if (span) {
+    if (task.completed) {
+      span.classList.add("crossed-out-2");
+    } else {
+      span.classList.remove("crossed-out-2");
+    }
   }
-}
 
-    
-  
-
-                  existingExpandTasks.remove();
-                  //taskDetails.style.display = "none";
+  // Remove expanded details
+  existingExpandTasks.remove();
 
 
-// code for cross out?
-
-
-
-
-                  //existingTaskEditDiv.remove();
                  } else {
 
 
@@ -1823,10 +1814,26 @@ if (task) {
   const task = mytoDOs.find(item => item.type === 'task' && item.id === taskId);
   if (!task) return;
 
+  console.log("Before toggle:", task.completed);
   task.completed = !task.completed;
+    console.log("After toggle:", task.completed);
   populateLocalStorage();
   notifToday();
   notifUpcoming();
+//run after toggle
+
+const listId = cardDiv.dataset.listId;
+const taskSection = document.querySelector(`.tasksect[data-list-id="${listId}"]`);
+console.log("tasksection for clicked task exist?: ", taskSection);
+
+while (taskSection.firstChild) {
+  taskSection.removeChild(taskSection.firstChild); // ← no innerHTML
+}
+  renderTasks(mytoDOs, task.listId);
+
+  console.log(`Render Task: "${task.name}", completed =`, task.completed);
+
+/*
 
   // Re-query taskTxt and checkoffDiv each time
   const taskTxt = cardDiv.querySelector(".task-text");
@@ -1881,28 +1888,16 @@ checkoffDiv.replaceChildren(); // Remove checkmark
 
     
 
-if (taskTxt) {
-  const span = document.createElement("span");
-  span.classList.add("crossed-out");
-  span.textContent = taskTxt.textContent;
-  taskTxt.textContent = "";
-  taskTxt.appendChild(span);
-}
-  /*
-  if (expandTasks) {
-    
-
-    if (taskDetails) {
-      const span2 = document.createElement("span");
-      span2.classList.add("span2", "crossed-out");
-      span2.textContent = taskDetails.textContent;
-
-      taskDetails.textContent = "";
-      taskDetails.appendChild(span2);
-    }
+const existingTaskTxt = cardDiv.querySelector(".tsktxt span");
+if (existingTaskTxt) {
+  if (task.completed) {
+    existingTaskTxt.classList.add("crossed-out");
+  } else {
+    existingTaskTxt.classList.remove("crossed-out");
   }
+}
 
-  */
+*/
 
        
        

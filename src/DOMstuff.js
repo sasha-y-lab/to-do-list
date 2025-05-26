@@ -982,10 +982,6 @@ const tasks = array.filter(item => item.type === 'task' && item.listId === listI
 
   tasks.forEach(task => {
 
-
-
-
-
    
 console.log(task);
 
@@ -1054,6 +1050,7 @@ checkOffTaskSVG.appendChild(checkOffTaskSVGPath);
 
 checkoffDiv.appendChild(checkOffTaskSVG);
 
+
 taskDisplay.appendChild(checkoffDiv);
 
 const taskTxtDiv = document.createElement("div");
@@ -1062,13 +1059,39 @@ taskTxtDiv.classList.add("tsktxtdiv");
 
 
 
-//const { urgentLabel } = urgent();
-
 const taskTxt = document.createElement("p");
 //taskTxt.setAttribute("id", "task-text");
 taskTxt.classList.add("tskTxt");
 
 taskTxt.textContent = `${task.dueDate} ${task.name}`;
+
+
+  console.log(`Before the click: Task "${task.name}" (ID: ${task.id}) completed? ${task.completed}`);
+  console.log("type of value of task completed, string? boolean? ", task.completed, typeof task.completed);
+// Just add or remove the class, no text node wrapping:
+if (task.completed) {
+  taskTxt.classList.add("crossed-out");
+  console.log(`After the click: Task "${task.name}" (ID: ${task.id}) completed? ${task.completed}`);
+
+checkoffDiv.replaceChildren();
+    const checked = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    checked.classList.add("checked");
+    checked.setAttribute("viewBox", "0 0 24 24");
+    checked.setAttribute("height", "20px");
+    checked.setAttribute("width", "20px");
+
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", "M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z");
+    checked.appendChild(path);
+    checkoffDiv.appendChild(checked);
+
+
+} else {
+  taskTxt.classList.remove("crossed-out");
+  console.log("Removing crossed-out from:", task.name);
+}
+
+
 
 taskTxtDiv.appendChild(taskTxt);
 
@@ -1092,7 +1115,56 @@ cardDiv.appendChild(taskDisplay);
 
     
     taskSection.appendChild(cardDiv);
-   
+
+
+   /* 
+
+    if (task.completed) {
+    const existing = taskTxt.querySelector(".crossed-out");
+    if (!existing) {
+      const textNode = taskTxt.childNodes[0];
+      if (textNode && textNode.nodeType === Node.TEXT_NODE) {
+        const span = document.createElement("span");
+        span.classList.add("crossed-out");
+        
+        span.textContent = textNode.textContent.trim();
+        taskTxt.replaceChild(span, textNode);
+      }
+    }
+
+    checkoffDiv.replaceChildren();
+    const checked = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    checked.classList.add("checked");
+    checked.setAttribute("viewBox", "0 0 24 24");
+    checked.setAttribute("height", "20px");
+    checked.setAttribute("width", "20px");
+
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", "M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z");
+    checked.appendChild(path);
+    checkoffDiv.appendChild(checked);
+
+  } else {
+    const crossedSpan = taskTxt.querySelector(".crossed-out");
+    if (crossedSpan) {
+
+
+      crossedSpan.textDecoration = "none";
+      crossedSpan.style.color = "black";
+     
+      const originalText = crossedSpan.textContent;
+      crossedSpan.remove();
+      taskTxt.insertAdjacentText("afterbegin", originalText);
+      
+      
+    }
+    // no remove checkmark here
+    }
+
+    */
+
+  /* // ignore second section
+  
 if (task.completed) {
   // Add .crossed-out style
   // Check if .crossed-out already exists
@@ -1132,7 +1204,7 @@ else {
   const crossedSpan = taskTxt.querySelector(".crossed-out");
 if (crossedSpan) {
 
-  crossedSpan.textDecoration = "none";
+  crossedSpan.style.textDecoration = "none";
       crossedSpan.style.color = "black";
   const originalText = crossedSpan.textContent;
   crossedSpan.remove(); // remove the span, not the whole taskTxt
@@ -1141,8 +1213,23 @@ if (crossedSpan) {
   // Restore the plain text node for the task name
   taskTxt.insertAdjacentText("afterbegin", originalText);
 }
+//checkoffDiv.replaceChildren(); // Remove checkmark
 
 }
+*/
+
+/*
+const existingTaskTxt = cardDiv.querySelector(".tsktxt span");
+if (existingTaskTxt) {
+  if (task.completed) {
+    existingTaskTxt.classList.add("crossed-out");
+  } else {
+    existingTaskTxt.classList.remove("crossed-out");
+  }
+}
+
+*/
+  
 
   });
     
