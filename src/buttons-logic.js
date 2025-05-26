@@ -248,12 +248,16 @@ categHeadingDiv.appendChild(categoryEditDiv);
          
              categMainSection.appendChild(addListBtnDiv);
 
+
+             /*
              const listSection = document.createElement("div");
 //listSection.setAttribute("id", "list-sect");
 listSection.classList.add("listsect");
 
 
 categMainSection.appendChild(listSection);
+
+*/
          
             // categMainSection.appendChild(categHeadingDiv);
         
@@ -270,7 +274,7 @@ categMainSection.appendChild(listSection);
     categMainSection.dataset.categoryId = category.id;
     categHeading.dataset.categoryId = category.id;
     categHeading.textContent = category.name;
-    listSection.dataset.categoryId = category.id;
+    //listSection.dataset.categoryId = category.id;
 
     console.log("Set on Category Section:", category.id);
                 
@@ -486,6 +490,9 @@ const categoryId = categorySection.dataset.categoryId;
 
               console.log(categoryId);
 
+
+
+
               const categoryIndex = mytoDOs.findIndex(item => item.type === 'category' && item.id === categoryId);
              
               console.log(categoryIndex);
@@ -497,9 +504,31 @@ if (categoryIndex !== -1) {
 
 // delete in local storage
 
+const filteredCategories = mytoDOs.filter(item => {
+  // Remove:
+  // - The category itself
+  // - All lists under that category
+  // - All tasks under those lists
+  if (item.type === 'category' && item.id === categoryId) return false;
+  if (item.type === 'list' && item.categoryId === categoryId) return false;
+  if (item.type === 'task') {
+    const list = mytoDOs.find(l => l.type === 'list' && l.id === item.listId);
+    if (list && list.categoryId === categoryId) return false;
+  }
+  return true;
+});
+
+// Clear the original array and push the filtered values back in
+  mytoDOs.length = 0;
+  mytoDOs.push(...filteredCategories);
+
+populateLocalStorage();
+
+/*
 // Filter out tasks only and save them to allTasksJSON
   const allCategories = mytoDOs.filter(item => item.type === 'category');
   localStorage.setItem('allCategoriesJSON', JSON.stringify(allCategories));
+  */
 
   }
 
@@ -611,6 +640,9 @@ categoryLoad(mytoDOs);  //  fresh render
             
         const listSection = document.createElement("div"); //categorySection.querySelector('.listsect');
         listSection.classList.add("listsect");
+        
+listSection.dataset.listId = list.id;
+console.log("List ID Set on listSection:", list.id);
         
         
         console.log(listSection);
@@ -754,7 +786,7 @@ addNewTaskDiv.appendChild(newTaskBtn);
 listTitle.textContent = list.name;
 listTitle.dataset.listId = list.id;
     listTitle.dataset.categoryId = categoryId;
-    listSection.dataset.categoryId = categoryId;
+  //  listSection.dataset.categoryId = categoryId;
     listSection.dataset.listId = list.id;
     taskSection.dataset.listId = list.id;
 
@@ -913,10 +945,29 @@ if (listIndex !== -1) {
     mytoDOs.splice(listIndex, 1);
 // delete in local storage
     
+// Remove list and its tasks
 
+const categoryId = mytoDOs[listIndex].categoryId;
+
+// 🧹 Mutate `mytoDOs` in place by removing the list and its tasks
+  const filteredLists = mytoDOs.filter(item => {
+    if (item.type === 'list' && item.id === listId) return false;
+    if (item.type === 'task' && item.listId === listId) return false;
+    return true;
+  });
+
+  // Clear the original array and push the filtered values back in
+  mytoDOs.length = 0;
+  mytoDOs.push(...filteredLists);
+
+populateLocalStorage();
+
+listLoad(mytoDOs, categoryId);
+/*
 // Filter out tasks only and save them to allTasksJSON
   const allLists = mytoDOs.filter(item => item.type === 'list');
   localStorage.setItem('allListsJSON', JSON.stringify(allLists));
+  */
 
   }
 
@@ -1571,12 +1622,15 @@ if (!taskDetails.querySelector(".crossed-out")) {
 
               const taskId = cardDiv.dataset.taskId;
 
+              const listId = cardDiv.dataset.listId;
+
               console.log(taskId);
 
               const taskIndex = mytoDOs.findIndex(item => item.type === 'task' && item.id === taskId);
              
               console.log(taskIndex);
 
+              
               //const { myTasksObj } = retrieveLocalStorageDatate();
 
 if (taskIndex !== -1) {
@@ -1587,6 +1641,13 @@ if (taskIndex !== -1) {
 // Filter out tasks only and save them to allTasksJSON
   const allTasks = mytoDOs.filter(item => item.type === 'task');
   localStorage.setItem('allTasksJSON', JSON.stringify(allTasks));
+
+  populateLocalStorage();
+
+  renderTasks(mytoDOs, listId);
+
+  notifUpcoming();
+  notifToday();
 
   }
 
@@ -1670,26 +1731,9 @@ checkoffDiv.appendChild(checkOffTaskSVG);
               console.log(checkOffTaskSVG);
 
               
-              const todayTasksNotify = document.querySelector("#notify-today");
-
-              const oldupcomingTasksHeader = document.querySelector("#coming-tsk-header");
-const upcomingTasksNotify = document.querySelector("#notify-coming");
-
-todayTasksNotify.replaceChildren();
-
-//upcomingTasksNotify.replaceChildren();
-
-//oldupcomingTasksHeader.remove(upcomingTasksNotify);
-
-oldupcomingTasksHeader.replaceChildren();
+              
 
 
-// render array of todo duedates that are for today only
-
-notifToday();
-
-// render array of upcoming todos duedates
-notifUpcoming();
 
               
 
@@ -1738,11 +1782,28 @@ notifUpcoming();
 
       console.log(taskId);
     
-    const task = mytoDOs.find(item => item.type === 'task' && item.id === taskId && item.completed === false);
+   // const task = mytoDOs.find(item => item.type === 'task' && item.id === taskId && item.completed === false);
+const task = mytoDOs.find(item => item.type === 'task' && item.id === taskId);
+//console.log("matching task ids?", task.id, taskId); 
 
-console.log("matching task ids?", task.id, taskId); 
+if (task) {
+  task.completed = !task.completed;
+  populateLocalStorage(); // Make sure to save the updated status
 
-    task.completed = true;
+/*
+const todayTasksNotify = document.querySelector("#notify-today");
+
+              //const oldupcomingTasksHeader = document.querySelector("#coming-tsk-header");
+const upcomingTasksNotify = document.querySelector("#notify-coming");
+
+todayTasksNotify.replaceChildren();
+
+upcomingTasksNotify.replaceChildren();*/
+
+  // Update the notification counts
+  notifToday();
+  notifUpcoming();
+}
 
     
 

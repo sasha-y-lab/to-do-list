@@ -1,5 +1,5 @@
 
-import { mytoDOs, retrieveLocalStorageDatate } from "./todo-logic.js";
+import { mytoDOs, retrieveLocalStorageDatate, populateLocalStorage } from "./todo-logic.js";
 
 import { formatDate } from "./date-utility.js";
 
@@ -94,12 +94,14 @@ const dateGetter = formatDate();
 
  const todaysDate = dateGetter.todayDate;
 
+ 
  // deletes previously loaded element
 const existingNotifyDiv = document.querySelector("#notify-today");
 if (existingNotifyDiv) {
   existingNotifyDiv.remove();
 
 }
+  
 
 
  // find all duedates with today's date
@@ -110,6 +112,10 @@ if (existingNotifyDiv) {
   const todaysDueDates = tasks.length;
 
   console.log(todaysDueDates);
+
+ 
+
+  
 
 
   
@@ -198,9 +204,10 @@ export const notifUpcoming = () => {
 
 //const dateGetter = formatDate();
 
-const { format } = require("date-fns");
+//const { format } = require("date-fns");
 
- const todaysDate = format(Date.now(), "MMM dd ''yy");
+ //const todaysDate = format(Date.now(), "MMM dd ''yy");
+
 
  
                 const oldupcomingTasks = document.querySelector("#coming-tasks");
@@ -211,10 +218,14 @@ const { format } = require("date-fns");
   // ✅ Only remove the old notify circle, not the header title
   const existingNotifyDiv = document.querySelector("#notify-coming");
   if (existingNotifyDiv) {
+    
+   // oldupcomingTasksHeader.replaceChildren();
+    
     oldupcomingTasksHeader.removeChild(existingNotifyDiv);
   }
 
-  
+
+
 
 // find all dates greater than todays date
 
@@ -224,6 +235,9 @@ console.log(tasks);
 const upcomingDueDates = tasks.length;
 
   console.log(upcomingDueDates);
+
+
+  
 
 
 
@@ -267,6 +281,8 @@ upcomingTasksNotify.appendChild(upcomingNotifText);
             }
 
          console.log(upcomingDueDates);
+
+         // } // if statement
 
 }
 
@@ -509,7 +525,7 @@ export function clearListUI(categoryId) {
 
 }
 
-
+/*
 export function clearTaskUI(listId) {
 
   const listSection = document.querySelector(`.listsect[data-list-id="${listId}"]`);
@@ -521,6 +537,7 @@ export function clearTaskUI(listId) {
    listSection.replaceChildren();
 
 }
+   */
 
 
 
@@ -670,10 +687,13 @@ categHeadingDiv.appendChild(categoryEditDiv);
  
      //categMainSection.appendChild(categHeadingDiv);
 
+     /*
      const listSection = document.createElement("div");
 //listSection.setAttribute("id", "list-sect");
 listSection.classList.add("listsect");
 listSection.dataset.categoryId = category.id;
+
+*/
 
 
 
@@ -684,7 +704,7 @@ console.log("Category ID Set on listSection:", category.id);
 
 
 
-categMainSection.appendChild(listSection);
+//categMainSection.appendChild(listSection);
     
 
 
@@ -714,12 +734,19 @@ myListsObj.forEach(list => {
 export const listLoad = (array, categoryId) => {
 
 
-    const listSection = document.querySelector(`.listsect[data-category-id="${categoryId}"]`);
-console.log("Passed to listLoad:", categoryId);
-    console.log(listSection);
-if (!listSection) return;
+  const todoSect = document.querySelector("#todo-sect");
+    
+    
 
+const exisitinglistHeading = todoSect.closest(".listheading");
 
+console.log(exisitinglistHeading);
+
+if (exisitinglistHeading) {
+
+  exisitinglistHeading.replaceChildren();
+
+}
 
 
     console.log("categoryId passed to listLoad:", categoryId);
@@ -729,7 +756,11 @@ if (!listSection) return;
     const testlists = array.filter(item => item.type === 'list');
 console.log("All lists regardless of categoryId:", testlists);
 
-listSection.replaceChildren();
+//listSection.replaceChildren(); // should be list title and children
+
+// categorymainsection here
+
+
 
 
 const lists = array.filter(item => item.type === 'list' && item.categoryId === categoryId);
@@ -739,8 +770,14 @@ const lists = array.filter(item => item.type === 'list' && item.categoryId === c
     console.log(list);
     // start of list section that was already created in categoryload()
 
+    const categMainSection = document.querySelector(`.categmainsect[data-category-id="${categoryId}"]`);
 
+console.log("is this the right category section?: ", categMainSection);
 
+const listSection = document.createElement("div");
+//listSection.setAttribute("id", "list-sect");
+listSection.classList.add("listsect");
+//listSection.dataset.categoryId = category.id;
 listSection.dataset.listId = list.id;
 console.log("List ID Set on listSection:", list.id);
 
@@ -875,7 +912,7 @@ addNewTaskDiv.appendChild(newTaskBtn);
 
   listSection.appendChild(addNewTaskDiv);
  
-
+categMainSection.appendChild(listSection);
 
 
 //renderTasks(array, list.id);
