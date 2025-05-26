@@ -534,7 +534,11 @@ const todoSect = document.querySelector("#todo-sect");
 
 if (!todoSect) return;
 
-    todoSect.replaceChildren();
+    //todoSect.replaceChildren();
+
+    todoSect.innerHTML = "";
+
+ 
 
 
     if (!Array.isArray(array)) {
@@ -672,7 +676,12 @@ listSection.classList.add("listsect");
 listSection.dataset.categoryId = category.id;
 
 
-console.log("Set on listSection:", category.id);
+
+
+console.log("Category ID Set on listSection:", category.id);
+
+
+
 
 
 categMainSection.appendChild(listSection);
@@ -704,10 +713,14 @@ myListsObj.forEach(list => {
 
 export const listLoad = (array, categoryId) => {
 
+
     const listSection = document.querySelector(`.listsect[data-category-id="${categoryId}"]`);
 console.log("Passed to listLoad:", categoryId);
     console.log(listSection);
 if (!listSection) return;
+
+
+
 
     console.log("categoryId passed to listLoad:", categoryId);
 
@@ -716,6 +729,7 @@ if (!listSection) return;
     const testlists = array.filter(item => item.type === 'list');
 console.log("All lists regardless of categoryId:", testlists);
 
+listSection.replaceChildren();
 
 
 const lists = array.filter(item => item.type === 'list' && item.categoryId === categoryId);
@@ -727,6 +741,8 @@ const lists = array.filter(item => item.type === 'list' && item.categoryId === c
 
 
 
+listSection.dataset.listId = list.id;
+console.log("List ID Set on listSection:", list.id);
 
 const listHeading = document.createElement("div");
 listHeading.setAttribute("id", "list-heading");
@@ -915,7 +931,7 @@ console.log(taskSection);
     
 //const tasks = array.filter(item => item.type === 'task' && item.listId === listId);
 
-const tasks = array.filter(item => item.type === 'task' && item.listId === categoryId);
+const tasks = array.filter(item => item.type === 'task' && item.listId === listId);
 
   tasks.forEach(task => {
    

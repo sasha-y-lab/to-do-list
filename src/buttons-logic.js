@@ -747,9 +747,9 @@ listTitle.dataset.listId = list.id;
     listSection.dataset.listId = list.id;
     taskSection.dataset.listId = list.id;
 
-    console.log("Set on List Section:", categoryId);
+    console.log("Categ ID Set on List Section:", categoryId);
 
-    console.log("ID Set on List Title & task section:", list.id);
+    console.log("list ID Set on List Title & task section:", list.id);
 
         
         
@@ -1092,7 +1092,7 @@ console.log(listSection);
     
 
     console.log("active list?:", listSection);
-const listId = listSection.dataset.categoryId;
+const listId = listSection.dataset.listId;
 
     // Add to todo array
                 const task = addTask(taskname, details, dueDate, priority, listId);    
@@ -1565,7 +1565,7 @@ console.log("taskTxt exist?:", taskTxt);
 
 const existingCheckmark = cardDiv.querySelector(".checked"); // checks if it exists
 
-const existingSpan1 = cardDiv.querySelector(".span1");
+const existingSpan1 = cardDiv.querySelector(".crossed-out");
 const existingSpan2 = cardDiv.querySelector(".span2");
 
 console.log("span 1 & 2 exist?", existingSpan1, existingSpan2);
@@ -1591,6 +1591,8 @@ console.log("checkoffdiv exists?:", checkoffDiv);
                   
                   existingCheckmark.remove();
                   existingSpan1.style.color = "black";
+                  //taskTxt.style.color = "black";
+                  //taskTxt.style.textDecoration = "none";
     existingSpan1.style.textDecoration = "none";
                 //  existingSpan2.style.color = "black";
     //existingSpan2.style.textDecoration = "none";
@@ -1630,7 +1632,9 @@ todayTasksNotify.replaceChildren();
 
 //upcomingTasksNotify.replaceChildren();
 
-oldupcomingTasksHeader.replaceChild(upcomingTasksNotify);
+//oldupcomingTasksHeader.remove(upcomingTasksNotify);
+
+oldupcomingTasksHeader.replaceChildren();
 
 
 // render array of todo duedates that are for today only
