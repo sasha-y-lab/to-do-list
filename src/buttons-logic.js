@@ -377,7 +377,7 @@ const priorityLabel = e.target.closest(".priority-label");
   // Do your edit logic here using categoryId...
 
   if (clickedCategEditBtn) {
-          alert('editcateg');
+         // alert('editcateg');
           console.log(e.target)
 
 
@@ -478,7 +478,7 @@ categHeading.parentElement.insertBefore(formCategEdit, categoryEditDiv);
         
                   
                 } else if (clickedCategDeleteBtn) {
-                  alert('deletecateg');
+                 // alert('deletecateg');
                   console.log(e.target)
         
                  
@@ -539,7 +539,7 @@ notifToday();                   // ← re-render today’s notifications
                  
                 } else if (clickedAddListBtn) {
 
-                  alert('addlist');
+                 // alert('addlist');
                   console.log(e.target)
 
                  const addListDialog = document.createElement("dialog");
@@ -819,7 +819,7 @@ cancelAddListNameBtn.addEventListener('click', (e) => {
 
 
         else if (clickedListEditBtn) {
-                    alert('editlist');
+                   // alert('editlist');
 
 const listHeading = clickedListEditBtn.closest(".listheading");
   if (!listHeading) return;
@@ -918,7 +918,7 @@ listTitle.textContent = originalListTitle;
   
 });
                 }  else if (clickedListDeleteBtn) {
-      alert('.deletelist');
+     // alert('.deletelist');
 
       console.log(e.target)
 
@@ -986,7 +986,7 @@ listLoad(mytoDOs, categoryId);
         } 
 
         else if (clickedNewTaskBtn) {
-          alert('newtaskbtn');
+         // alert('newtaskbtn');
         
         const listSection = e.target.closest(".listsect");
         
@@ -1366,7 +1366,7 @@ console.log("Assigned list:", cardDiv.dataset.listId);
     } 
 
     else if (clickedEditTaskBtn) {
-            alert('edittask');
+           // alert('edittask');
 
             const cardDiv = e.target.closest(".card");
  
@@ -1541,7 +1541,7 @@ taskDetails.appendChild(detailsSpan);
                 }
 
                 else if (clickedEditDisplayedTasks) {
-            alert('editdisplayedtskbtn');
+           // alert('editdisplayedtskbtn');
           
           const cardDiv = e.target.closest(".card");
 
@@ -1651,7 +1651,7 @@ taskDetails.appendChild(detailsSpan);
             });
           
           } else if (clickedDeleteTaskBtn) {
-            alert('deletetskbtn');
+           // alert('deletetskbtn');
         
             const cardDiv = e.target.closest(".card");
 
@@ -1701,7 +1701,7 @@ if (taskIndex !== -1) {
             }
 
             else if (checkedCircle) {
-              alert('checkoffdiv');
+            //  alert('checkoffdiv');
     const cardDiv = e.target.closest(".card");
 
     // const cardDiv = checkedCircle.closest(".card");
