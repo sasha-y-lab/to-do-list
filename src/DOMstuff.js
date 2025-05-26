@@ -1095,7 +1095,7 @@ checkoffDiv.replaceChildren();
     checkoffDiv.appendChild(checked);
 
 
-} else {
+} else if (task.completed === false) {
   taskTxt.classList.remove("crossed-out");
   console.log("Removing crossed-out from:", task.name);
 }

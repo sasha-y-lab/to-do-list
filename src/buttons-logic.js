@@ -1744,6 +1744,8 @@ checkoffDiv.appendChild(checkOffTaskSVG);
 
 const taskId = cardDiv.dataset.taskId;
 
+const listId = cardDiv.dataset.listId;
+
 const task = mytoDOs.find(item => item.type === 'task' && item.id === taskId);
 
 if (task) {
@@ -1751,6 +1753,8 @@ if (task) {
   populateLocalStorage();         // ← save changes after toggle
   notifToday();                   // ← re-render today’s notifications
   notifUpcoming();                // ← re-render upcoming notifications
+
+  renderTasks(mytoDOs, listId);
 }
                  
                   //existingTaskEditDiv.remove();
