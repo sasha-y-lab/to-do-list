@@ -257,10 +257,12 @@ categMainSection.appendChild(listSection);
          
             // categMainSection.appendChild(categHeadingDiv);
         
-        
+        /* // just a temperaray comment out to see if its duplicating things.
              if (todoSect) {
                 todoSect.appendChild(categMainSection);
              }
+
+             */
 
              console.log(mytoDOs);
         
@@ -759,6 +761,15 @@ listTitle.dataset.listId = list.id;
 
       }); // end of add list form listener
                   
+//do cancel btn
+cancelAddListNameBtn.addEventListener('click', (e) => {
+
+    e.preventDefault(); // We don't want to submit this fake form
+
+    formAddList.remove();
+    addListDialog.close(); // Remove form after click
+    addListDialog.remove();
+  });
 
         }
       
