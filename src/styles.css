@@ -531,7 +531,7 @@ padding-top: 10px;
     
 }
 
-.crossed-out {
+.crossed-out, .crossed-out-2 {
 
     color: gray;
   text-decoration: line-through;

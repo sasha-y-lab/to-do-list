@@ -1371,15 +1371,53 @@ console.log("Assigned list:", cardDiv.dataset.listId);
                console.log(existingExpandTasks);
 
 
+              
+
+
+
+  
           // the following does a toggle
                  if (existingExpandTasks) {
-                  
+                   
+
+                  const taskId = cardDiv.dataset.taskId;
+ const task = mytoDOs.find(item => item.type === 'task' && item.id === taskId);
+  if (!task) return;
+
+  task.completed = !task.completed;
+
+  //re-query 
+
+const taskDetails = cardDiv.querySelector(".tskdetailsdiv");
+
+            
+    const span = taskDetails.querySelector("span");
+
+if (span) {
+  if (task.completed) {
+    span.classList.add("crossed-out-2");
+  } else {
+    span.classList.remove("crossed-out-2");
+  }
+}
+
+    
+  
+
                   existingExpandTasks.remove();
                   //taskDetails.style.display = "none";
+
+
+// code for cross out?
+
+
+
 
                   //existingTaskEditDiv.remove();
                  } else {
 
+
+                 
                  
                   const listId = cardDiv.dataset.listId;
 
@@ -1398,6 +1436,11 @@ console.log("Assigned list:", cardDiv.dataset.listId);
   //tasks.forEach(task => {
    
 //console.log(task);
+
+ 
+
+
+
           
                   const expandTasks = document.createElement("div");
                  // expandTasks.setAttribute("id", "expand-togglediv");
@@ -1413,7 +1456,21 @@ console.log("Assigned list:", cardDiv.dataset.listId);
                  
         taskDetails.textContent = "";
         
-                  taskDetails.textContent = `${tasks.details}`;
+                 // taskDetails.textContent = `${tasks.details}`;
+
+                 // call cross out here
+
+               //  taskDetails.textContent = ""; // clear it first
+
+const detailsSpan = document.createElement("span");
+//detailsSpan.textList.add("details-span"); // optional // doesn't read
+detailsSpan.textContent = tasks.details;
+
+if (tasks.completed) {
+  detailsSpan.classList.add("crossed-out-2");
+}
+
+taskDetails.appendChild(detailsSpan);
         
                
           
@@ -1479,44 +1536,13 @@ console.log("Assigned list:", cardDiv.dataset.listId);
 
   //}); // end of loop
 
-  // temporarily remove this
 
-  /*
 
-  const existingSpan2 = cardDiv.querySelector(".span2");
 
-  console.log(existingSpan2);
 
-  if (existingSpan2) {
-existingSpan2.style.color = "black";
-    existingSpan2.style.textDecoration = "none";
 
-  }
 
-if (!taskDetails.querySelector(".crossed-out")) {
-    
-
-    const task = mytoDOs.find(item => item.type === 'task' && item.id === taskId);
-    console.log("matching task ids?", task.id, taskId);
-
-    // ✅ Only cross out if task is actually complete
-    if (task.completed) {
-      const span2 = document.createElement("span");
-      span2.classList.add("crossed-out", "span2");
-      span2.textContent = taskDetails.textContent;
-      taskDetails.textContent = "";
-      taskDetails.appendChild(span2);
-    }
-
-  } else {
-
-    const span2 = expandTasks.querySelector(".crossed-out");
-    console.log("span2 exists?: ", span2);
-    span2.style.display = "block";
-  }
-*/
-
-                 }
+          }
 
 
                 }
@@ -1786,11 +1812,11 @@ if (task) {
       const editTaskDiv = cardDiv.querySelector(".editdivbtn");
       console.log("editTaskDiv exist?:", editTaskDiv);
 
-      const expandTasks = cardDiv.querySelector(".expand-toggle");
+     // const expandTasks = cardDiv.querySelector(".expand-toggle");
 
      // const taskDetails = cardDiv.querySelector(".tskdetailsdiv");
 
-      console.log("expand task div exists?:", expandTasks);
+     // console.log("expand task div exists?:", expandTasks);
 
       
   const taskId = cardDiv.dataset.taskId;
